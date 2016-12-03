@@ -5,7 +5,7 @@ from rest_framework.decorators import list_route
 from rest_framework.response import Response
 from watchdog_id.users.models import User
 
-from .serializers import GroupSerializer, UserSerializer
+from .serializers import GroupSerializer, UserSerializer, UserSelfSerializer
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -15,11 +15,10 @@ class UserViewSet(viewsets.ModelViewSet):
     @list_route()
     def me(self, request, *args, **kwargs):
         self.object = get_object_or_404(User, pk=request.user.id)
-        serializer = self.get_serializer(self.object)
+        serializer = UserSelfSerializer(self.object, context=self.get_serializer_context())
         return Response(serializer.data)
 
 
 class GroupViewSet(viewsets.ModelViewSet):
-    required_scopes = ['groups']
     queryset = Group.objects.all()
     serializer_class = GroupSerializer
