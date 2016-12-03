@@ -35,6 +35,7 @@ DJANGO_APPS = (
     # Admin
     'oauth2_provider',
     'django.contrib.admin',
+    'django_gravatar',
 )
 THIRD_PARTY_APPS = (
     'crispy_forms',  # Form layouts
@@ -265,3 +266,5 @@ REST_FRAMEWORK = {
         'rest_framework.permissions.IsAuthenticated',
     )
 }
+
+AVATAR_SIZES = [50, 80, 150]

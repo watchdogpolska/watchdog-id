@@ -41,3 +41,5 @@ redis>=2.10.5
 # OAuth
 django-oauth-toolkit==0.11.0
 djangorestframework==3.5.3
+django-gravatar2==1.4.0
+

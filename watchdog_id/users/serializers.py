@@ -7,6 +7,10 @@ from django.utils.encoding import force_text
 class UserSerializer(serializers.ModelSerializer):
     visible_name = serializers.SerializerMethodField()
     absolute_url = serializers.SerializerMethodField()
+    avatars = serializers.SerializerMethodField()
+
+    def get_avatars(self, obj):
+        return obj.get_avatars()
 
     def get_visible_name(self, obj):
         return force_text(obj)
@@ -15,7 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
         return self.context['request'].build_absolute_uri(obj.get_absolute_url())
 
     class Meta:
-        fields = ['username', 'name', 'absolute_url', 'visible_name']
+        fields = ['username', 'name', 'absolute_url', 'visible_name', 'avatars']
         model = User
 
 
