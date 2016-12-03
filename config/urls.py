@@ -5,46 +5,10 @@ from django.conf import settings
 from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.contrib.auth.models import Group
-from django.shortcuts import get_object_or_404
 from django.views import defaults as default_views
 from django.views.generic import TemplateView
-from rest_framework import permissions, routers, serializers, viewsets
-from rest_framework.decorators import list_route
-from rest_framework.response import Response
-from watchdog_id.users.models import User
-
-
-# first we define the serializers
-class UserSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        fields = ['username', ]
-        model = User
-
-
-class GroupSerializer(serializers.ModelSerializer):
-    class Meta:
-        fields = ['name', ]
-        model = Group
-
-
-class UserViewSet(viewsets.ModelViewSet):
-    queryset = User.objects.all()
-    serializer_class = UserSerializer
-
-    @list_route()
-    def me(self, request, *args, **kwargs):
-        self.object = get_object_or_404(User, pk=request.user.id)
-        serializer = self.get_serializer(self.object)
-        return Response(serializer.data)
-
-
-class GroupViewSet(viewsets.ModelViewSet):
-    required_scopes = ['groups']
-    queryset = Group.objects.all()
-    serializer_class = GroupSerializer
-
+from rest_framework import routers
+from watchdog_id.users.viewsets import GroupViewSet, UserViewSet
 
 # Routers provide an easy way of automatically determining the URL conf
 router = routers.DefaultRouter()
