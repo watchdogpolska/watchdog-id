@@ -37,17 +37,21 @@ DJANGO_APPS = (
     'django.contrib.admin',
     'django_gravatar',
 )
+
 THIRD_PARTY_APPS = (
     'crispy_forms',  # Form layouts
     'allauth',  # registration
     'allauth.account',  # registration
     'allauth.socialaccount',  # registration
     'rest_framework',
+    'tinymce',
+    'model_utils'
 )
 
 # Apps specific for this project go here.
 LOCAL_APPS = (
     # custom users app
+    'watchdog_id.news.apps.NewsConfig',
     'watchdog_id.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 )

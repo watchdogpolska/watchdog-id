@@ -6,9 +6,10 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
 from rest_framework import routers
 from watchdog_id.users.viewsets import GroupViewSet, UserViewSet
+from watchdog_id.news.views import PostArchiveIndexView
+
 
 # Routers provide an easy way of automatically determining the URL conf
 router = routers.DefaultRouter()
@@ -16,13 +17,13 @@ router.register(r'users', UserViewSet)
 router.register(r'groups', GroupViewSet)
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
-    url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
-
+    url(r'^', include('watchdog_id.news.urls', namespace="news")),
+    url(r'^$', PostArchiveIndexView.as_view(), name='home'),
     # Django Admin, use {% url 'admin:index' %}
     url(settings.ADMIN_URL, admin.site.urls),
 
     # User management
+    url(r'^tinymce/', include('tinymce.urls')),
     url(r'^users/', include('watchdog_id.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
     url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),

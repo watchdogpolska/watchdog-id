@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="row">
+<div class="col col-sm-8">
+
+{% block news_content %}
+{% endblock %}
+
+</div>
+<div class="col col-sm-4">
+{% block sidebar %}
+{% for month in post_months %}
+    <a href="{% url 'news:list' year=month.year month=month.month %}">{{ month|date:"M/Y" }}</a>
+{% endfor %}
+{% endblock %}
+</div>
+{% endblock %}
