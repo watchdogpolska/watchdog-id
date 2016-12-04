@@ -44,7 +44,14 @@
               </li>
             </ul>
 
+
             <ul class="nav navbar-nav pull-xs-right">
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'oauth2_provider:list' %}">{% trans "Applications" %}</a>
+                </li>
+                <li class="nav-item">
+                  <a class="nav-link" href="{% url 'oauth2_provider:authorized-token-list' %}">{% trans "Tokens" %}</a>
+                </li>
               {% if request.user.is_authenticated %}
                 <li class="nav-item">
                   <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">{% trans "My Profile" %}</a>
@@ -60,6 +67,10 @@
                   <a id="log-in-link" class="nav-link" href="{% url 'account_login' %}">{% trans "Sign In" %}</a>
                 </li>
               {% endif %}
+              <li class="nav-item">
+                <a id="nav-link" class="nav-link" href="https://github.com/watchdogpolska/watchdog-id">GitHub</a>
+              </li>
+            
             </ul>
           </div>
         </div>
