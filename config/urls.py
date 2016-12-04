@@ -26,7 +26,7 @@ urlpatterns = [
     url(r'^tinymce/', include('tinymce.urls')),
     url(r'^users/', include('watchdog_id.users.urls', namespace='users')),
     url(r'^accounts/', include('allauth.urls')),
-    url(r'^o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    url(r'^o/', include('watchdog_id.oauth_extend.urls', namespace='oauth2_provider')),
     url(r'^api/', include(router.urls)),
     # Your stuff: custom urls includes go here
 
