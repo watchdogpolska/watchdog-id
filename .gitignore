@@ -64,3 +64,4 @@ watchdog_id/media/
 
 
 staticfiles/
+docs/_build
