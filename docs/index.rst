@@ -10,46 +10,12 @@ Witam w dokumentacji Watchdog ID!
 
 .. toctree::
    :maxdepth: 2
-   :caption: Wprowadzenie
 
    readme
    law
-
-.. _toc_authentication:
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Uwierzytelnianie
-
-   authentication/existing_solutions
-   authentication/2factor
-
-.. _toc_integration:
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Integracja
-
-   integration/protocol
-   integration/services
-
-.. _toc_infrastructure:
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Infrastruktura
-
-   infrastructure/assumptions
-   infrastructure/ha
-   infrastructure/storage
-   infrastructure/database
-
-.. _toc_deploy:
-
-.. toctree::
-   :maxdepth: 2
-   :caption: Wdrożenie
-
+   authentication
+   integration
+   infrastructure
    deploy
 
 
