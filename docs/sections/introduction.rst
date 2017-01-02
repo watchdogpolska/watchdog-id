@@ -32,9 +32,9 @@ Tworzenie projektu
 
 Koncepcja i projekt systemu została opracowane przez autora na podstawie osobistych doświadczeń [#f1]_ podczas pełnienia funkcji Administratora Bezpieczeństwa Informacji (ABI) w Stowarzyszeniu Sieć Obywatelska - Watchdog Polska.
 
-Autor rozpoczął opracowanie projektu od analizy dotychczasowych standardowych form delegacji uwierzytelniania (:ref:`protocol`), a następnie poddał analizie formy uwierzytelniania (:ref:`authentication_intro`). Po wnikliwej analizie sformował główne założenia własnej aplikacji (:ref:`requirements`).
+Autor rozpoczął opracowanie projektu od analizy dotychczasowych standardowych form delegacji uwierzytelniania (:ref:`protocol`), a następnie poddał analizie formy uwierzytelniania (:ref:`authentication`). Po wnikliwej analizie sformował główne założenia własnej aplikacji (:ref:`requirements`).
 
-Główny komponent aplikacji zrealizowano w języku Python z wykorzystaniem frameworka `Django`_. Podczas pracy został wykorzystano liczne narzędzia wspomagające prace. Do zarządzania projektem wykorzystano `GitHub`_, który zapewniał także hosting dla wykorzystanego systemu kontroli wersji Git. Systemy te bfyły z sobą zintegrowane. Z systemem kontroli wersji był zintegrowany także system ciągłej integracji `Travis CI`_. W przypadku środowiska testowego został wykorzystany hosting `Heroku`_, który zapewnił możliwość weryfikację współpracy komponentów w sieci Internet.
+Główny komponent aplikacji zrealizowano w języku Python z wykorzystaniem frameworka `Django`_. Podczas pracy został wykorzystano liczne narzędzia wspomagające prace. Do zarządzania projektem wykorzystano `GitHub`_, który zapewniał także hosting dla wykorzystanego systemu kontroli wersji Git. Systemy te były z sobą zintegrowane. Z systemem kontroli wersji był zintegrowany także system ciągłej integracji `Travis CI`_. W przypadku środowiska testowego został wykorzystany hosting `Heroku`_, który zapewnił możliwość weryfikację współpracy komponentów w sieci Internet.
 
 .. _Django: https://djangoproject.com/
 
