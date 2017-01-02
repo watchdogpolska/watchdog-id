@@ -27,7 +27,8 @@ W dalszych rozważaniach będzie wykorzystywana następująca klasyfikacja form 
 
 .. todo:: Zapoznać się z:
     https://pages.nist.gov/800-63-3/sp800-63b.html DRAFT NIST Special Publication 800-63B Digital Authentication Guideline
-    Bring Your Own Authentication (BYOA) 
+    Bring Your Own Authentication (BYOA)
+    https://sekurak.pl/kompendium-bezpieczenstwa-hasel-atak-i-obrona/ 
 
 .. _password_policy:
 
