@@ -12,11 +12,11 @@ Witam w dokumentacji Watchdog ID!
    :maxdepth: 2
 
    readme
-   law
-   authentication
-   integration
-   infrastructure
-   deploy
+   sections/law
+   sections/authentication
+   sections/integration
+   sections/infrastructure
+   sections/deploy
 
 
 Indeksy i tabele
