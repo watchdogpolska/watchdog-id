@@ -9,6 +9,7 @@ Witam w dokumentacji Watchdog ID!
 .. _toc_introduction:
 
 .. toctree::
+   :numbered:
    :maxdepth: 2
 
    sections/introduction
