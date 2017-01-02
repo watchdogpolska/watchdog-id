@@ -47,4 +47,5 @@ django-gravatar2==1.4.0
 
 
 # Documentation
-sphinxcontrib-mscgen==0.4
+sphinxcontrib-seqdiag==0.8.5
+
