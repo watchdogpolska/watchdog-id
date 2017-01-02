@@ -11,10 +11,11 @@ Witam w dokumentacji Watchdog ID!
 .. toctree::
    :maxdepth: 2
 
-   readme
+   sections/introduction
+   sections/integration
    sections/law
    sections/authentication
-   sections/integration
+   sections/requirements
    sections/infrastructure
    sections/deploy
 
