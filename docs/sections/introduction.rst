@@ -19,7 +19,7 @@ Cel pracy
 
 Celem prezentowanej pracy było stworzenie otwartego i elastycznego systemu centralnego uwierzytelniania użytkownika, jak również ich rejestracji. Nowy proces logowania ma być jednolity w obrębie różnych systemów, a także wzbogacony o dodatkowe formy uwierzytelniania.
 
-System ten ma przejąć zadanie uwierzytelniania z systemów dotychczas działających w organizacji, a wspierających tylko prymitywne formy uwierzytelniania, powstałych w oparciu o rozbieżne technologie tworzące indywidualne bazy tożsamości i `credentials`. Aby zapewnić jego rzeczywiste wykorzystanie system winien być łatwy i wygodny w integracji z dotychczas istniejącymi systemami, a - zważywszy na wygodę użytkownika - powinien mieć formę aplikacji internetowej. Powinien mieć charakter modularny w zakresie form uwierzytelniania, aby umożliwiał łatwe dodawanie nowych form uwierzytelniania wraz z  pojawiającymi się zagrożeniami, potrzebami i możliwości.
+System ten ma przejąć zadanie uwierzytelniania z systemów dotychczas działających w organizacji, a wspierających tylko prymitywne formy uwierzytelniania, powstałych w oparciu o rozbieżne technologie tworzące indywidualne bazy tożsamości i danych uwierzytelniających. Aby zapewnić jego rzeczywiste wykorzystanie system winien być łatwy i wygodny w integracji z dotychczas istniejącymi systemami, a - zważywszy na wygodę użytkownika - powinien mieć formę aplikacji internetowej. Powinien mieć charakter modularny w zakresie form uwierzytelniania, aby umożliwiał łatwe dodawanie nowych form uwierzytelniania wraz z  pojawiającymi się zagrożeniami, potrzebami i możliwości.
 
 Praca uwzględnia także przygotowanie komponentów do dotychczas funkcjonujących systemów, które umożliwią przeniesienie procesu uwierzytelniania do centralnego systemu. Stanowić to będzie potwierdzenie skuteczności integracji, a także spełnienia wymagań w zakresie jej prostoty i wygody.
 
@@ -32,9 +32,9 @@ Tworzenie projektu
 
 Koncepcja i projekt systemu została opracowane przez autora na podstawie osobistych doświadczeń [#f1]_ podczas pełnienia funkcji Administratora Bezpieczeństwa Informacji (ABI) w Stowarzyszeniu Sieć Obywatelska - Watchdog Polska.
 
-Autor rozpoczął opracowanie projektu od analizy dotychczasowych standardowych form delegacji uwierzytelniania (:ref:`protocol`), a następnie poddał analizie formy uwierzytelniania (:ref:`authentication_intro`). Po wnikliwej analizie dotychczasowego dorobku ludzkości w tym zakresie sformował główne założenia własnej aplikacji (:ref:`requirements`).
+Autor rozpoczął opracowanie projektu od analizy dotychczasowych standardowych form delegacji uwierzytelniania (:ref:`protocol`), a następnie poddał analizie formy uwierzytelniania (:ref:`authentication_intro`). Po wnikliwej analizie sformował główne założenia własnej aplikacji (:ref:`requirements`).
 
-Główny komponent aplikacji zrealizowano w języku Python z wykorzystaniem frameworka `Django`_. Podczas pracy został wykorzystano liczne narzędzia wspomagające prace. Do zarządzania projektem wykorzystano `GitHub`_, który zapewniał także hosting dla wykorzystanego systemu kontroli wersji Git. Systemy te były z sobą zintegrowane. Z systemem kontroli wersji był zintegrowany także system ciągłej integracji `Travis CI`_. W przypadku środowiska testowego został wykorzystany hosting `Heroku`_, który zapewnił możliwość weryfikację współpracy komponentów w sieci Internet.
+Główny komponent aplikacji zrealizowano w języku Python z wykorzystaniem frameworka `Django`_. Podczas pracy został wykorzystano liczne narzędzia wspomagające prace. Do zarządzania projektem wykorzystano `GitHub`_, który zapewniał także hosting dla wykorzystanego systemu kontroli wersji Git. Systemy te bfyły z sobą zintegrowane. Z systemem kontroli wersji był zintegrowany także system ciągłej integracji `Travis CI`_. W przypadku środowiska testowego został wykorzystany hosting `Heroku`_, który zapewnił możliwość weryfikację współpracy komponentów w sieci Internet.
 
 .. _Django: https://djangoproject.com/
 
