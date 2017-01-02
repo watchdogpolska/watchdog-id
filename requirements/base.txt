@@ -45,3 +45,6 @@ django-oauth-toolkit==0.11.0
 djangorestframework==3.5.3
 django-gravatar2==1.4.0
 
+
+# Documentation
+sphinxcontrib-mscgen==0.4
