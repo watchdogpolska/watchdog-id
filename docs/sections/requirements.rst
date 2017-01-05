@@ -15,3 +15,9 @@ Centralny moduł uwierzytelniania i zarządzania użytkownikami stanowić będzi
 Ze względu na praktyczne wdrożenie aplikacji równie istotne co centralny moduł uwierzytelniania jest zapewnienie integracji z zewnętrznymi komponentami. Stowarzyszeniu wykorzystuje aplikacje w różnych technologiach. Są to m. in. aplikacje PHP, w tym m. in. ownCloud, liczne instancje Wordpressów. Jak również autorskie aplikacje Python z wykorzystaniem frameworka Django, które są otwarto źródłowe. Należy dla nich opracować integracje z Watchdog.ID. 
 
 System Watchdog.ID wymaga prac, aby zapewnić adekwatny poziom zabezpieczeń, wygląd i przyjazność dla użytkownika. Adekwatny poziom zabezpieczeń wynika w szczególności z wykorzystania systemu do kontroli dostępu do danych osobowych. W tym celu w szczególności mają być wdrożone formy dwuskładnikowego uwierzytelniania. Przystępny wygląd i przyjazność dla użytkownika wynika z otwartego charakteru systemu, który będzie wykorzystywany także przez odbiorców działań Stowarzyszenia. Konieczne jest zatem zapewnienie, że każda osoba zainteresowana działaniami Stowarzyszenia będzie mogła skutecznie uwierzytelnić swoje konto w systemie Watchdog.ID. Szczegółowe wymagania w zakresie bezpieczeństwa w związku z ochroną danych osobowych zostały przeanalizowane w rozdziale :ref:`law`.
+
+Wymagania funkcjonalne
+----------------------
+
+Wymagania niefunkcjonalne
+-------------------------
