@@ -3,7 +3,7 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Model i implemntacja systemu centralnego uwierzytelniania
+Model i implementacja systemu centralnego uwierzytelniania
 =========================================================
 
 .. _toc_introduction:
