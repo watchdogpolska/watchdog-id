@@ -1,6 +1,5 @@
 .. _law:
 
-
 ********************
 Uwarunkowania prawne
 ********************
@@ -10,7 +9,7 @@ W tym dokumencie opiszę uwarunkowania prawne związane z realizacją projektu. 
 Wdrożenie centralnego uwierzytelniania przez użytkowników może mieć wpływ na ich prawo do prywatności. Uważam, że konieczne jest we współczesnym świecie uwzględnienie ochrony danych osobowych, a szerzej wpływu na prawa do prywatności użytkowników już na etapie projektowania aplikacji, które mogą mieć na tą prywatność wpływ.
 
 Prawo do prywatności
-------------------------------
+--------------------
 
 Postęp techniczny stwarzał i nadal stwarza nowe wyzwania dla skutecznej ochrony prywatności i danych osobowych. Zwraca się w literaturze, że łatwo można wykazać, iż niektóre specyficzne właściwości sieci komputerowych niejako z natury rzeczy wywołują nieznane wcześniej zagrożenia dla dóbr osobistych, skłaniając do poszukiwań środków zaradczych [#f1]_. 
 

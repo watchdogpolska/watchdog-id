@@ -17,9 +17,12 @@ Witam w dokumentacji Watchdog ID!
    sections/law
    sections/authentication
    sections/requirements
+   sections/technology
+   sections/architecture
+   sections/implementation
+   sections/manual
    sections/infrastructure
    sections/deploy
-
 
 Indeksy i tabele
 ================

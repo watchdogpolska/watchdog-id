@@ -12,8 +12,8 @@ W tym rozdziale zostaną także przedstawine doświadczenia autora uzyskane w ra
 
 .. _authentication_intro:
 
-Uwagi wstępne
-*************
+Kontrola dostępu
+****************
 
 Na samym wstępie niniejszych rozważań konieczne jest uporządkowanie terminologii. Pragnę w tym miejscu bezpośrednio odwołać się do do literatury przedmiotu [#f1]_ :
 
@@ -33,11 +33,16 @@ W dalszych rozważaniach będzie wykorzystywana następująca klasyfikacja form 
 
 .. _password_policy:
 
+
+Formy uwierzytelniania
+**********************
+
 Hasło
-*****
+-----
+
 W przypadku wielu systemów komputerowych do uwierzytelniania wykorzystywane jest wyłącznie hasło. Jest najpopularniejszą formę uwierzytelniania i w ocenie autora najmniej bezpieczną. Stanowi formę uwierzytelniania typu *coś co wiesz*. 
 
-W przypadku wykorzystania wyłącznie tej formy uwierzytelniania proces logownia w systemie komputerowym polega na wprowadzeniu loginu i hasła użytkownika. W związku z ograniczonym bezpieczeństwem tej formy uwierzytelniania wdrażane są w systemach komputerowych liczne metody, które mają ograniczyć jej wady. Podejmowane są działania zarówno na poziomie organizacyjnym, a także technicznym, które mają ograniczyć jej słabości.
+W przypadku wykorzystania wyłącznie tej formy uwierzytelniania proces logownia w systemie komputerowym polega na wprowadzeniu loginu i hasła użytkownika. W związku z ograniczonym bezpieczeństwem tej formy uwierzytelniania wdrażane są w systemach komputerowych liczne metody, które mają ograniczyć jej wady. Działania te są podejmowane zarówno na poziomie organizacyjnym, jak również technicznym.
 
 .. seqdiag::
    :desctable:
@@ -84,7 +89,7 @@ W aspekcie technicznym podejmowane są działania, które mogą ograniczyć skut
 
 
 Polityki haseł
---------------
+==============
 
 W zakresie organizacyjnym, który często wspierany jest także odpowiednimi rozwiązaniami technicznymi wprowadzone są polityki haseł. Obejmują one najczęsciej zagadnienia dotyczącego ponownego wykorzystania tych samych haseł w tym i innych systemach komputerowych, złożoność haseł i częstotliwość ich zmiany.
 
