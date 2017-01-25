@@ -1,7 +1,7 @@
 .. _protocol:
 
 *******************************
-Protokóły integracji
+Protokoły integracji
 *******************************
 
 W tym dokumencie zostanie przedstawiona analiza porównwcza form delegacji uwierzytelniania. Przedstawione zostaną założenia protokołów, wskazane krytyczne punkty, analiza bezpieczeństwa, a także elastyczność, w tym formy alternatywnych przepływów integracji. 
@@ -21,6 +21,6 @@ W szczególnośći zostaną przedstawione takie mechanizmy jak:
 .. _services:
 
 Usługi zintegrowane
-*******************************
+*******************
 
 W tym dokumencie opiszemy usługi zintegrowane z zaproponowaną forma uwierzytelniania. Zostanie przedstawiona konfiguracja integracji, a także jej ograniczenia.

@@ -10,7 +10,7 @@ Model i implementacja systemu centralnego uwierzytelniania
 
 .. toctree::
    :numbered:
-   :maxdepth: 2
+   :maxdepth: 3
 
    sections/introduction
    sections/integration

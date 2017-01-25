@@ -10,7 +10,7 @@ Sieć Obywatelska - Watchdog Polska - podobnie jak wiele innych instytucji - w s
 
 Aby zagwarantować bezpieczne uwierzytelnianie w dużej liczbie niezależnych systemów warto ten proces przenieść do dedykowanego funkcjonalnego, wysoce dostępnego systemu komputerowego, który będzie gwarantować jednolity, wysoki poziom bezpieczeństwa, a także zagwarantuje możliwość skutecznych audytów bezpieczeństwa, wczesnego wykrywania nadużyć i odpowiedzi na nowe oczekiwania w zakresie nowoczesnych form uwierzytelniania, w tym uwierzytelniania wieloskładnikowego.
 
-Ponieważ nie został zidentyfikowany dedykowany otwartoźródłowy system, który mógłby zostać wdrożony w organizacji pojawiła się potrzeba stworzenia własnego systemu, który będzie wspomagać inne aplikacje w procesie rejestracji i uwierzytelniania użytkowników stanowiąc dedykowany *Identify Provider*.
+Ponieważ nie został zidentyfikowany dedykowany otwartoźródłowy system, który mógłby zostać wdrożony w organizacji pojawiła się potrzeba stworzenia własnego systemu, który będzie wspomagać inne aplikacje w procesie rejestracji i uwierzytelniania użytkowników stanowiąc dedykowany *Identify Provider* zapewniając mechanizm *Single sign-on*.
 
 .. _target:
 
@@ -21,7 +21,7 @@ Celem prezentowanej pracy było stworzenie otwartego i elastycznego systemu cent
 
 System ten ma przejąć zadanie uwierzytelniania z systemów dotychczas działających w organizacji, a wspierających tylko prymitywne formy uwierzytelniania, powstałych w oparciu o rozbieżne technologie tworzące indywidualne bazy tożsamości i danych uwierzytelniających. Aby zapewnić jego rzeczywiste wykorzystanie system winien być łatwy i wygodny w integracji z dotychczas istniejącymi systemami, a - zważywszy na wygodę użytkownika - powinien mieć formę aplikacji internetowej. Powinien mieć charakter modularny w zakresie form uwierzytelniania, aby umożliwiał łatwe dodawanie nowych form uwierzytelniania wraz z pojawiającymi się zagrożeniami, potrzebami i możliwości.
 
-Praca uwzględnia także przygotowanie komponentów do dotychczas funkcjonujących systemów, które umożliwią przeniesienie procesu uwierzytelniania do centralnego systemu. Stanowić to będzie potwierdzenie skuteczności integracji, a także spełnienia wymagań w zakresie jej prostoty i wygody.
+Praca uwzględnia także przygotowanie komponentów do dotychczas funkcjonujących systemów, które umożliwią przeniesienie procesu uwierzytelniania do centralnego systemu. Stanowić to będzie potwierdzenie skuteczności protokołu integracji, a także spełnienia jego wymagań w zakresie prostoty i wygody.
 
 Pomysł centralnej aplikacji wynika z analizy potrzeb Stowarzyszenie, która chciałaby - w celu poprawy swojego bezpieczeństwa - stworzyć możliwość utworzenia zintegrowanego konta użytkownika dla członków zespołu, ale także dla odbiorców swoich działań. Podstawowym celem wdrożenia systemu jest podniesienie poziomu bezpieczeństwa rozproszonych systemów komputerowych i zapewnienie w możliwie wielu aplikacjach bezpiecznych form uwierzytelniania.
 
@@ -32,7 +32,7 @@ Tworzenie projektu
 
 Koncepcja i projekt systemu została opracowane przez autora na podstawie osobistych doświadczeń [#f1]_ podczas pełnienia funkcji Administratora Bezpieczeństwa Informacji (ABI) w Stowarzyszeniu Sieć Obywatelska - Watchdog Polska.
 
-Autor rozpoczął opracowanie projektu od analizy dotychczasowych standardowych form delegacji uwierzytelniania (:ref:`protocol`), a następnie poddał analizie formy uwierzytelniania (:ref:`authentication`). Po wnikliwej analizie sformował główne założenia własnej aplikacji (:ref:`requirements`).
+Autor rozpoczął opracowanie projektu od analizy dotychczasowych standardowych form delegacji uwierzytelniania (:ref:`protocol`), a następnie poddał analizie formy uwierzytelniania (:ref:`authentication`). Przedstawione zostały wymagania prawne mogące mieć wpływa na sposób funkcjonowania aplikacji (:ref:`law`). Po wnikliwej analizie sformował główne założenia aplikacji (:ref:`requirements`).
 
 Główny komponent aplikacji zrealizowano w języku Python z wykorzystaniem frameworka `Django`_. Podczas pracy został wykorzystano liczne narzędzia wspomagające prace. Do zarządzania projektem wykorzystano `GitHub`_, który zapewniał także hosting dla wykorzystanego systemu kontroli wersji Git. Systemy te były z sobą zintegrowane. Z systemem kontroli wersji był zintegrowany także system ciągłej integracji `Travis CI`_. W przypadku środowiska testowego został wykorzystany hosting `Heroku`_, który zapewnił możliwość weryfikację współpracy komponentów w sieci Internet.
 
