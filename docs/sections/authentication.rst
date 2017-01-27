@@ -4,26 +4,9 @@
 Uwierzytelnianie
 ****************
 
-W tym dokumencie opiszemy formy uwierzytelniania, z szczególnym uwzględnieniem dwuskładnikowego uwierzytelniania. Założenia leżące u jego podstaw, korzyści, ryzyko, ograniczenia, a także przeanalizujemy formy dwuskładnikowego dokonując analizy ich słabych i mocnych stron.
+W tym rozdziale opiszemy formy uwierzytelniania, z szczególnym uwzględnieniem dwuskładnikowego uwierzytelniania. Założenia leżące u jego podstaw, korzyści, ryzyko, ograniczenia, a także przeanalizujemy formy dwuskładnikowego dokonując analizy ich słabych i mocnych stron.
 
 W tym rozdziale zostaną także przedstawine doświadczenia autora uzyskane w ramach projektu Koła Naukowego Programistów "Geek" polegającej na stworzeniu i rozwoju strony internetowej `Dwa-Skladniki.pl`_. Zostaną one przedstawione w formie analizy dotychczas wykorzystywanych w Polsce form uwierzytelniania. Zostanie przedstawiona analiza odnosząca się do sektora publicznego, jak również prywatnego, w tym perspektyw rozwoju w sektorze bankowości, który - obecnie - wytycza trendy.
-
-.. _Dwa-Skladniki.pl: https://dwa-skladniki.pl/
-
-.. _authentication_intro:
-
-Kontrola dostępu
-****************
-
-Na samym wstępie niniejszych rozważań konieczne jest uporządkowanie terminologii. Pragnę w tym miejscu bezpośrednio odwołać się do do literatury przedmiotu [#f1]_ :
-
-    Usługi elektroniczne zakładające interakcję z użytkownikiem wymagają zwykle identyfikacji użytkownika i jego uwierzytelnienia. Zgodnie z terminologią, identyfikację rozumie się jako nadanie (przypisanie) identyfikatora do osoby oraz deklarację (stwierdzenie) tożsamości osoby poprzez przedstawienie indentyfikatora. Taki identyfikator jednoznacznie tą osobę identyfikuje i stanowi elektroniczną tożsamość użytkownika w tymże środowisku. Sama identyfikacja pozwala zatem na stwierdzenie „o kogo chodzi”, ale nie potwierdza, że użytkownik danej e-usługi jest faktycznie tą osobą, która została zadeklarowana i zidentyfikowana. Do tego potwierdzenia służy właśnie uwierzytelnienie, polegające na dostarczeniu dowodów, że użytkownik jest właśnie tą zidentyfikowaną osobą (nikt się nie podszywa). W szczególnych przypadkach identyfikacja i uwierzytelnienie może przebiegać jednocześnie (np. gdy nasz identyfikator jest tajny, stanowiąc jednocześnie „hasło”), ale zasadniczo są to dwa różne procesy. Z kolei pod pojęciem autoryzacji (często mylonej z uwierzytelnieniem i niepoprawnie nazywanej „autentykacją”) rozumie się proces nadania określonych uprawnień, z których następnie poprawnie zidentyfikowana i uwierzytelniona osoba będzie mogła korzystać.
-
-W dalszych rozważaniach będzie wykorzystywana następująca klasyfikacja form uwierzytelniania:
-
-* coś co wiesz (*something you know*) – informacja będąca w wyłącznym posiadaniu uprawnionego podmiotu, na przykład hasło lub klucz prywatny;
-* coś co masz (*something you have*) – przedmiot będący w posiadaniu uprawnionego podmiotu, na przykład generator kodów elektronicznych (token), telefon komórkowy (kody SMS, połączenie autoryzacyjne) lub klucz analogowy,
-* coś czym jesteś (*something you are*) – metody biometryczne.
 
 .. todo:: Zapoznać się z:
 
@@ -31,18 +14,53 @@ W dalszych rozważaniach będzie wykorzystywana następująca klasyfikacja form 
     * wyjaśnić hasło "Bring Your Own Authentication (BYOA)""
     * https://sekurak.pl/kompendium-bezpieczenstwa-hasel-atak-i-obrona/
 
-.. _password_policy:
+.. _Dwa-Skladniki.pl: https://dwa-skladniki.pl/
 
+.. _authentication_intro:
+
+Kontrola dostępu
+================
+
+Aplikacje zakładające interakcję z użytkownikiem wymagają zwykle przeprowadzenia procesu składającego zasadniczo z trzech etapów  [#f1]_:
+
+* identyfikacji (ang. `identification`) użytkownika, czyli uzyskania od użytkownika deklaracji co do swojej tożsamości np. w postaci nazwy użytkownika, w sposób umożliwiający zidnetyfikowanie tożsamości użytkownika w danym środowisku,
+* uwierzytelnienia (ang. `authentication`) użytkownika, czyli dostarczenia dowodów, że użytkownik jest właśnie tą zidentyfikowaną osobą (nikt się nie podszywa), a dane uzyskane w etapie identyfikacji są autentyczne,
+* autoryzacji (ang. `authorization`), czyli przyznaniu przez system komputerowy dostępu do określonego zasobu.
+
+Proces ten przeprowadzony łącznie jest nazywany logowaniem (ang. `logging in` or `signing in`). Każdy z tych etapów może być przeprowadzony w odmienny sposób w zależności od wymogów systemu komputerowego. Najpopularniejszą formą identyfikacji i uwierzytelniania użytkowników w systemach komputerowych jest wykorzystanie nazwa użytkownika (ang. `login`) i hasła [#citation_needed]_ . Jednak tradycyjne podejście nie jest wystarczająco bezpieczne w dzisiejszym świecie, w którym co dzień zdarzają się ataki szkodliwego oprogramowania i inne formy kradzieży haseł wykazujące słabość tego mechanizmu.
+
+Największym wyzwaniem w projektowaniu procesu uwierzytelniania systemów komputerowych pracujących w sieci Internet wydaje się stanowić uwierzytelnianie. Musi ono zapewnić adekwatny do charakteru systemu komputerowy poziom bezpieczeństwa systemu komputerowego przy zachowaniu użyteczność (ang. `usability`) akceptowalnej przez użytkownaia. Twie te wartości pozostają niezwykle często w napięciu.
+
+Jeśli mechanizmy bezpieczeństwa są zbyt skomplikowane w obsłudze, użytkownicy często wybierają, aby nie używać ich w ogóle, albo poszukują metod na ich obejście. 
+
+Przykładowo uwierzytelnienie z wykorzystaniem hasła wymaga współdzielonego pomiędzy użytkownikiem i systemem komputerowym sekretu. Dane te powinny zostać zapamiętane przez użytkownika w umyśle. Jednak nieprawidłowe wymogi odnośnie takiego sekretu skłaniają użytkowników do ich zapisywania narażając poufność sekretu (zob. :ref:`password_policy`). Wymaga to ostrożnego doboru sposobów (form) w jakich uwierzytelnianie ma przebiegać. Nieprawidłowy dobór, nawet mechanizmów, które technicznie zapewniają wyższy poziom bezpieczeństwa - ze względu na niezrozumienie użytkownika i nie stosowanie się do nich przez użytkowania (czynnik ludzki) - może paradoksalnie zwiększać zagrożenie dla danych osobowych.
+
+.. todo:: Rozbudować bibliografie:
+
+    * Google hasła "Security and Usability"
+    * publikacja  Lorrie Faith Cranor; Simson Garfinkel, "Security and Usability : Designing Secure Systems that People Can Use.", O'Reilly Media, Inc.
 
 Formy uwierzytelniania
-**********************
+======================
+
+Wykorzystanie hasła nie jest jedyną możliwą formą uwierzytelniania, która może zostać wykorzystana w systemie komputerowym, aczkolwiek najpopularniejszą. Ponadto możliwe jest złożenie wielu form w ramach jednego procesu uwierzytelniania, co szczegółowo zostało omówione :ref:`2factor`.
+
+W dalszych rozważaniach będzie wykorzystywana następująca klasyfikacja podstawowych form uwierzytelniania:
+
+* coś co wiesz (*something you know*) – informacja będąca w wyłącznym posiadaniu uprawnionego podmiotu, na przykład hasło lub klucz prywatny;
+* coś co masz (*something you have*) – przedmiot będący w posiadaniu uprawnionego podmiotu, na przykład generator kodów elektronicznych (token), telefon komórkowy (kody SMS, połączenie autoryzacyjne) lub klucz analogowy,
+* coś czym jesteś (*something you are*) – metody biometryczne.
 
 Hasło
 -----
 
-W przypadku wielu systemów komputerowych do uwierzytelniania wykorzystywane jest wyłącznie hasło. Jest najpopularniejszą formę uwierzytelniania i w ocenie autora najmniej bezpieczną. Stanowi formę uwierzytelniania typu *coś co wiesz*. 
+W przypadku wielu systemów komputerowych do uwierzytelniania wykorzystywane jest wyłącznie hasło. Jest to najpopularniejszą forma uwierzytelniania. Stanowi ona formę uwierzytelniania typu *coś co wiesz*. 
 
-W przypadku wykorzystania wyłącznie tej formy uwierzytelniania proces logownia w systemie komputerowym polega na wprowadzeniu loginu i hasła użytkownika. W związku z ograniczonym bezpieczeństwem tej formy uwierzytelniania wdrażane są w systemach komputerowych liczne metody, które mają ograniczyć jej wady. Działania te są podejmowane zarówno na poziomie organizacyjnym, jak również technicznym.
+Ten proces uwierzytelniania wymaga wcześniejszego zindywidualnego dla każdego użytkownika skonfigurowania polegajacego na wymianie hasła pomiędzy użytkownikiem a systemem komputerowym. W zależności od decyzji projektanta systemu współdzielone hasło może zostać wygenerowane przez system komputerowy, albo być wprowadzane przez użytkownika. W przypadku dużej części aplikacji internetowych wymiana współdzielonego hasła ma miejsce podczas rejestracji. Powszechnie tworzone są dedykowane formularze służące do zmiany haseł i odzyskania zdolności do uwierzytelniania ("Przypomnij hasło").
+
+Proces konfiguracji współdzielonego hasła wymaga, aby uprzednio użytkownik został uwierzytelniony w inny sposób.
+
+W przypadku wykorzystania wyłącznie tej formy uwierzytelnianie polega ona na wprowadzeniu hasła użytkownika. W związku z ograniczonym bezpieczeństwem tej formy uwierzytelniania wdrażane są w systemach komputerowych liczne metody, które mają ograniczyć jej wady. Działania te są podejmowane na poziomie organizacyjnym i technicznym.
 
 .. seqdiag::
    :desctable:
@@ -59,7 +77,17 @@ W przypadku wykorzystania wyłącznie tej formy uwierzytelniania proces logownia
       D [description = "baza danych"];
    }
 
-Na poziomie technicznym wprowadzone jest tzw. *hashowanie* haseł. Polega ono na ograniczeniu dostępności w systemie komputerowmy hasła w postaci jawnej poprzez zapisanie wyłącznie danych stanowiących wynik jednokierunkowej funkcji skrótu określany jako *hash*. Wówczas proces uwierzytelniania polega na porównaniu danych stanowiących wynik funkcji. Można to przedstawić następująco:
+Funkcje hashujące
+^^^^^^^^^^^^^^^^^
+
+Wartm odnotowania mechanizmem na poziomie technicznym jest tzw. *hashowanie* haseł. Polega ono na ograniczeniu dostępności w systemie komputerowmy hasła w postaci jawnej poprzez zapisanie wyłącznie danych stanowiących wynik jednokierunkowej funkcji skrótu kryptograficznego tzw. `hash`. Bezpieczne funkcje hashujące h(x) = hash są funkcjami hashującymi z następującymi właściwościami [#sekurak_kompedium1]_:
+
+    Jednokierunkowość – na podstawie wyjścia (hash) nie możemy w żaden sposób określić wejścia (x).
+    Wysoka odporność na kolizje – bardzo trudna generacja tego samego wyjścia (hash) przy użyciu dwóch różnych wejść (x1, x2).
+    Duża zmienność wyjścia – duża różnica wyjść (hash1, hash2) wygenerowanych przez bardzo podobne wejścia (x1, x2).
+
+W przypadku zastosowania takiego rozwiązania proces uwierzytelniania polega na porównaniu danych stanowiących wynik funkcji. 
+Można to przedstawić następująco:
 
 .. seqdiag::
    :desctable:
@@ -77,9 +105,45 @@ Na poziomie technicznym wprowadzone jest tzw. *hashowanie* haseł. Polega ono na
       D [description = "baza danych"];
    }
 
-Dzięki wykorzystaniu funkcji skrótu zostało ograniczone ryzyko, że po włamaniu do bazy danych użytkownik będzie od razu zagrożony [#f_dropbox]_. Wykorzystanie takich danych wymaga odnalezienie kolizji, co wymaga bardzo wielu obliczeń. W wielu wypadkach zastosowanie funkcji skrótu zwiększa zasoby wymaganie do wykorzystania danych, ale tego nie uniemożliwia.
+Dzięki wykorzystaniu funkcji skrótu zostało ograniczone ryzyko, że po włamaniu do bazy danych użytkownik będzie od razu zagrożony [#f_dropbox]_. Wykorzystanie takich danych wymaga odnalezienie słabości funkcji hashującej, co zazwyczaj wymaga zaangażowania znacznych mocy obliczeniowych. W wielu wypadkach zastosowanie funkcji skrótu zwiększa zasoby wymaganie do wykorzystania danych, ale tego nie uniemożliwia. Może to jednak być wystarczające, aby zneutralizować zagrożenie.
 
-Zagrożeniem dla uwierzytelniania hasłem jest rownież przesyłanie hasła w postaci jawnej poprzez sieć. Aby się przed tym zabezpieczyć wykorzystywane są różnorodne algorytmy szyfrowania komunikacji np. HTTPS. Okazują się jednak one nieskuteczne, jeżeli hasło zostanie podsłuchane pomiedzy użytkownikiem, a przeglądarką np. na skutek wykorzystania `keyloggerów`. Zabezpieczenie hasła przed tym wymaga podejmowania znacznych nakładów na zabezpieczenie urządzeń użytkownika.
+Projektowane są dedykowane algorytmy funkcji skrótu kryptograficznego, które przeznaczeniem jest hashowania haseł statycznych, a nie dowolnych danych binarnych. Określane są one mianem PKF (ang. `key derivation function`). Do najbardziej znaczących należą PBKDF2, bcrypt i scrypt. Oferują one m. in. mechanizm `key stretching` stanowiącą konfigurowalną wartość wpływającą na złożoność obliczeniową funkcji zapewniając stanowi opór dla prawa Moore’a, a także elastyczność wobec ataków wymyślonym w przyszłości (future-proof).
+
+Uwierzytelnienie wyzwanie-odpowiedź
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Hasło musi stanowić sekret znany wyłącznie przez użytkownika i system komputerowy zagrożeniem dla uwierzytelniania hasłem jest rownież przesyłanie go w postaci jawnej poprzez sieć. W celu ograniczenia tego zagrożenia wykorzystywane są odpowiednie mechanizmy. Warto w tym miejscu zwrócić uwagę na grupę algorytmów wyzwanie-odpowiedź, które zapewniają ochronę przed prostym podsłuchaniem hasła.
+
+.. seqdiag::
+   :desctable:
+   :caption: Uwierzytelnianie z wykorzystaniem mechanizmu wyzwanie-odpowiedź
+
+   seqdiag {
+      U; C; S; D;
+      C -> S [label="żadanie wyzwania"];
+      S -> S [label="wygenerowanie losowej wartości X"];
+      S -> C [label="przekazanie losowej wartosci X"];
+      C -> U [label="zapytanie o hasło"];
+      U -> C [label="wprowadzenie hasła Z"];
+      C -> C [label="obliczenie funkcji skrótu f(X, Z) = D"]
+      C -> S [label="przekazanie skrótu D"];
+      S -> D [label="żądanie hasła"];
+      D -> S [label="przekazanie hasła Z'"];
+      S -> S [label="obliczenie funkcji skrótu f(X, Z') = D'"];
+      S -> S [label="porównianie D i D'"];
+      S -> C [label="przekazanie wyniku weryfikacji"];
+      C -> U [label="komunikat o weryfikacji"];
+      U [description = "użytkownik"];
+      C [description = "klient"]
+      S [description = "serwer"];
+      D [description = "baza danych"];
+   }
+
+Po pierwsze wykorzystywane są algorytmy szyfrowania całej komunikacji w architekturze klient-serwer np. HTTPS (ang. `Hypertext Transfer Protocol Secure`). 
+
+Należy zaznaczyć, że szyfrowanie komunikacji klient-serwer nie zabezpiecza przed przypadkami, gdy hasło zostanie podsłuchane pomiedzy użytkownikiem, a przeglądarką np. na skutek wykorzystania `keyloggerów` lub innego złośliwego oprogramowania pracujące na komputerze użytkownika. 
+
+Zagrożeniem dla tego mechanizmu jest również celowo wywołane błędne przeświadcze co do tożsamości strony, które jest wykorzystywane podczas ataków typu .phishing  Zabezpieczenie hasła przed tym wymaga podejmowania znacznych nakładów na zabezpieczenie urządzeń użytkownika.
 
 W aspekcie technicznym podejmowane są działania, które mogą ograniczyć skuteczność keyloggerów. Należą w tym zakresie m. in. hasła maskowane, które polegają na oczekiwaniu od użytkownika jednorazowo tylko wybranych znaków z hasła i z każdą zmianą zmienianie tego zestawu znaków. W takiej sytuacji nie jest wystarczające jednorazowe podsłuchanie wprowadzonych danych, gdyż podczas kolejnego uwierzytelniania wymagane będzie inny zestaw znaków.
 
@@ -88,8 +152,11 @@ W aspekcie technicznym podejmowane są działania, które mogą ograniczyć skut
     Przykładowy ekran uwierzytelniania z wykorzystaniem hasła maskowanego (T-Mobile Usługi bankowe, styczeń 2016 roku) (opr. własne)
 
 
+
+.. _password_policy:
+
 Polityki haseł
-==============
+^^^^^^^^^^^^^^
 
 W zakresie organizacyjnym, który często wspierany jest także odpowiednimi rozwiązaniami technicznymi wprowadzone są polityki haseł. Obejmują one najczęsciej zagadnienia dotyczącego ponownego wykorzystania tych samych haseł w tym i innych systemach komputerowych, złożoność haseł i częstotliwość ich zmiany.
 
@@ -121,6 +188,8 @@ Warto zwrócić uwagę, że standardy regulacyjne dotyczące dostępu do system�
 
 .. rubric:: Footnotes
 
+.. [#citation_needed] Potrzebne źródło
+
 .. [#f1] Tomasz Mielnicki, Franciszek Wołowski, Marek Grajek, Piotr Popis, Identyfikacja i uwierzytelnianie w usługach elektronicznych, Przewodnik Forum Technologii Bankowych przy Związku Banków Polskich, Warszawa, 2013, http://zbp.pl/public/repozytorium/dla_bankow/rady_i_komitety/technologie_bankowe/publikacje/Przewodnik_Identyfikacja_i_uwierzytelnianie_strona_FTB.pdf [dostęp 23 grudnia 2016 roku]
 
 .. [#f2] CIS Controls for Effective Cyber Defense Version 6.0, SANS Institute, https://www.cisecurity.org/critical-controls.cfm [dostęp 16 marca 2016 roku]
@@ -132,3 +201,5 @@ Warto zwrócić uwagę, że standardy regulacyjne dotyczące dostępu do system�
 .. [#f9] Sonia Chiasson, P. C. van Oorschot, Quantifying the security advantage of password expiration policies, Designs, Codes and Cryptography, 2015, Volume: 77, Issue 2-3, 401-4
 
 .. [#f_dropbox] Devdatta Akhawe, How Dropbox securely stores your passwords, Dropbox Tech blog, https://blogs.dropbox.com/tech/2016/09/how-dropbox-securely-stores-your-passwords/ [dostęp 2 stycznia 2016 roku]
+
+.. [#sekurak_kompedium1] Adrian Vizzdoom Michalczyk, Kompendium bezpieczeństwa haseł – atak i obrona (część 1.), Sekurak.pl 1 lutego 2013 roku, https://sekurak.pl/kompendium-bezpieczenstwa-hasel-atak-i-obrona/ (online: 27 stycznia 2017 roku)
