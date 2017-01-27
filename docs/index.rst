@@ -21,8 +21,7 @@ Model i implementacja systemu centralnego uwierzytelniania
    sections/architecture
    sections/implementation
    sections/manual
-   sections/infrastructure
-   sections/deploy
+   sections/conclusions
 
 Indeksy i tabele
 ================
