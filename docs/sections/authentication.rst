@@ -27,7 +27,7 @@ Aplikacje zakładające interakcję z użytkownikiem wymagają przeprowadzenia l
 * uwierzytelnienia (ang. `authentication`) użytkownika, czyli dostarczenia dowodów, że użytkownik jest właśnie tą zidentyfikowaną osobą (nikt się nie podszywa), a dane uzyskane w etapie identyfikacji są autentyczne,
 * autoryzacji (ang. `authorization`), czyli przyznaniu przez system komputerowy dostępu do określonego zasobu.
 
-Proces ten przeprowadzony łącznie jest nazywany logowaniem . Każdy z tych etapów może być przeprowadzony w odmienny sposób w zależności od wymogów systemu komputerowego. Najpopularniejszą formą identyfikacji i uwierzytelniania użytkowników w systemach komputerowych jest wykorzystanie nazwa użytkownika (ang. `login`) i hasła [#citation_needed]_ . Jednak tradycyjne podejście nie jest wystarczająco bezpieczne w dzisiejszym świecie, w którym co dzień zdarzają się ataki szkodliwego oprogramowania i inne formy kradzieży haseł wykazujące słabość tego mechanizmu.
+Proces ten przeprowadzony łącznie jest nazywany logowaniem. Każdy z tych etapów może być przeprowadzony w odmienny sposób w zależności od wymogów systemu komputerowego. Najpopularniejszą formą identyfikacji i uwierzytelniania użytkowników w systemach komputerowych jest wykorzystanie nazwa użytkownika (ang. `login`) i hasła [#citation_needed]_ . Jednak tradycyjne podejście nie jest wystarczająco bezpieczne w dzisiejszym świecie, w którym co dzień zdarzają się ataki szkodliwego oprogramowania i inne formy kradzieży haseł wykazujące słabość tego mechanizmu.
 
 Wygoda użytkowania a bezpieczeństwo
 ===================================
@@ -123,7 +123,7 @@ Projektowane są dedykowane algorytmy funkcji skrótu kryptograficznego, które 
 Uwierzytelnienie wyzwanie-odpowiedź
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Hasło musi stanowić sekret znany wyłącznie przez użytkownika i system komputerowy, a więc zagrożeniem dla uwierzytelniania hasłem jest rownież przesyłanie go w postaci jawnej poprzez sieć. W celu ograniczenia tego zagrożenia wykorzystywane są odpowiednie mechanizmy. Warto w tym miejscu zwrócić uwagę na grupę algorytmów wyzwanie-odpowiedź, które zapewniają ochronę przed prostym podsłuchaniem hasła.
+Hasło musi stanowić sekret znany wyłącznie przez użytkownika i system komputerowy, a więc zagrożeniem dla uwierzytelniania hasłem jest również przesyłanie go w postaci jawnej poprzez sieć. W celu ograniczenia tego zagrożenia wykorzystywane są odpowiednie mechanizmy. Warto w tym miejscu zwrócić uwagę na grupę algorytmów wyzwanie-odpowiedź, które zapewniają ochronę przed prostym podsłuchaniem hasła podczas komunikacji sieciowej. Proces uwierzytelniania można wówczas przedstawić następująco:
 
 .. seqdiag::
    :desctable:
@@ -163,7 +163,7 @@ Należy w tym miejscu zwrócić także uwagę na presje płynącą z strony twó
 
 Należy zaznaczyć, że szyfrowanie komunikacji klient-serwer nie zabezpiecza przed przypadkami, gdy hasło zostanie podsłuchane pomiedzy użytkownikiem, a przeglądarką np. na skutek wykorzystania `keyloggerów` lub innego złośliwego oprogramowania pracujące na komputerze użytkownika. 
 
-Zagrożeniem dla tego mechanizmu jest również celowo wywołane błędne przeświadcze co do tożsamości strony, które jest wykorzystywane podczas ataków typu phishing  Zabezpieczenie hasła przed tym wymaga podejmowania znacznych nakładów na zabezpieczenie urządzeń użytkownika.
+Zagrożeniem dla tego mechanizmu jest również celowo wywołane błędne przeświadcze co do tożsamości strony, które jest wykorzystywane podczas ataków typu "phishing". Zabezpieczenie hasła przed tym wymaga podejmowania znacznych nakładów na zabezpieczenie urządzeń użytkownika, a także edukacji użytkowników.
 
 W aspekcie technicznym podejmowane są działania, które mogą ograniczyć skuteczność keyloggerów. Należą w tym zakresie m. in. hasła maskowane, które polegają na oczekiwaniu od użytkownika jednorazowo tylko wybranych znaków z hasła i z każdą zmianą zmienianie tego zestawu znaków. W takiej sytuacji nie jest wystarczające jednorazowe podsłuchanie wprowadzonych danych, gdyż podczas kolejnego uwierzytelniania wymagane będzie inny zestaw znaków.
 
@@ -176,7 +176,7 @@ W aspekcie technicznym podejmowane są działania, które mogą ograniczyć skut
 Polityki haseł
 ^^^^^^^^^^^^^^
 
-Natomiast w zakresie organizacyjnym, który często wspierany jest także odpowiednimi rozwiązaniami technicznymi wprowadzone są polityki haseł. Obejmują one najczęsciej zagadnienia dotyczącego ponownego wykorzystania tych samych haseł w różnych systemach komputerowych, złożoność haseł i częstotliwość ich zmiany.
+W zakresie organizacyjnym, który często wspierany jest także odpowiednimi rozwiązaniami technicznymi wprowadzone są polityki haseł. Obejmują one najczęsciej zagadnienia dotyczącego ponownego wykorzystania tych samych haseł w różnych systemach komputerowych, złożoność haseł i częstotliwość ich zmiany.
 
 Warto w tym miejscu dostrzec, że nieadekwatna polityka haseł może prowadzić do ograniczenia bezpieczeństwa, a nie jego poprawy. Moim zdaniem dotyczy to w szczególności wymogu częstej zmiany haseł bez wdrożenia alternatywnych rozwiązań. Częsta zmiana haseł rodzi kilka zasadniczych problemów. Nie wszyscy posiadają zdolność zapamiętania złożonych haseł, co prowadzi do ponownego używania haseł w wielu miejscach lub stosowania haseł schematycznych z wykorzystaniem prostych transformacji. W takim wypadku zbyt skomplikowane i często zmieniane hasła prowadzą do zapisywania ich w jawnej formie, co może narażać na ich kradzież.
 
@@ -261,7 +261,7 @@ Najpopularniejszym rozwiązaniem jest - łacznie z hasłem - wykorzystanie m. in
 * sprzętowego tokenu istniejącego w jednym, unikatowym egzemplarzu, więc jego użycie wymaga fizycznego dostępu lub kradzieży, która zostanie zauważona (cecha coś co masz),
 * jednorazowych kodów generowanych programowo (TOTP), a także przesłanych z użyciem alternatywnego kanału komunikacji (SMS, połączenia, e-mail).
 
-W ostatnich latach zauważalna jest popularność takich rozwiązań w powszechnych usługach internetowych. Obsługę dla wieloskładnikowego uwierzytelniania zapewnia usługa poczty Gmail i Outlook.com, serwisy społecznościowe Facebook i Google+, a nawet platformy gier Battle.net i Steam. Istnieją dedykowane strony internetowe, których celem jest popularyzacja takich rozwiąząń [#2fa_sites]_. Po pierwsze, poprzez promocję wśród konsumentów witryn internetowych, które wspierają bezpieczne formy uwierzytelniania. Po drugie, ma wywierać presję na dostawców usług internetowych, aby wdrożyli oni w optymalny sposób bezpieczne formy uwierzytelniania.
+W ostatnich latach zauważalna jest popularność takich rozwiązań w powszechnych usługach internetowych. Obsługę dla wieloskładnikowego uwierzytelniania zapewnia usługa poczty Gmail i Outlook.com, serwisy społecznościowe Facebook i Google+, a nawet platformy gier Battle.net i Steam. Istnieją dedykowane strony internetowe, których celem jest popularyzacja takich rozwiąząń - `TwoFactorAuth.info.org <http://TwoFactorAuth.info.org>`_  i `Dongleauth.info <https://Dongleauth.info>`_ . Po pierwsze, poprzez promocję wśród konsumentów witryn internetowych, które wspierają bezpieczne formy uwierzytelniania. Po drugie, ma wywierać presję na dostawców usług internetowych, aby wdrożyli oni w optymalny sposób bezpieczne formy uwierzytelniania.
 
 W Polsce dostępność takich rozwiązań rośnie. Analiza witryny Dwa-Skladniki.pl wskazuje, że żaden krajowy dostawa usług pocztowych nie oferuje takich form uwierzytelniania. Ani Interia, ani O2.pl, ani WP.pl, ani Onet.pl nie oferują takich rozwiązań. Zainteresowane osoby zmuszone są do korzystania z usług w/w zagranicznych gigantów. Natomiast spośród firm hostingowych jakąkolwiek formę dwuskładnikowego uwierzytelniania zapewnia wyłącznie MyDevil.net. Jeżeli chce się mieć bezpieczny hosting w Polsce – należy samemu nim zarządzać. Wówczas można skorzystać z usług OVH lub e24cloud [#2fa_analiza_pl]_. 
 
