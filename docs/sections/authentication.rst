@@ -150,7 +150,7 @@ Hasło musi stanowić sekret znany wyłącznie przez użytkownika i system kompu
       D [description = "baza danych"];
    }
 
-Należy objaśnić, że sam mechanizm wyzwania ma na celu ochronę przed atakiem powtórzenia (ang. `replay attack` lub `playback attack`), który polega na skopiowaniu komunikatu pomiędzy i powtórki go do jednego lub większej liczby stron. W przypadku ponownej próby uwierzytelniania zostanie wykorzystanie inne wyzwanie (wartość X na diagramie), która lawinowo zmieni wartość kryptograficznej funkcji skrótu f(X,Z) (zob. `hashing`_ ).
+Należy objaśnić, że sam mechanizm wyzwania ma na celu ochronę przed atakiem powtórzenia (ang. `replay attack` lub `playback attack`), który polega na skopiowaniu komunikatu i powtórki go do jednego lub większej liczby stron. Ochrona jest zapewniona, ponieważ w przypadku ponownej próby uwierzytelniania zostanie wykorzystanie inne wyzwanie (wartość X na diagramie), która lawinowo zmieni wartość kryptograficznej funkcji skrótu f(X,Z) (zob. `hashing`_ ).
 
 Zbliżony mechanizm stanowi podstawę dla uwierzytelniania z wykorzystaniem kryptografii asymetrycznej.
 
@@ -213,13 +213,17 @@ Zawarty podpis cyfrowy składany jest na następującej wiadomości::
   string    public key algorithm name
   string    public key to be used for authentication
 
-Po odebraniu tak sformułowanego pakietu serwer musi zweryfikować czy przedstawiony klucz publiczny jest właściwy do uwierzytelnia, co najczęśćiej odbywa się poprzez weryfikacje bazy zawartej w pliku ``.ssh/authorized_keys``. Jak również serwer musi zweryfikować czy złożony podpis jest prawidłowy. 
+Po odebraniu tak sformułowanego pakietu serwer musi zweryfikować czy przedstawiony klucz publiczny jest właściwy do uwierzytelnia, co najczęściej odbywa się poprzez weryfikacje bazy uprawnionych kluczy zawartej w pliku ``.ssh/authorized_keys``. Jak również serwer musi zweryfikować czy złożony podpis jest prawidłowy. 
 
 Należy objaśnić, że przedstawiony identyfikator sesji (``session identifier``) został ustalony podczas wcześniejszych etapów negocjacji połączenia. Wartość ta ulega zmianie wraz z każdym połączeniem lub częściej. Dzięki czemu ten jeden pakiet stanowi całą komunikacje uwierzytelniania, która jest odporna na atak powtórzenia.
 
 Klucz publiczny jest składowany często na komputerze użytkownika, co oznacza że ten sposób uwierzytelniania należy sklasyfikować jako oparty na "czymś co masz" (`authentication_form`_). Należy od razu jednak podkreślić, że często klucz prywatny jest przechowywany w formie cyfrowej i wymaga wprowadzenia hasła przed tym jak wygenerowanie podpisu cyfrowego stanie się ożliwe.
 
-Ta forma uwierzytelniania jest wrażliwa na sytuacje, gdy poufność klucza prywatnego użytkownika zostanie naruszona. Może to mieć miejsce w sytuacji ataku złoślwiego oprogramowania na komputer użytkownika. Niedostateczne w takim przypadku może okazać się szyfrowanie hasła, gdyż podczas próby użycia klucza hasło lub sam klucz może zostać przejęta przez złośliwe oprogramowanie z pamięci komputera.
+Ta forma uwierzytelniania nie jest wrażliwa na sytuacje, gdy poufność klucza prywatnego użytkownika zostanie naruszona. Może to mieć miejsce w sytuacji ataku złoślwiego oprogramowania na komputer użytkownika. Niedostateczne w takim przypadku może okazać się szyfrowanie hasła, gdyż podczas próby użycia klucza hasło lub sam klucz może zostać przejęta przez złośliwe oprogramowanie z pamięci komputera.
+
+Pozbawiona jest natomiast zagrożenia, że użycie tych samych danych dostępowych stanowić będzie zagrożenie dla samego użytkownika. Nie ma zatem konieczności - analogicznie do współdzielonego sekretu - wprowadzenia rozwiązań, które chroniłyby poufność kluczy po stronie system uwierzytelniającego, a w szczególności przechoywanie danych z wykorzystaniem funkcji skrótu (:ref:`hashing`).
+
+Istotne jest jedynie zagwarantowanie integralności bazy uprawnionych kluczy, gdyż jego modyfikacja, w szczególności dopisanie kluczy obcych może prowadzić do obejścia zabezpieczeń. 
 
 .. todo:: 
   Trusted Platform Module - przeanalizować znaczenie dla przechowywania kluczy publicznych
@@ -234,28 +238,32 @@ W ostatnim czasie rosnącą popularność zyskuje otwarty standard `Universal 2n
 
 Standard ten został początkowo zaprojektowany przez firmę Google, lecz teraz jest zarządzany przez FIDO (Fast Identity Online) Alliance. Członkami FIDO Alliance są także m. in. Microsoft, Mastercard, Visa, PayPal, Discover, Samsung i BlackBerry [#yubico_pcworld]_. 
 
+Standard ten został wdrożony przez czołowych dostawców usług sieciowych, a jego popularność rośnie. Google ogłosiło jego obsługę w październiku 2014 roku [#u2f_google]_, w sierpniu 2015 roku Dropbox [#u2f_dropbox]_, w październiku 2015 roku GitHub [#u2f_github]_, w czerwcu 2016 roku BitBucket [#u2f_bitbucket]_,w lutym 2017 roku Facebook [#u2f_facebook]_. Można zatem przyjąć, że staje się fakycznie standardem.
+
 Dostępne są liczne urządzenia o niewygórowanych cenach. Koszt indywidualnej sztuki wynosi około 70 zł [#yubico_cena]_. Samodzielny montaż pozwala skonstruowanie urządzenia w cenie poniżej 25 zł / sztuka.
 
 .. todo::
   Przedstawić wnioski i wyniki z projektu Koła Naukowego Programistów - http://www.wns.uph.edu.pl/strona-glowna/aktualnosci/656-zapowiedz-nowego-projektu-w-zakresie-bezpieczenstwa-komputerowego-kola-naukowego-programistow
 
-Standard ten został wdrożony przez czołowych dostawców usług sieciowych, a jego popularność rośnie. Google ogłosiło jego obsługę w październiku 2014 roku [#u2f_google]_, w sierpniu 2015 roku Dropbox [#u2f_dropbox]_, w październiku 2015 roku GitHub [#u2f_github]_, w czerwcu 2016 roku BitBucket [#u2f_bitbucket]_,w lutym 2017 roku Facebook [#u2f_facebook]_.
-
-Wspierany jest także przez przeglądarki. Przeglądarka Google Chrome w wersjach 38 i Opera od wersji 40 obsługę mają wbudowaną. Natomiast Firefox wymaga dedykowanej wtyczki [#u2f_firefox_bug]_, a wbudowana obsługa jest zaplanowana na 1 kwartał 2017 roku [#u2f_firefox_support]_.
+Zapewniona jest także odpowiednia obsługa z strony popularnych przeglądarek internetowych - Google Chrome w wersjach 38 i Opera od wersji 40 domyślnie. Natomiast Firefox wymaga dedykowanej wtyczki [#u2f_firefox_bug]_, a wbudowana obsługa jest zaplanowana na 1 kwartał 2017 roku [#u2f_firefox_support]_.
 
 .. _2factor:
 
 Dwuskładnikowe uwierzytelnienie
 -------------------------------
 
-W nowoczesnych systemach komputerowych przed uzyskaniem dostępu często stosuje się jednak uwierzytelniani wieloskładnikowe (*multi-factor authentication*), w szczególności dwuskładnikowe (*two-factor authentication*), czyli łączące dwie różne metody uwierzytelniania.
+W nowoczesnych systemach komputerowych przed uzyskaniem dostępu często stosuje się uwierzytelniani wieloskładnikowe (*multi-factor authentication*), w szczególności dwuskładnikowe (*two-factor authentication*), czyli łączące dwie różne metody uwierzytelniania.
 
-Jest to praktykowane, ponieważ w komunikacji elektronicznej stosowanie samego hasła wiąże się z różnego rodzaju ryzykiem, a wykorzystanie kilku form uwierzytelnienia może ograniczać skutki przechwycenia (keylogger), albo podsłuchania (sniffer) hasła po którym przestaje ono być wówczas znane wyłącznie osobie uprawnionej, zaś kradzież może pozostać niezauważona. Ryzyko to można ograniczyć, wprowadzając dodatkowy składnik uwierzytelniania wykorzystując kilka form autoryzacji jednocześnie np.:
+Jest to praktykowane, ponieważ w komunikacji elektronicznej stosowanie samego hasła wiąże się z różnego rodzaju ryzykiem, a wykorzystanie kilku form uwierzytelnienia może ograniczać skutki przechwycenia (keylogger), albo podsłuchania (sniffer) hasła po którym przestaje ono być wówczas znane wyłącznie osobie uprawnionej, zaś kradzież może pozostać niezauważona. Ryzyko to można ograniczyć, wprowadzając dodatkowy składnik uwierzytelniania wykorzystując kilka form autoryzacji jednocześnie. 
 
-* token istniejący w jednym, unikatowym egzemplarzu, więc jego użycie wymaga fizycznego dostępu lub kradzieży, która zostanie zauważona (cecha coś co masz);
-* użycie tokenu wymaga dodatkowo podania hasła (np. w postaci kodu PIN), więc bez jego znajomości token będzie nieprzydatny, nawet w razie kradzieży (cecha coś co wiesz).
+Najpopularniejszym rozwiązaniem jest - łacznie z hasłem - wykorzystanie m. in.:
 
-Uwierzytelnienie dwuskładnikowe stosuje większość banków internetowych, usługa poczty Gmail, Facebook, Apple, platformy gier (Battle.net) i wiele innych. Powszechnie dostępne są interfejsy programistyczne do jednorazowych haseł przesyłanych za pomocą SMS, tokeny sprzętowe, jak i programowe generatory haseł TOTP (Time-based One-Time Password Algorithm) np. Google Authenticator.
+* sprzętowego tokenu istniejącego w jednym, unikatowym egzemplarzu, więc jego użycie wymaga fizycznego dostępu lub kradzieży, która zostanie zauważona (cecha coś co masz),
+* jednorazowych kodów generowanych programowo (TOTP), a także przesłanych z użyciem alternatywnego kanału komunikacji (SMS, połączenia, e-mail).
+
+W ostatnich latach zauważalna jest popularność takich rozwiązań w powszechnych usługach internetowych. Obsługę dla wieloskładnikowego uwierzytelniania zapewnia usługa poczty Gmail i Outlook.com, serwisy społecznościowe Facebook i Google+, a nawet platformy gier Battle.net i Steam. Istnieją dedykowane strony internetowe, których celem jest popularyzacja takich rozwiąząń [#2fa_sites]_. Po pierwsze, poprzez promocję wśród konsumentów witryn internetowych, które wspierają bezpieczne formy uwierzytelniania. Po drugie, ma wywierać presję na dostawców usług internetowych, aby wdrożyli oni w optymalny sposób bezpieczne formy uwierzytelniania.
+
+W Polsce dostępność takich rozwiązań rośnie. Analiza witryny Dwa-Skladniki.pl wskazuje, że żaden krajowy dostawa usług pocztowych nie oferuje takich form uwierzytelniania. Ani Interia, ani O2.pl, ani WP.pl, ani Onet.pl nie oferują takich rozwiązań. Zainteresowane osoby zmuszone są do korzystania z usług w/w zagranicznych gigantów. Natomiast spośród firm hostingowych jakąkolwiek formę dwuskładnikowego uwierzytelniania zapewnia wyłącznie MyDevil.net. Jeżeli chce się mieć bezpieczny hosting w Polsce – należy samemu nim zarządzać. Wówczas można skorzystać z usług OVH lub e24cloud [#2fa_analiza_pl]_. 
 
 Warto zwrócić uwagę, że standardy regulacyjne dotyczące dostępu do systemów rządu federalnego USA wymagają nawet używania uwierzytelniania wieloskładnikowego, aby uzyskać dostęp do krytycznych zasobów IT, na przykład podczas logowania do urządzeń sieciowych podczas wykonywania zadań administracyjnych oraz przy dostępie do uprzywilejowanego konta. Również publikacja „The Critical Security Controls for Effective Cyber Defense”, wydana przez instytut SANS, przygotowana przez rządowe agencje i komercyjnych ekspertów śledczych i d/s bezpieczeństwa stanowczo zaleca wykorzystanie takich rozwiązań [#f2]_.
 
@@ -302,3 +310,5 @@ Warto zwrócić uwagę, że standardy regulacyjne dotyczące dostępu do system�
 .. [#u2f_firefox_bug] Bug 1065729 - Implement the FIDO Alliance u2f javascript API, Mozilla Bugzilla, https://bugzilla.mozilla.org/show_bug.cgi?id=1065729 (online: 4 luty 2017 roku)
 
 .. [#u2f_firefox_support] Jcjones, Security/CryptoEngineering, Mozilla Wiki, https://wiki.mozilla.org/index.php?title=Security/CryptoEngineering&oldid=1159535 (dostęp 4 luty 2017 roku)
+
+.. [#2fa_analiza_pl] Analiza została przeprowadzona w dniu 4 lutego 2017 roku poprzez przegląd całości treści opublikowanych na stronie Dwa-Skladniki.pl
