@@ -4,7 +4,7 @@
    contain the root `toctree` directive.
 
 Model i implementacja systemu centralnego uwierzytelniania
-=========================================================
+==========================================================
 
 .. _toc_introduction:
 
