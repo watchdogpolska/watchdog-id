@@ -13,9 +13,9 @@ Model i implementacja systemu centralnego uwierzytelniania
    :maxdepth: 3
 
    sections/introduction
+   sections/authentication
    sections/integration
    sections/law
-   sections/authentication
    sections/requirements
    sections/technology
    sections/architecture
