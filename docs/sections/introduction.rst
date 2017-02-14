@@ -6,11 +6,11 @@
 Wstęp
 *******************************
 
-Często w obrębie jednej instytucje funkcje wiele niezależnych aplikacji sieciowych. Każda z nich posiada własne mechanizmy identyfikacji i uwierzytelniania użytkowników, które są oparte na hasło. 
+Często w obrębie jednej instytucji funkcjonuje wiele niezależnych aplikacji sieciowych. Każda z nich posiada własne mechanizmy identyfikacji i uwierzytelniania użytkowników, które są oparte na systemie haseł.
 
-Aby zagwarantować bezpieczne uwierzytelnianie w dużej liczbie niezależnych systemów warto ten proces przenieść do dedykowanego funkcjonalnego, wysoce dostępnego systemu komputerowego, który będzie gwarantować jednolity, wysoki poziom bezpieczeństwa, a także zagwarantuje możliwość skutecznych audytów bezpieczeństwa, wczesnego wykrywania nadużyć i odpowiedzi na nowe oczekiwania w zakresie nowoczesnych form uwierzytelniania, w tym uwierzytelniania wieloskładnikowego.
+Aby zagwarantować bezpieczne uwierzytelnianie w dużej liczbie niezależnych systemów, warto ten proces przenieść do dedykowanego, funkcjonalnego, wysoce dostępnego systemu komputerowego, który będzie gwarantować jednolity, wysoki poziom bezpieczeństwa, a także zagwarantuje możliwość skutecznych audytów bezpieczeństwa, wczesnego wykrywania nadużyć i odpowiedzi na nowe oczekiwania w zakresie nowoczesnych form uwierzytelniania, w tym uwierzytelniania wieloskładnikowego.
 
-Ponieważ nie został zidentyfikowany dedykowany otwartoźródłowy system, który mógłby zostać wdrożony w organizacji pojawiła się potrzeba stworzenia własnego systemu, który będzie wspomagać inne aplikacje w procesie rejestracji i uwierzytelniania użytkowników stanowiąc dedykowany *Identify Provider* zapewniając mechanizm *Single sign-on*.
+Brak odpowiedniego, dedykowanego otwartoźródłowego systemu, który mógłby zostać wdrożony w organizacji, spowodował potrzebę stworzenia własnego, który będzie wspomagać inne aplikacje w procesie rejestracji i uwierzytelniania użytkowników, stanowiąc dedykowany *Identify Provider* zapewniając mechanizm *Single sign-on*.
 
 .. _target:
 
