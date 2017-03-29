@@ -32,10 +32,11 @@ Aplikacje zakładające interakcję z użytkownikiem wymagają przeprowadzenia l
 
 Proces ten przeprowadzony łącznie jest nazywany logowaniem. Każdy z tych etapów może być przeprowadzony w odmienny sposób w zależności od wymogów systemu komputerowego. Najpopularniejszą formą identyfikacji i uwierzytelniania użytkowników w systemach komputerowych jest wykorzystanie nazwa użytkownika (ang. `login`) i hasła [#citation_needed]_ . Jednak tradycyjne podejście nie jest wystarczająco bezpieczne w dzisiejszym świecie, w którym co dzień zdarzają się ataki szkodliwego oprogramowania i inne formy kradzieży haseł wykazujące słabość tego mechanizmu.
 
+
 Wygoda użytkowania a bezpieczeństwo
 ===================================
 
-Największym wyzwaniem w projektowaniu procesu logowania w systemach komputerowych pracujących w sieci Internet wydaje się stanowić uwierzytelnianie. Musi ono zapewnić adekwatny do charakteru systemu komputerowy poziom bezpieczeństwa systemu komputerowego przy zachowaniu użyteczność (ang. `usability`) akceptowalnej przez użytkownaia. Twie te wartości pozostają niezwykle często w napięciu.
+Największym wyzwaniem w projektowaniu procesu logowania w systemach komputerowych pracujących w sieci Internet wydaje się stanowić uwierzytelnianie. Musi ono zapewnić adekwatny do charakteru systemu komputerowy poziom bezpieczeństwa systemu komputerowego przy zachowaniu użyteczność (ang. `usability`) akceptowalnej przez użytkownaia. Dwie te wartości pozostają niezwykle często w napięciu.
 
 Jeśli mechanizmy bezpieczeństwa są zbyt skomplikowane w obsłudze, użytkownicy często wybierają, aby nie używać ich w ogóle, albo poszukują metod na ich obejście.
 
@@ -92,7 +93,7 @@ W związku z ograniczonym bezpieczeństwem tej formy uwierzytelniania wdrażane 
 Funkcje skrótu
 ^^^^^^^^^^^^^^
 
-Wartm odnotowania mechanizmem na poziomie technicznym jest tzw. *hashowanie* haseł. Polega ono na ograniczeniu dostępności w systemie komputerowmy hasła w postaci jawnej poprzez zapisanie wyłącznie danych stanowiących wynik jednokierunkowej funkcji skrótu kryptograficznego tzw. `hash`. Bezpieczne funkcje hashujące h(x) = hash są funkcjami hashującymi z następującymi właściwościami [#sekurak_kompedium1]_:
+Wartm odnotowania mechanizmem usprawnienia mechanizmu uwierzytelniania z wykorzystaniem współdzielonego sekretu o charakterze technicznym jest tzw. *hashowanie* haseł. Polega ono na ograniczeniu dostępności w systemie komputerowmy hasła w postaci jawnej poprzez zapisanie wyłącznie danych stanowiących wynik jednokierunkowej funkcji skrótu kryptograficznego tzw. `hash`. Bezpieczne funkcje hashujące h(x) = hash są funkcjami hashującymi z następującymi właściwościami [#sekurak_kompedium1]_:
 
 * jednokierunkowość – na podstawie wyjścia funkcji (hash) nie możemy w żaden sposób określić wejścia (x),
 * duża zmienność wyjścia – efekt lawinowy objawiający się w dużej różnicy wyjść (hash1, hash2) wygenerowanych nawet przez bardzo podobne wejścia (x1, x2),
@@ -118,14 +119,14 @@ W przypadku zastosowania takiego rozwiązania proces uwierzytelniania polega na 
 
 Dzięki wykorzystaniu funkcji skrótu zostało ograniczone ryzyko, że po włamaniu do bazy danych użytkownik będzie od razu zagrożony [#f_dropbox]_. Wykorzystanie takich danych wymaga odnalezienie słabości funkcji hashującej np. kolizji, co zazwyczaj wymaga zaangażowania znacznych mocy obliczeniowych. W wielu wypadkach zastosowanie funkcji skrótu zwiększa zasoby wymaganie do wykorzystania danych, ale tego nie uniemożliwia. Może to jednak być wystarczające, aby zneutralizować zagrożenie.
 
-Projektowane są dedykowane algorytmy funkcji skrótu kryptograficznego, które przeznaczeniem jest hashowania haseł statycznych, a nie dowolnych danych binarnych. Określane są one mianem PKF (ang. `key derivation function`). Do najbardziej znaczących należą PBKDF2, bcrypt i scrypt. Oferują one m. in. mechanizm `key stretching` stanowiącą konfigurowalną wartość wpływającą na złożoność obliczeniową funkcji zapewniając opór dla prawa Moore’a, a także elastyczność wobec ataków wymyślonym w przyszłości (future-proof).
+Projektowane są dedykowane algorytmy funkcji skrótu kryptograficznego, które przeznaczeniem jest hashowania haseł statycznych, a nie dowolnych danych binarnych. Określane są one mianem PKF (ang. `key derivation function`). Do najbardziej znaczących należą PBKDF2, bcrypt i scrypt. Oferują one m. in. mechanizm `key stretching` stanowiącą konfigurowalną wartość wpływającą na złożoność obliczeniową funkcji zapewniając opór dla prawa Moore’a, a także elastyczność wobec ataków wymyślonym w przyszłości (future-proof)[#citation_needed]_.
 
 .. _challenge_response:
 
 Uwierzytelnienie wyzwanie-odpowiedź
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Hasło musi stanowić sekret znany wyłącznie przez użytkownika i system komputerowy, a więc zagrożeniem dla uwierzytelniania hasłem jest również przesyłanie go w postaci jawnej poprzez sieć. W celu ograniczenia tego zagrożenia wykorzystywane są odpowiednie mechanizmy. Warto w tym miejscu zwrócić uwagę na grupę algorytmów wyzwanie-odpowiedź, które zapewniają ochronę przed prostym podsłuchaniem hasła podczas komunikacji sieciowej. Proces uwierzytelniania można wówczas przedstawić z wykorzystaniem następującego diagramu:
+Hasło musi stanowić sekret znany wyłącznie przez użytkownika i system komputerowy, a więc zagrożeniem dla uwierzytelniania hasłem jest m. in. przesyłanie go w postaci jawnej poprzez sieć. W celu ograniczenia tego zagrożenia wykorzystywane są odpowiednie mechanizmy. Warto w tym miejscu zwrócić uwagę na grupę algorytmów wyzwanie-odpowiedź, które zapewniają ochronę przed prostym podsłuchaniem hasła podczas komunikacji sieciowej. Proces uwierzytelniania można wówczas przedstawić z wykorzystaniem następującego diagramu:
 
 .. seqdiag::
    :desctable:
@@ -154,10 +155,12 @@ Hasło musi stanowić sekret znany wyłącznie przez użytkownika i system kompu
 
 Należy objaśnić, że sam mechanizm wyzwania ma na celu ochronę przed atakiem powtórzenia (ang. `replay attack` lub `playback attack`), który polega na skopiowaniu komunikatu i powtórki go do jednego lub większej liczby stron. Ochrona jest zapewniona, ponieważ w przypadku ponownej próby uwierzytelniania zostanie wykorzystanie inne wyzwanie (wartość X na diagramie), która lawinowo zmieni wartość kryptograficznej funkcji skrótu f(X,Z) (zob. `hashing`_ ).
 
-Zbliżony mechanizm stanowi podstawę dla uwierzytelniania z wykorzystaniem kryptografii asymetrycznej.
+Zbliżony mechanizm stanowi podstawę dla uwierzytelniania z wykorzystaniem kryptografii asymetrycznej, gdzie wyzwaniem jest opatrzenie zadanej wiadomości kluczem prywatnym, co - po zweryfikowaniu z wykorzystaniem klucza publicznego - pozwala na potwierdzenie tożsamości.
 
 Phishing
 ^^^^^^^^
+
+Phishing to forma ataku internetowego, które stanowi istotne zagrożenie dla procesu uwierzytelniania z wykorzystaniem współdzielonego sekretu. Polega ona na . 
 
 .. todo::
 
@@ -196,6 +199,14 @@ Podobne wątpliwości co do skuteczności polityki zmiany haseł wyrażono w bad
 Sytuacja ta oznacza, że nie można wprowadzić generalnej reguły, która uzasadniałaby określoną politykę haseł, wymaga to każdorazowo indywidualnej analizy z strony administratora systemu komputerowego.
 
 Powyższa analiza pokazuje tylko niektóre z słabości uwierzytelniania z wykorzystaniem haseł i uzasadnia konieczność poszukiwania bezpieczniejszych form uwierzytelniania w celu zrealizowania współcześnie procesu uwierzytelniania na adekwatnym poziomie. Utrata poufności haseł - związana zarówno z atakimi po stronie użytkownika i serwera, a także procesu samej komunikacji - stanowią codzienność.
+
+Hasło jednorazowe
+-----------------
+
+.. todo::
+
+  Przedstawić koncepcje i protokół uwierzytelniania z użyciem kodów jednorazowych, model Amazonu, model Authy Onecode, Authy softtoken
+
 
 Kryptografia asymetryczna
 -------------------------
@@ -260,6 +271,12 @@ Istotne jest jedynie zagwarantowanie integralności bazy uprawnionych kluczy, gd
 .. todo::
 
     Trusted Platform Module - przeanalizować znaczenie dla przechowywania kluczy publicznych
+
+Zalety i ograniczenia smartcards
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+.. todo::
+
     Karty chipowe z kluczami kryptograficznymi
 
 Universal 2nd Factor
@@ -271,7 +288,7 @@ W ostatnim czasie rosnącą popularność zyskuje otwarty standard `Universal 2n
 
 Standard ten został początkowo zaprojektowany przez firmę Google, lecz teraz jest zarządzany przez FIDO (Fast Identity Online) Alliance. Członkami FIDO Alliance są także m. in. Microsoft, Mastercard, Visa, PayPal, Discover, Samsung i BlackBerry [#yubico_pcworld]_.
 
-Standard ten został wdrożony przez czołowych dostawców usług sieciowych, a jego popularność rośnie. Google ogłosiło jego obsługę w październiku 2014 roku [#u2f_google]_, w sierpniu 2015 roku Dropbox [#u2f_dropbox]_, w październiku 2015 roku GitHub [#u2f_github]_, w czerwcu 2016 roku BitBucket [#u2f_bitbucket]_,w lutym 2017 roku Facebook [#u2f_facebook]_. Można zatem przyjąć, że staje się fakycznie standardem.
+Standard ten został wdrożony przez czołowych dostawców usług sieciowych, a jego popularność rośnie. Google ogłosiło jego obsługę w październiku 2014 roku [#u2f_google]_, w sierpniu 2015 roku Dropbox [#u2f_dropbox]_, w październiku 2015 roku GitHub [#u2f_github]_, w czerwcu 2016 roku BitBucket [#u2f_bitbucket]_, w lutym 2017 roku Facebook [#u2f_facebook]_. Można zatem przyjąć, że staje się fakycznie standardem.
 
 Dostępne są liczne urządzenia o niewygórowanych cenach. Koszt indywidualnej sztuki wynosi około 70 zł [#yubico_cena]_. Samodzielny montaż pozwala skonstruowanie urządzenia w cenie poniżej 25 zł / sztuka.
 
@@ -281,13 +298,8 @@ Dostępne są liczne urządzenia o niewygórowanych cenach. Koszt indywidualnej 
 
 Zapewniona jest także odpowiednia obsługa z strony popularnych przeglądarek internetowych - Google Chrome w wersjach 38 i Opera od wersji 40 domyślnie. Natomiast Firefox wymaga dedykowanej wtyczki [#u2f_firefox_bug]_, a wbudowana obsługa jest zaplanowana na 1 kwartał 2017 roku [#u2f_firefox_support]_.
 
-Hasło jednorazowe
------------------
+Nie ukrywanym ograniczeniem tego mechanizmu jest - fakt 
 
-
-.. todo::
-
-  Przedstawić koncepcje i protokół uwierzytelniania z użyciem kodów jednorazowych, model Amazonu, model Authy Onecode, Authy softtoken
 
 Zewnętrzne potwierdzenie
 ------------------------
@@ -300,6 +312,10 @@ Zewnętrzne potwierdzenie
 
 Dwuskładnikowe uwierzytelnienie
 -------------------------------
+
+.. todo::
+
+    Opisać różne czynniki. Podkreślić słabość SMS-ów - https://www.iansresearch.com/insights/blog/blog-insights/2016/07/28/sending-out-sms-nist-recommends-shifting-to-alternative-2fa-methods
 
 W nowoczesnych systemach komputerowych przed uzyskaniem dostępu często stosuje się uwierzytelniani wieloskładnikowe (*multi-factor authentication*), w szczególności dwuskładnikowe (*two-factor authentication*), czyli łączące dwie różne metody uwierzytelniania.
 
