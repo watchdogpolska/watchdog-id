@@ -16,6 +16,8 @@ W tym rozdziale zostaną także przedstawine doświadczenia autora uzyskane w ra
     * wyjaśnić hasło "Bring Your Own Authentication (BYOA)""
     * https://sekurak.pl/kompendium-bezpieczenstwa-hasel-atak-i-obrona/
     * Materiały reklamowe Google - https://www.google.com/landing/2step/
+    * Karty chipowe z kluczami kryptograficznymi
+    * Trusted Platform Module - przeanalizować znaczenie dla przechowywania kluczy publicznych
 
 .. _Dwa-Skladniki.pl: https://dwa-skladniki.pl/
 
@@ -28,10 +30,10 @@ Aplikacje zakładające interakcję z użytkownikiem wymagają przeprowadzenia l
 
 * identyfikacji (ang. `identification`) użytkownika, czyli uzyskania od użytkownika deklaracji co do swojej tożsamości np. w postaci nazwy użytkownika, w sposób umożliwiający zidnetyfikowanie tożsamości użytkownika w danym środowisku,
 * uwierzytelnienia (ang. `authentication`) użytkownika, czyli dostarczenia dowodów, że użytkownik jest właśnie tą zidentyfikowaną osobą (nikt się nie podszywa), a dane uzyskane w etapie identyfikacji są autentyczne,
-* autoryzacji (ang. `authorization`), czyli przyznaniu przez system komputerowy dostępu do określonego zasobu.
+* autoryzacji (ang. `authorization`), czyli przyznaniu przez system komputerowy dostępu do określonego zasobu po pozytywnym uwierzytelnieniu lub potwierdzenie woli realizacji czynności w postaci elektronicznej przez uwierzytelnionego użytkownika za pomocą dodatkowych danych.
 
-Proces ten przeprowadzony łącznie jest nazywany logowaniem. Każdy z tych etapów może być przeprowadzony w odmienny sposób w zależności od wymogów systemu komputerowego. Najpopularniejszą formą identyfikacji i uwierzytelniania użytkowników w systemach komputerowych jest wykorzystanie nazwa użytkownika (ang. `login`) i hasła [#citation_needed]_ . Jednak tradycyjne podejście nie jest wystarczająco bezpieczne w dzisiejszym świecie, w którym co dzień zdarzają się ataki szkodliwego oprogramowania i inne formy kradzieży haseł wykazujące słabość tego mechanizmu.
-
+Proces ten przeprowadzony łącznie na potrzeby indywidualnej sesji jest nazywany logowaniem. Jednakże może być także wykorzystywany do dodatkowego potwierdzenia akcji o szczególnej wrażliwości np. zlecenie przelewu w systemach bankowych. Każdy z tych etapów może być przeprowadzony w odmienny sposób w zależności od wymogów systemu komputerowego.
+Najpopularniejszą formą identyfikacji i uwierzytelniania użytkowników w systemach komputerowych jest wykorzystanie nazwa użytkownika (ang. `login`) i hasła. Jednak tradycyjne podejście nie jest wystarczająco bezpieczne w dzisiejszym świecie, w którym co dzień zdarzają się ataki szkodliwego oprogramowania i inne formy kradzieży haseł wykazujące słabość tego mechanizmu.
 
 Wygoda użytkowania a bezpieczeństwo
 ===================================
@@ -40,7 +42,7 @@ Największym wyzwaniem w projektowaniu procesu logowania w systemach komputerowy
 
 Jeśli mechanizmy bezpieczeństwa są zbyt skomplikowane w obsłudze, użytkownicy często wybierają, aby nie używać ich w ogóle, albo poszukują metod na ich obejście.
 
-Przykładowo uwierzytelnienie z wykorzystaniem hasła wymaga współdzielonego pomiędzy użytkownikiem i systemem komputerowym sekretu. Dane te powinny zostać zapamiętane przez użytkownika w umyśle. Jednak nieprawidłowe wymogi odnośnie takiego sekretu skłaniają użytkowników do ich zapisywania narażając poufność sekretu (zob. :ref:`password_policy`). Wymaga to ostrożnego doboru sposobów (form) w jakich uwierzytelnianie ma przebiegać. Nieprawidłowy dobór, nawet mechanizmów, które technicznie zapewniają wyższy poziom bezpieczeństwa - ze względu na niezrozumienie użytkownika i nie stosowanie się do nich przez użytkowania (czynnik ludzki) - może paradoksalnie zwiększać zagrożenie dla danych osobowych.
+Przykładowo uwierzytelnienie z wykorzystaniem hasła wymaga współdzielonego pomiędzy użytkownikiem i systemem komputerowym sekretu. Dane te powinny zostać zapamiętane przez użytkownika w umyśle. Jednak nieprawidłowe wymogi odnośnie takiego sekretu skłaniają użytkowników do ich zapisywania narażając poufność sekretu (zob. :ref:`password_policy`). Wymaga to ostrożnego doboru sposobów (form) w jakich uwierzytelnianie ma przebiegać. Nieprawidłowy dobór, nawet mechanizmów, które technicznie zapewniają wyższy poziom bezpieczeństwa - ze względu na niezrozumienie użytkownika i nie stosowanie się do zasad bezpieczeństwa przez użytkowania (czynnik ludzki) - może paradoksalnie zwiększać zagrożenie dla systemu informatycznego.
 
 .. todo:: Rozbudować sekcje i bibliografie:
 
@@ -65,10 +67,10 @@ Współdzielony sekret
 
 W przypadku wielu systemów komputerowych do uwierzytelniania wykorzystywane jest wyłącznie współdzielony sekret potocznie określony hasłem. Jest to najpopularniejszą forma uwierzytelniania. Stanowi ona formę uwierzytelniania typu *coś co wiesz*.
 
-Ten proces uwierzytelniania wymaga wcześniejszego zindywidualizowanej dla każdego użytkownika inicjalizacji polegajacej na wymianie hasła pomiędzy użytkownikiem a systemem komputerowym. W zależności od decyzji projektanta systemu współdzielone hasło może zostać wygenerowane przez system komputerowy, albo być wprowadzane przez użytkownika. W przypadku dużej części aplikacji internetowych wymiana współdzielonego hasła ma miejsce podczas rejestracji. Powszechnie tworzone są dedykowane formularze służące do zmiany haseł i odzyskania zdolności do uwierzytelniania ("Przypomnij hasło").
-
-Proces wymianiy współdzielonego hasła wymaga, aby uprzednio użytkownik został uwierzytelniony w inny sposób.
-
+Ten proces uwierzytelniania wymaga wcześniejszego zindywidualizowanej dla każdego użytkownika inicjalizacji polegajacej na wymianie hasła (współdzielonego sekretu) pomiędzy użytkownikiem a systemem komputerowym. W zależności od decyzji projektanta systemu współdzielone hasło może zostać wygenerowane przez system komputerowy, albo być wprowadzane przez użytkownika. 
+W przypadku dużej części aplikacji internetowych wymiana współdzielonego hasła ma miejsce podczas rejestracji. Jednocześnie powszechnie tworzone są dedykowane formularze służące do zmiany haseł i odzyskania zdolności do uwierzytelniania ("Przypomnij hasło").
+Proces wymianiy współdzielonego hasła wymaga, aby uprzednio użytkownik został zidentyfikowany w inny sposób, jeżeli uwierzytelnianie ma odwoływać się do innych tożsamości.
+Podstawowym warunkiem bezpieczeństwa tej formy uwierzytelniania jest zachowanie w poufności współdzielonego sekretu.
 W przypadku wykorzystania wyłącznie tej formy uwierzytelnianie polega ona na wprowadzeniu hasła użytkownika i wymiany komunikatów zgodnie z przedstawionym schematem:
 
 .. seqdiag::
@@ -160,11 +162,15 @@ Zbliżony mechanizm stanowi podstawę dla uwierzytelniania z wykorzystaniem kryp
 Phishing
 ^^^^^^^^
 
-Phishing to forma ataku internetowego, które stanowi istotne zagrożenie dla procesu uwierzytelniania z wykorzystaniem współdzielonego sekretu. Polega ona na . 
+Phishing to forma ataku internetowego, który stanowi istotne zagrożenie dla procesu uwierzytelniania z wykorzystaniem współdzielonego sekretu. 
 
-.. todo::
+Atak ten polega na nakłonieniu użytkownia do wprowadzenia osobistych danych na fałszywej stronie. Do nakłonienia do chodzi na skutek zastosowania przez agresora różnorodnych metod socjotechnicznych. Jedną z częstszych jest przesłanie wiadomość, która próbuje zachęcić odbiorcę, aby z określonego powodu niezwłocznie zaktualizował swoje poufne informacje, bo w przeciwnym razie dotkną go niekorzystne konsekwencje. Taka wiadomość zazwyczaj zawiera odnośnik, który stanowi odwołanie do fałszywej strony internetowej, która złudnie przypomina swój oryginał, a której celem jest rejestracja osobistycny danych ofiary.
 
-    Przedstawić zagrożenia płynące z phishingu. Przedstawić, że problemem jest czynnik ludzki. Wskazać na statystyki.
+Ataki phishingowe mogą obejmować liczne metody, które mają na celu zwiększenie swojej skuteczności poprzez zmniejszenie prawdopodobieństwa zorientowania się co do fałszywości wiadomości lub strony internetowej. Przykładowo typosquatting, homoglyph, punycode, bitsquatting, Right-to-Left override [#sekurak_phishing]_. Wykorzystywane są także certyfikaty SSL dla uwiarygodnienia fałszywych stron, w szczególności wobec zwiększonej dostępności bezpłatnych certyfikatów [#bleepingcomputer_letsencrypt]_.
+
+Ochrona przed atakami tego rodzaju przede wszystkim polega na budowaniu świadomości użytkownika odnośnie posługiwania się poufnymi wiadomościami, uwierzytelnianiu komunikacji poczty elektronicznej i innych komunikatów technicznych [#citation_needed]_.
+
+W przypadku masowych kampanii istotnym zabezpieczeniem są mechanizmy czarnych list [#mozilla_phishing]_ . Jednakże skuteczność rozwiązań wbudowanych w konkretne przeglądarki jest zróżnicowana. Z pewnością isotnym wyzwaniem w tym zakresie jest fakt, że prawie 20 % stron phishingowych istnieje tylko 3 godziny, a większość nie jest dostępna już po dwóch dniach [#cyren_phishing]_.
 
 Inne środki techniczne wzmocnienia uwierzytelniania hasłem
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -175,13 +181,11 @@ Należy w tym miejscu zwrócić także uwagę na presje płynącą z strony twó
 
 Należy zaznaczyć, że szyfrowanie komunikacji klient-serwer nie zabezpiecza przed przypadkami, gdy hasło zostanie podsłuchane pomiedzy użytkownikiem, a przeglądarką np. na skutek wykorzystania `keyloggerów` lub innego złośliwego oprogramowania pracujące na komputerze użytkownika.
 
-Zagrożeniem dla tego mechanizmu jest również celowo wywołane błędne przeświadcze co do tożsamości strony, które jest wykorzystywane podczas ataków typu "phishing". Zabezpieczenie hasła przed tym wymaga podejmowania znacznych nakładów na zabezpieczenie urządzeń użytkownika, a także edukacji użytkowników.
-
-W aspekcie technicznym podejmowane są działania, które mogą ograniczyć skuteczność keyloggerów. Należą w tym zakresie m. in. hasła maskowane, które polegają na oczekiwaniu od użytkownika jednorazowo tylko wybranych znaków z hasła i z każdą zmianą zmienianie tego zestawu znaków. W takiej sytuacji nie jest wystarczające jednorazowe podsłuchanie wprowadzonych danych, gdyż podczas kolejnego uwierzytelniania wymagane będzie inny zestaw znaków.
+W aspekcie technicznym podejmowane są działania, które mogą ograniczyć skuteczność keyloggerów. Należą w tym zakresie m. in. hasła maskowane, które polegają na oczekiwaniu od użytkownika jednorazowo tylko wybranych znaków z hasła i z każdą zmianą zmienianie tego zestawu znaków. W takiej sytuacji nie jest wystarczające jednorazowe podsłuchanie wprowadzonych danych, gdyż podczas kolejnego uwierzytelniania wymagane będzie inny zestaw znaków. Taki mechanizm został wdrożony w usługach T-Mobile Usługi-bankowe, co zostało zaprezentowane na poniższym diagramie:
 
 .. figure:: ../img/authentication/masked-password.png
 
-    Przykładowy ekran uwierzytelniania z wykorzystaniem hasła maskowanego (T-Mobile Usługi bankowe, styczeń 2016 roku) (opr. własne)
+    Przykładowy ekran uwierzytelniania z wykorzystaniem hasła maskowanego (T-Mobile Usługi bankowe, styczeń 2017 roku) (opr. własne)
 
 .. _password_policy:
 
@@ -196,17 +200,55 @@ Odnośnie schematycznych haseł warto w tym miejscu dostrzec uwagi Lorrie Cranor
 
 Podobne wątpliwości co do skuteczności polityki zmiany haseł wyrażono w badaniach tego problemu przeprowadzonych na Carleton University [#f9]_ . Dostrzeżono w nich, że w przypadku wielu ataków jednorazowy dostęp do systemu umożliwia natychmiastowe pozyskanie plików docelowych, założenie tylnych drzwi, zainstalowanie  oprogramowania typu keylogger lub innego trwałego, złośliwego oprogramowania, które późniejsze zmiany hasła uczyni nieskutecznymi. Autorzy nawet stawiają tezę, że prawdziwe korzyści z wymuszania zmiany haseł nie rekompensują związanych z tym uciążliwości.
 
-Sytuacja ta oznacza, że nie można wprowadzić generalnej reguły, która uzasadniałaby określoną politykę haseł, wymaga to każdorazowo indywidualnej analizy z strony administratora systemu komputerowego.
+Sytuacja ta oznacza, że nie można wprowadzić generalnej reguły, która uzasadniałaby określoną politykę haseł, wymaga to każdorazowo indywidualnej analizy ze strony administratora systemu komputerowego.
 
 Powyższa analiza pokazuje tylko niektóre z słabości uwierzytelniania z wykorzystaniem haseł i uzasadnia konieczność poszukiwania bezpieczniejszych form uwierzytelniania w celu zrealizowania współcześnie procesu uwierzytelniania na adekwatnym poziomie. Utrata poufności haseł - związana zarówno z atakimi po stronie użytkownika i serwera, a także procesu samej komunikacji - stanowią codzienność.
 
-Hasło jednorazowe
------------------
+Uwierzytelnienie odrębnym kanałem
+---------------------------------
 
-.. todo::
+Uwierzytelnianie może także opierać się na wykorzystaniu odrębnego kanału, co opiera się wówczas na uwierzytelnianiu typu *coś co masz*, gdyż weryfikowany jest wówczas dostęp do alternatywnego kanału komunikacji. Forma ta obejmuje przede wszystkim sytuacje jednorazowych haseł wymagających wprowadzenia w celu uwierzytelniania operacji na stronie internetowych przekazanych z wykorzystaniem kodów SMS, lecz możliwe jest także wykorzystanie połączeń telefonicznych, a także autoryzacji operacji bezpośrednio za pomocą odrębnego kanału komunikacji.
 
-  Przedstawić koncepcje i protokół uwierzytelniania z użyciem kodów jednorazowych, model Amazonu, model Authy Onecode, Authy softtoken
+Istnieją zróżnicowane warianty tej formy uwierzytelniania, jednak podstawą cechą wyróżniającą cechą jest zaistnienie komunikacji odrębnym kanałem. Przykładowo w systemie ePUAP uwierzytelnianie polega na przesłaniu hasła z wykorzystaniem kodu SMS, a następnie oczekiwaniu na wprowadzenie go na stronie internetowej [#epuap_sms]_. Natomiast Amazon AWS - co ustalono poprzez badanie w realnym środowisku - realizuje uwierzytelnianie, gdzie użytkownikowi w przeglądarce prezentowany jest kod, który ma wprowadzić podczas automatycznie wyzwolonego połączenia telefonicznego przychodzącego do użytkownika. Odwrotnie postępuje Google, które jako jedną formę uwierzytelniania przewiduje połączenie telefoniczne w trakcie którego użytkownikowi odczytywany jest przez lektora kod, który użytkownik ma wprowadzić na stronie internetowej [#google_call]_. Tymczasem mBank wykorzystuje powiadomienia push w aplikacji mobilnej, które odnoszą się do autoryzacji indywidualnej operacji i nie wymagane jest przepisanie dodaotkowych kodów [#mbank]_. 
 
+Proces uwierzytelniania z wykorzystaniem haseł jednorazowych przekazanych za pomocą komunikacji SMS można przedstawić z wykorzystaniem następującego diagramu:
+
+.. seqdiag::
+   :desctable:
+   :caption: Uwierzytelnianie z wykorzystaniem mechanizmu haseł jednorazowych
+
+   seqdiag {
+      U; C; S; D;
+      C -> S [label="żadanie uwierzytelniania"];
+      S -> S [label="wygenerowanie losowego kodu"];
+      S -> O [label="przekazanie losowego kodu"];
+      O -> P [label="dostarczenie wiadomośći z kodem"];
+      P -> U [label="odczytanie kodu"];
+      U -> C [label="przepisanie kodu"]
+      C -> S [label="przesłanie kodu w formularzu"];
+      S -> S [label="porównanie kodów"];
+      S -> C [label="przekazanie wyniku weryfikacji"];
+      C -> U [label="komunikat o weryfikacji"];
+      U [description = "użytkownik"];
+      C [description = "klient"]
+      S [description = "serwer"];
+      O [description = "operator GSM"];
+      P [description = "telefon komórkowy"];
+   }
+
+Podstawowym warunkiem bezpieczeństwa tej formy uwierzytelniania jest brak nieautoryzowanego dostępu do alternatywnego kanału komunikacji. Kluczowym zatem jest dobór takiego kanału komunikacji, który będzie zapewniał odporność systemu na ingerencje agresora. Istnieją udokumentowane ataki odnoszące się do tej formy uwierzytelniania w przypadku np. wykorzystania komunikacji GSM. 
+
+Zagrożenie istnieje ze strony protokołu GSM. Należy dostrzec, że były one projektowane z uwzględnieniem ograniczonego bezpieczeństwa, ze względu na wymogi państw i nie był projektowany z przeznaczeniem wykorzystania ich do uwierzytelniania. Istnieją udokumentowane ataki obejmujące zdalne przejęcie komunikacji obranego telefonu komórkowego [#gsm_attack]_. 
+
+Możliwe jest zagrożenie z powodu słabości organizacyjnych operatora GSM. Naciski socjotechniczne na operatorów, błąd w logice biznesowej operatorów np. podczas odzyskiwania karty, zlecenie przekierowania usług, czy nacisków rządów na operatorów GSM mogą prowadzić do ujawnienia kodu za pośrednictwem samego operatora GSM. Przykładowo w przypadku ataku UGNazi vs. Cloudflare w 2012 nadużyto usługę poczty głosowej[#ugnazi_cloudflare]_, w ataku na @Deray z 2016 roku nakłoniono operatora do przekierowania wiadomości [#derey_verizon]_. Natomiast w ataku na uwierzytelnianie usługi Telegram przeprowadzonym w 2016 roku sugeruje się uległość operatora wobec rządu [#telegram_russia]_. W 2016 roku operator Play w Polsce uruchomił usługę TelePlay. Umożliwiała ona odbiór połączeń i wiadomosći SMS z wykorzystaniem strony internetowej. Słabość form uwierzytelniania portalu internetowego została wykorzystania do wykradania kodów jednorazowych do innych usług [#play_teleplay]_. 
+
+Możliwe jest także zagrożenie ze strony samego użytkownika. Na smatfony powstały i są aktywnie wykorzystywane aplikacje, których celem jest przejęcie jednorazowych kodów w celu narażenia uwierzytelniania systemów finansowych [#krebs_perkley]_.
+
+Ta forma uwierzytelniania nie wyklucza możliwości przeprowadzenia ataku phishingowego, gdyż przez cały proces strona phishingowa może pośredniczyć w komunikacji do pożądanej strony, aby pozyskać od niej odpowiednie identyfikatory sesji lub uzyskać fałszywą operacje autoryzacji[#sms_phishing]_. Dlatego podczas procesu uwierzytelnienie strony internetowej musi zostać przeprowadzone w inny sposób.
+
+Nie można też pominąć, że w maju 2016 roku NIST opublikował wytyczne zalecające wygaszenie wykorzystania SMS jako czynnik uwierzytelniania [#NIST_authentication]_. Oznacza to, że przyszłe systemy informatyczne administracji federalnej Stanów Zjednoczonej mogą zostać zmuszone do rezygnacji z tego kanału uwierzytelniania.
+
+Należy wskazać, że uwierzytelnianie z wykorzystaniem kodu SMS lub połączenia telefonicznego może stanowić ingerencje w prywatność użytkownika, gdyż wymagane jest ze strony użytkownika ujawnienie usłudze internetowej jego indywidualnego numeru telefonu. Praktycznie każdy może jednocześnei użytkować ograniczoną ilość numerów telefonu, zatem ten identyfikator identyfikuje użytkownika nie tylko w danej usłudze, ale także będzie współdzielony w innych usługach. Taka sytuacja może budzić opór niektórych użytkowników, a w niektórych społecznościach stanowić wręcz nieakceptowalną ingerencje w prywatnościach.  Taka forma nie występuje w pozostałych przedstawionych formach uwierzytelniania.
 
 Kryptografia asymetryczna
 -------------------------
@@ -260,7 +302,7 @@ Należy objaśnić, że przedstawiony identyfikator sesji (``session identifier`
       D [description = "baza danych"];
    }
 
-Klucz publiczny jest składowany często na komputerze użytkownika, co oznacza że ten sposób uwierzytelniania należy sklasyfikować jako oparty na "czymś co masz" (`authentication_form`_). Należy od razu jednak podkreślić, że często klucz prywatny jest przechowywany w formie cyfrowej i wymaga wprowadzenia hasła przed tym jak wygenerowanie podpisu cyfrowego stanie się możliwe.
+Klucz publiczny jest składowany często na komputerze użytkownika, co oznacza że ten sposób uwierzytelniania należy sklasyfikować jako oparty na "czymś co masz" (`authentication_form`_). Należy od razu jednak podkreślić, że klucz prywatny może przechowywany w formie zaszyfrowanej i wówczas wymagane jest wprowadzenia hasła przed tym jak wygenerowanie podpisu cyfrowego stanie się możliwe.
 
 Ta forma uwierzytelniania nie jest wrażliwa na sytuacje, gdy poufność klucza prywatnego użytkownika zostanie naruszona. Może to mieć miejsce w sytuacji ataku złoślwiego oprogramowania na komputer użytkownika. Niedostateczne w takim przypadku może okazać się szyfrowanie hasła, gdyż podczas próby użycia klucza hasło lub sam klucz może zostać przejęta przez złośliwe oprogramowanie z pamięci komputera.
 
@@ -268,45 +310,24 @@ Jest ona natomiast pozbawione zagrożenia, że użycie tych samych danych dostę
 
 Istotne jest jedynie zagwarantowanie integralności bazy uprawnionych kluczy, gdyż jego modyfikacja, w szczególności dopisanie kluczy obcych może prowadzić do obejścia zabezpieczeń.
 
-.. todo::
-
-    Trusted Platform Module - przeanalizować znaczenie dla przechowywania kluczy publicznych
-
-Zalety i ograniczenia smartcards
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-
-.. todo::
-
-    Karty chipowe z kluczami kryptograficznymi
-
 Universal 2nd Factor
 ^^^^^^^^^^^^^^^^^^^^
 
 Jedną z form ochrony kluczy prywatnych wykorzystywanych do uwierzytalniania przed atakim złośliwego oprogramowania może stanowić wykorzystanie do tego celu dedykowanych układów elektronicznych, które stanowić będą sprzętowe zabezpieczenie przed naruszeniem poufności zawartego w układzie klucza prywatnego. Wykorzystanie ich jednak wymaga odpowiedniego sprzętu, oprogramowania (sterowników), a w przypadku aplikacji działających w przeglądarce także wsparcie z strony przeglądarki internetowej.
 
-W ostatnim czasie rosnącą popularność zyskuje otwarty standard `Universal 2nd Factor` (U2F). Opisuje sposób komunikacji stron internetowych z dedykowanym tokenem (kluczem sprzętowych) podłączonym z wykorzystaniem powszechnie dostępnego w komputerach portu USB bez wykorzystania dodatkowych sterowników za pośrednictwem przeglądarki w celu przeprowadzenia procesu uwierzytelniania. Stanowi zatem kompleksowe rozwiązanie umożliwiające przechowywanie kluczy kryptograficznych w sprzętowym tokenie i wykorzystanie ich w aplikacjach działających w przeglądarce internetowej wymagających uwierzytelnienia.
+W ostatnim czasie rosnącą popularność zyskuje otwarty standard `Universal 2nd Factor` (U2F), który to realizuje. Opisuje sposób komunikacji stron internetowych z dedykowanym tokenem (kluczem sprzętowych) podłączonym z wykorzystaniem powszechnie dostępnego w komputerach portu USB bez wykorzystania dodatkowych sterowników za pośrednictwem przeglądarki w celu przeprowadzenia procesu uwierzytelniania. Stanowi zatem kompleksowe rozwiązanie umożliwiające przechowywanie kluczy kryptograficznych w sprzętowym tokenie i wykorzystanie ich w aplikacjach działających w przeglądarce internetowej wymagających uwierzytelnienia.
 
-Standard ten został początkowo zaprojektowany przez firmę Google, lecz teraz jest zarządzany przez FIDO (Fast Identity Online) Alliance. Członkami FIDO Alliance są także m. in. Microsoft, Mastercard, Visa, PayPal, Discover, Samsung i BlackBerry [#yubico_pcworld]_.
+Standard ten został zapoczątkowany przez firmę Google i jest teraz zarządzany przez FIDO (Fast Identity Online) Alliance. Członkami FIDO Alliance są także m. in. Microsoft, Mastercard, Visa, PayPal, Discover, Samsung i BlackBerry [#yubico_pcworld]_.
 
 Standard ten został wdrożony przez czołowych dostawców usług sieciowych, a jego popularność rośnie. Google ogłosiło jego obsługę w październiku 2014 roku [#u2f_google]_, w sierpniu 2015 roku Dropbox [#u2f_dropbox]_, w październiku 2015 roku GitHub [#u2f_github]_, w czerwcu 2016 roku BitBucket [#u2f_bitbucket]_, w lutym 2017 roku Facebook [#u2f_facebook]_. Można zatem przyjąć, że staje się fakycznie standardem.
 
-Dostępne są liczne urządzenia o niewygórowanych cenach. Koszt indywidualnej sztuki wynosi około 70 zł [#yubico_cena]_. Samodzielny montaż pozwala skonstruowanie urządzenia w cenie poniżej 25 zł / sztuka.
-
-.. todo::
-
-    Przedstawić wnioski i wyniki z projektu Koła Naukowego Programistów - http://www.wns.uph.edu.pl/strona-glowna/aktualnosci/656-zapowiedz-nowego-projektu-w-zakresie-bezpieczenstwa-komputerowego-kola-naukowego-programistow
+Dostępne są liczne urządzenia o niewygórowanych cenach. Koszt indywidualnej sztuki wynosi około 70 zł [#yubico_cena]_. Samodzielny montaż pozwala skonstruowanie urządzenia w cenie poniżej 25 zł / sztuka, co zostało zweryfikowane przez autora podczas samodzielnego montażu urządzenia[#u2f_uph]_. 
 
 Zapewniona jest także odpowiednia obsługa z strony popularnych przeglądarek internetowych - Google Chrome w wersjach 38 i Opera od wersji 40 domyślnie. Natomiast Firefox wymaga dedykowanej wtyczki [#u2f_firefox_bug]_, a wbudowana obsługa jest zaplanowana na 1 kwartał 2017 roku [#u2f_firefox_support]_.
 
-Nie ukrywanym ograniczeniem tego mechanizmu jest - fakt 
+Ta forma uwierzytelniania zapewnia odporność wobec ataku phishingowych, gdyż wykorzystany mechanizm wyzwanie-odpowiedź zabezpiecza przed wielokrotnym użyciem odpowiedzi (`replay attack`), a weryfikacja kluczy jest dokonywana przez przeglądarkę [#u2f_phishing]_. 
 
-
-Zewnętrzne potwierdzenie
-------------------------
-
-.. todo::
-
-  Przedstawić koncepcje i protokół uwierzytelniania z użyciem potwierdzenia zewnętrznego, model Authy onetouch, mBanku
+Wykorzystywanie uwierzytelniania z wykorzystaniem tokenu U2F może obecnie stanowić jednak wyzwanie ze względu na ograniczoną dostępność tokenów sprzętowych w Polsce. Przykładowo zapytanie o "U2F" w najpopularniejszej platformie aukcyjnej i e-commerce Allegro.pl nie zwróciło żadnych tokenów. A także podczas uwierzytelniania na urządzeniach mobilnych, gdzie rozwiązania i standardy komunikacji kształtują się.
 
 .. _2factor:
 
@@ -326,11 +347,34 @@ Najpopularniejszym rozwiązaniem jest - łacznie z hasłem - wykorzystanie m. in
 * sprzętowego tokenu istniejącego w jednym, unikatowym egzemplarzu, więc jego użycie wymaga fizycznego dostępu lub kradzieży, która zostanie zauważona (cecha coś co masz),
 * jednorazowych kodów generowanych programowo (TOTP), a także przesłanych z użyciem alternatywnego kanału komunikacji (SMS, połączenia, e-mail).
 
-W ostatnich latach zauważalna jest popularność takich rozwiązań w powszechnych usługach internetowych. Obsługę dla wieloskładnikowego uwierzytelniania zapewnia usługa poczty Gmail i Outlook.com, serwisy społecznościowe Facebook i Google+, a nawet platformy gier Battle.net i Steam. Istnieją dedykowane strony internetowe, których celem jest popularyzacja takich rozwiąząń - `TwoFactorAuth.info.org <http://TwoFactorAuth.info.org>`_  i `Dongleauth.info <https://Dongleauth.info>`_ . Po pierwsze, poprzez promocję wśród konsumentów witryn internetowych, które wspierają bezpieczne formy uwierzytelniania. Po drugie, ma wywierać presję na dostawców usług internetowych, aby wdrożyli oni w optymalny sposób bezpieczne formy uwierzytelniania.
+W ostatnich latach zauważalna jest popularność takich rozwiązań w powszechnych usługach internetowych. Obsługę dla wieloskładnikowego uwierzytelniania zapewnia usługa poczty Gmail i Outlook.com, serwisy społecznościowe Facebook i Google+, a nawet platformy gier Battle.net i Steam. Istnieją dedykowane strony internetowe, których celem jest popularyzacja takich rozwiąząń - `TwoFactorAuth.info.org <http://TwoFactorAuth.info.org>`_  i `Dongleauth.info <https://Dongleauth.info>`_ . Po pierwsze, poprzez promocję wśród konsumentów witryn internetowych, które wspierają bezpieczne formy uwierzytelniania. Po drugie, mają wywierać presję na dostawców usług internetowych, aby wdrożyli oni w optymalny sposób bezpieczne formy uwierzytelniania.
 
-W Polsce dostępność takich rozwiązań rośnie. Analiza witryny Dwa-Skladniki.pl wskazuje, że żaden krajowy dostawa usług pocztowych nie oferuje takich form uwierzytelniania. Ani Interia, ani O2.pl, ani WP.pl, ani Onet.pl nie oferują takich rozwiązań. Zainteresowane osoby zmuszone są do korzystania z usług w/w zagranicznych gigantów. Natomiast spośród firm hostingowych jakąkolwiek formę dwuskładnikowego uwierzytelniania zapewnia wyłącznie MyDevil.net. Jeżeli chce się mieć bezpieczny hosting w Polsce – należy samemu nim zarządzać. Wówczas można skorzystać z usług OVH lub e24cloud [#2fa_analiza_pl]_.
+W Polsce dostępność takich rozwiązań rośnie. Analiza witryny Dwa-Skladniki.pl przeprowadzona wskazuje, że żaden krajowy dostawa usług pocztowych nie oferuje takich form uwierzytelniania. Ani Interia, ani O2.pl, ani WP.pl, ani Onet.pl nie oferują takich rozwiązań. Zainteresowane osoby zmuszone są do korzystania z usług w/w zagranicznych gigantów. Natomiast spośród firm hostingowych jakąkolwiek formę dwuskładnikowego uwierzytelniania zapewnia wyłącznie MyDevil.net. Jeżeli chce się mieć bezpieczny hosting w Polsce – należy samemu nim zarządzać. Wówczas można skorzystać z usług OVH, Oktawave lub e24cloud [#2fa_analiza_pl]_.
 
-Warto zwrócić uwagę, że standardy regulacyjne dotyczące dostępu do systemów rządu federalnego USA wymagają nawet używania uwierzytelniania wieloskładnikowego, aby uzyskać dostęp do krytycznych zasobów IT, na przykład podczas logowania do urządzeń sieciowych podczas wykonywania zadań administracyjnych oraz przy dostępie do uprzywilejowanego konta. Również publikacja „The Critical Security Controls for Effective Cyber Defense”, wydana przez instytut SANS, przygotowana przez rządowe agencje i komercyjnych ekspertów śledczych i d/s bezpieczeństwa stanowczo zaleca wykorzystanie takich rozwiązań [#f2]_.
+Warto zwrócić uwagę, że standardy regulacyjne dotyczące dostępu do systemów rządu federalnego USA wymagają używania uwierzytelniania wieloskładnikowego, aby uzyskać dostęp do krytycznych zasobów IT, na przykład podczas logowania do urządzeń sieciowych podczas wykonywania zadań administracyjnych oraz przy dostępie do uprzywilejowanego konta. Również publikacja „The Critical Security Controls for Effective Cyber Defense”, wydana przez instytut SANS, przygotowana przez rządowe agencje i komercyjnych ekspertów śledczych i d/s bezpieczeństwa stanowczo zaleca wykorzystanie takich rozwiązań [#f2]_.
+
+Unia Europejskiej podejmuje działania na rzecz harmonizacji środków identyfikacji elektronicznej na potrzeby kontaktów z organami publicznymi w celu zapewnienie wzajemnego uznawania elektronicznej identyfikacji i uwierzytelniania[#rozp_EIDAS]_. Rozporządzenie wykonawcze Komisji (UE) 2015/1502 [#rozp_wykonawczce_EIDAS]_ określa minimalne specyfikacje techniczne oraz procedury identyfikacji elektronicznej i usług zaufania. W motywie 7 preambuły tego rozporządzenia wskazano, że należy "zachęcać do korzystania z większej liczby czynników uwierzytelniania, zwłaszcza należących do różnych kategorii, w celu zwiększenia bezpieczeństwa procesu uwierzytelniania". Natomiast dla określenia cech charakterystycznych i konstrukcji środków identyfikacji elektronicznej dla poziomu zaufania średniego sformułowano wymaganie "Środek identyfikacji elektronicznej wykorzystuje co najmniej dwa czynniki uwierzytelniania należące do różnych kategorii.".
+
+.. todo:: Zadać Ministerstwu Cyfryzacji pytanie czy i dlaczego uznaje, że kody SMS spełniają wymaganie: "Środek identyfikacji elektronicznej jest zaprojektowany w taki sposób, że można zakładać, iż jest on stosowany jedynie przez osobę, do której należy, lub pod jej kontrolą.".
+
+Inne formy uwierzytelniania
+---------------------------
+
+W niniejszym opracowaniu zostały pominięte formy opracowania, które nie cechują się dostateczną rozpoznawalnością w Polsce np. nie zostały wdrożone w żadnej powszechnej usłudze lub nie są adekwatne do sytuacji prawnej w Polsce np. brak otwartego państwowego dostawcy tożsamości lub nie są praktyczne do zastosowania w aplikacji webowej. 
+
+Dobór form uwierzytelniania adekwatny do ryzyka
+-----------------------------------------------
+
+Według Michał Piotrowskiego przeciętny proces szczegółowej analizy ryzyka bezpieczeństwa informacji oparty na metodzie kwalifikatywnej [#computerworld_analiza_ryzyka]_ składa się z sześciu podstawowych etapów:
+
+# identyfikacji i oceny zasobów
+# identyfikacji zagrożeń
+# identyfikacji istniejących zabezpieczeń
+# identyfikacji podatności
+# szacowania ryzyka
+# opracowania rekomendacji.
+
+
 
 
 .. rubric:: Footnotes
@@ -378,3 +422,41 @@ Warto zwrócić uwagę, że standardy regulacyjne dotyczące dostępu do system�
 .. [#u2f_firefox_support] Jcjones, Security/CryptoEngineering, Mozilla Wiki, https://wiki.mozilla.org/index.php?title=Security/CryptoEngineering&oldid=1159535 (dostęp 4 luty 2017 roku)
 
 .. [#2fa_analiza_pl] Analiza została przeprowadzona w dniu 4 lutego 2017 roku poprzez przegląd całości treści opublikowanych na stronie Dwa-Skladniki.pl
+
+.. [#sekurak_phishing] Artur Czyż, Nietypowe metody wykorzystywane w atakach phishingowych, Sekurak, 27 marca 2017 roku, https://sekurak.pl/nietypowe-metody-wykorzystywane-w-atakach-phishingowych/ (dostęp 29 marca 2017 roku)
+
+.. [#bleepingcomputer_letsencrypt] Catalin Cimpanu, 14,766 Let's Encrypt SSL Certificates Issued to PayPal Phishing Sites, bleepingcomputer.com, 24 marca 2017 roku, https://www.bleepingcomputer.com/news/security/14-766-lets-encrypt-ssl-certificates-issued-to-paypal-phishing-sites/ (dostęp 29 marca 2017 roku)
+
+.. [#mozilla_phishing] How does built-in Phishing and Malware Protection work?, Mozilla Support, https://support.mozilla.org/t5/Protect-your-privacy/How-does-built-in-Phishing-and-Malware-Protection-work/ta-p/9395 (dostęp 29 marca 2017 roku)
+
+.. [#cyren_phishing] Cyren, The Phishing Issue – A Deep Dive Into Today’s #1 Security Threat, sierpień 2016, s. 17, http://pages.cyren.com/rs/944-PGO-076/images/CYREN_2016Q3_Phishing_Threat_Report.pdf (dostęp 29 marca 2017 roku)
+
+.. [#google_call] Google, Google 2-Step Verification, online: https://www.google.com/intl/en-US/landing/2step/features.html (dostęp 17 czerwca 2017 roku)
+
+.. [#mbank] mBank, Mobilna autoryzacja, https://www.mbank.pl/indywidualny/uslugi/uslugi/mobilna-autoryzacja/ (dostęp 17 czerwca 2017 roku)
+
+.. [#epuap_sms] Rozporządzenie Ministra Cyfryzacji w sprawie profilu zaufanego elektronicznej platformy usług administracji publicznej, Dz.U. z 2016 r. poz. 1633
+
+.. [#gsm_attack] Mobile network security report: Poland, Security Research Labs, Berlin, February 2015, online: http://gsmmap.org/assets/pdfs/gsmmap.org-country_report-Poland-2015-02.pdf
+
+.. [#derey_verizon] Emily Dreyfuss, @Deray’s Twitter Hack Reminds Us Even Two-Factor Isn’t Enough, Wired, 6.10.2016, 
+
+.. [#telegram_russia] Frederic Jacobs, How Russia Works on Intercepting Messaging Apps, online: https://www.bellingcat.com/news/2016/04/30/russia-telegram-hack/, bellingcat 2016
+
+.. [#play_teleplay] Adam Haertle, Jak złodzieje okradali konta bankowe klientów sieci Play, ZaufanaTrzeciaStrona.pl, 8 marca 2016 roku, https://zaufanatrzeciastrona.pl/post/jak-zlodzieje-okradali-konta-bankowe-klientow-sieci-play/
+
+.. [#krebs_perkley] Brian Krebs, A Closer Look: Perkele Android Malware Kit, https://krebsonsecurity.com/2013/08/a-closer-look-perkele-android-malware-kit/, Krebs on Security Blog, 19 kwietnia 2013 roku, online: https://krebsonsecurity.com/2013/08/a-closer-look-perkele-android-malware-kit/
+
+.. [#u2f_phishing] tylerl, Reply to question "How secure are the FIDO U2F tokens", StackExchange.com, 27 października 2014, https://security.stackexchange.com/a/71704
+
+.. [#u2f_uph] Karol Breguła, Zapowiedź nowego projektu w zakresie bezpieczeństwa komputerowego Koła Naukowego Programistów, Wydział Nauk Ścisłych Uniwersytetu Przyrodniczo-Humanistycznego w Siedlcach, http://www.wns.uph.edu.pl/strona-glowna/aktualnosci/656-zapowiedz-nowego-projektu-w-zakresie-bezpieczenstwa-komputerowego-kola-naukowego-programistow
+
+.. [#rozp_EIDAS] Działanie te podejmowane są m. in. poprzez przyjęcie rozporządzenia Parlamentu Europejskiego i Rady (UE) nr 910/2014 z dnia 23 lipca 2014 r. w sprawie identyfikacji elektronicznej i usług zaufania w odniesieniu do transakcji elektronicznych na rynku wewnętrznym oraz uchylające dyrektywę 1999/93/WE.
+
+.. [#rozp_wykonawczce_EIDAS] Rozporządzenie wykonawcze Komisji (UE) 2015/1502 z dnia 8 września 2015 r. w sprawie ustanowienia minimalnych specyfikacji technicznych i procedur dotyczących poziomów zaufania w zakresie środków identyfikacji elektronicznej na podstawie art. 8 ust. 3 rozporządzenia Parlamentu Europejskiego i Rady (UE) nr 910/2014 w sprawie identyfikacji elektronicznej i usług zaufania w odniesieniu do transakcji elektronicznych na rynku wewnętrznym
+
+.. [#sms_phishing] Zulfikar Ramzan, Phishing and Two-Factor Authentication Revisited, Symantec Official Blog 17 maj 2007 roku, online: https://www.symantec.com/connect/blogs/phishing-and-two-factor-authentication-revisited
+
+.. [#NIST_authentication] Paul A. Grassi, Michael E. Garcia, James L. Fenton, DRAFT NIST Special Publication 800-63B Digital Authentication Guideline, National Institute of Standards and Technology, online: https://pages.nist.gov/800-63-3/sp800-63-3.html
+
+.. [#computerworld_analiza_ryzyka]  Michał Piotrowski, Zarządzanie ryzykiem bezpieczeństwa informacji w systemach TI, Computer World 23 czerwca 2006, online: http://www.computerworld.pl/news/Zarzadzanie-ryzykiem-bezpieczenstwa-informacji-w-systemach-TI,318160.html
