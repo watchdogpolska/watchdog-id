@@ -367,7 +367,7 @@ Unia Europejskiej podejmuje działania na rzecz harmonizacji środków identyfik
 Inne formy uwierzytelniania
 ---------------------------
 
-W niniejszym opracowaniu zostały pominięte formy opracowania, które nie cechują się dostateczną rozpoznawalnością w Polsce np. nie zostały wdrożone w żadnej powszechnej usłudze lub nie są adekwatne do sytuacji prawnej w Polsce np. brak otwartego państwowego dostawcy tożsamości lub nie są praktyczne do zastosowania w aplikacji webowej np. biometria. 
+W niniejszym opracowaniu zostały pominięte formy uwierzytelniania, które nie cechują się dostateczną rozpoznawalnością w Polsce np. nie zostały wdrożone w żadnej powszechnej usłudze lub nie są adekwatne do sytuacji prawnej w Polsce np. brak otwartego państwowego dostawcy tożsamości lub nie są praktyczne do zastosowania w aplikacji webowej np. biometria. 
 
 Dobór form uwierzytelniania adekwatny do ryzyka
 -----------------------------------------------
