@@ -47,7 +47,6 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     # custom users app
     'watchdog_id.main',
-    'watchdog_id.oauth_extend',
     'watchdog_id.news.apps.NewsConfig',
     'watchdog_id.users.apps.UsersConfig',
     # Your stuff: custom apps go here
