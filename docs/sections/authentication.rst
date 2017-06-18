@@ -253,7 +253,7 @@ Możliwe jest zagrożenie z powodu słabości organizacyjnych operatora GSM. Nac
 
 Możliwe jest także zagrożenie ze strony samego użytkownika. Na smatfony powstały i są aktywnie wykorzystywane aplikacje, których celem jest przejęcie jednorazowych kodów w celu narażenia uwierzytelniania systemów finansowych [#krebs_perkley]_.
 
-Ta forma uwierzytelniania nie wyklucza możliwości przeprowadzenia ataku phishingowego, gdyż przez cały proces strona phishingowa może pośredniczyć w komunikacji do pożądanej strony, aby pozyskać od niej odpowiednie identyfikatory sesji lub uzyskać fałszywą operacje autoryzacji[#sms_phishing]_. Dlatego podczas procesu uwierzytelnienie strony internetowej musi zostać przeprowadzone w inny sposób.
+Ta forma uwierzytelniania nie wyklucza możliwości przeprowadzenia ataku phishingowego, gdyż przez cały proces strona phishingowa może pośredniczyć w komunikacji do pożądanej strony, aby pozyskać od niej odpowiednie identyfikatory sesji lub uzyskać fałszywą operacje autoryzacji [#sms_phishing]_ . Dlatego podczas procesu uwierzytelnienie strony internetowej musi zostać przeprowadzone w inny sposób.
 
 Nie można też pominąć, że w maju 2016 roku NIST opublikował wytyczne zalecające wygaszenie wykorzystania SMS jako czynnik uwierzytelniania [#NIST_authentication]_. Oznacza to, że przyszłe systemy informatyczne administracji federalnej Stanów Zjednoczonej mogą zostać zmuszone do rezygnacji z tego kanału uwierzytelniania.
 
