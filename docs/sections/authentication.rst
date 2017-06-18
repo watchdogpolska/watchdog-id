@@ -204,6 +204,15 @@ Sytuacja ta oznacza, że nie można wprowadzić generalnej reguły, która uzasa
 
 Powyższa analiza pokazuje tylko niektóre z słabości uwierzytelniania z wykorzystaniem haseł i uzasadnia konieczność poszukiwania bezpieczniejszych form uwierzytelniania w celu zrealizowania współcześnie procesu uwierzytelniania na adekwatnym poziomie. Utrata poufności haseł - związana zarówno z atakimi po stronie użytkownika i serwera, a także procesu samej komunikacji - stanowią codzienność.
 
+Uwierzytelnianie z wykorzystaniem tokenów
+-----------------------------------------
+
+Jedną z popularniejszych form wdrożenia tokenów dwuskładnikowego uwierzytelniania są jednorazowe kody oparte na zdarzeniu bazujące na RFC4225 tzw. HOTP oraz oparte na czasie bazujące na RFC6238 tzw. TOTP. W generalnym ujęciu są one do siebie bardzo zbliżone. 
+
+Oba z tych algorytmów bazują na współdzielonym sekrecie, który złączony z licznikiem dla HOTP lub z TOTP aktualnym wskazaniem zegara poddawany jest odpowiedniej transformacji funkcji krytograficznej w celu uzyskania krótkoterminowego / jednorazowego tokenu. Operacja ta jest wykonywana przez obie strony procesu uwierzytelniania, co stanowi dowód, że podmiot podlegający uwierzytelnieniu jest w posiadaniu danych identyfikacyjnych lub dane te znajdują się pod jego kontrolą.
+
+Sekret o odpowiedniej sile jest generowany przez serwer i prezentowany z wykorzystaniem kodów QR, które są odczytywane przez użytkownika i w bezpieczny sposób przechowywane w aplikacjach takich jak Google Authenticator lub Authy [#citation_needed]_.
+
 Uwierzytelnienie odrębnym kanałem
 ---------------------------------
 
@@ -240,7 +249,7 @@ Podstawowym warunkiem bezpieczeństwa tej formy uwierzytelniania jest brak nieau
 
 Zagrożenie istnieje ze strony protokołu GSM. Należy dostrzec, że były one projektowane z uwzględnieniem ograniczonego bezpieczeństwa, ze względu na wymogi państw i nie był projektowany z przeznaczeniem wykorzystania ich do uwierzytelniania. Istnieją udokumentowane ataki obejmujące zdalne przejęcie komunikacji obranego telefonu komórkowego [#gsm_attack]_. 
 
-Możliwe jest zagrożenie z powodu słabości organizacyjnych operatora GSM. Naciski socjotechniczne na operatorów, błąd w logice biznesowej operatorów np. podczas odzyskiwania karty, zlecenie przekierowania usług, czy nacisków rządów na operatorów GSM mogą prowadzić do ujawnienia kodu za pośrednictwem samego operatora GSM. Przykładowo w przypadku ataku UGNazi vs. Cloudflare w 2012 nadużyto usługę poczty głosowej[#ugnazi_cloudflare]_, w ataku na @Deray z 2016 roku nakłoniono operatora do przekierowania wiadomości [#derey_verizon]_. Natomiast w ataku na uwierzytelnianie usługi Telegram przeprowadzonym w 2016 roku sugeruje się uległość operatora wobec rządu [#telegram_russia]_. W 2016 roku operator Play w Polsce uruchomił usługę TelePlay. Umożliwiała ona odbiór połączeń i wiadomosći SMS z wykorzystaniem strony internetowej. Słabość form uwierzytelniania portalu internetowego została wykorzystania do wykradania kodów jednorazowych do innych usług [#play_teleplay]_. 
+Możliwe jest zagrożenie z powodu słabości organizacyjnych operatora GSM. Naciski socjotechniczne na operatorów, błąd w logice biznesowej operatorów np. podczas odzyskiwania karty, zlecenie przekierowania usług, czy nacisków rządów na operatorów GSM mogą prowadzić do ujawnienia kodu za pośrednictwem samego operatora GSM. Przykładowo w przypadku ataku UGNazi vs. Cloudflare w 2012 nakłoniono operatora od przekierowania poczty głosowej [#ugnazi_cloudflare]_ , w ataku na @Deray z 2016 roku nakłoniono operatora do przekierowania wiadomości [#derey_verizon]_. Natomiast w analizie ataku na uwierzytelnianie usługi Telegram przeprowadzonym w 2016 roku sugeruje się uległość operatora wobec rządu [#telegram_russia]_. W 2016 roku operator Play w Polsce uruchomił usługę TelePlay. Umożliwiała ona odbiór połączeń i wiadomosći SMS z wykorzystaniem strony internetowej. Słabość form uwierzytelniania portalu internetowego została wykorzystania do wykradania kodów jednorazowych do innych usług [#play_teleplay]_. 
 
 Możliwe jest także zagrożenie ze strony samego użytkownika. Na smatfony powstały i są aktywnie wykorzystywane aplikacje, których celem jest przejęcie jednorazowych kodów w celu narażenia uwierzytelniania systemów finansowych [#krebs_perkley]_.
 
@@ -334,11 +343,9 @@ Wykorzystywanie uwierzytelniania z wykorzystaniem tokenu U2F może obecnie stano
 Dwuskładnikowe uwierzytelnienie
 -------------------------------
 
-.. todo::
+W nowoczesnych systemach komputerowych przed uzyskaniem dostępu często stosuje się uwierzytelniani wieloskładnikowe (*multi-factor authentication*), w szczególności dwuskładnikowe (*two-factor authentication*), czyli łączące dwie różne metody uwierzytelniania. W takich systemach bezpieczeństwo uwierzytelniania opiera się zatem na łącznej skuteczności różnych tych form. W przypadku zawiedzenia wszystkich z form może dojść do zjawisk niepożądanych typu kradzież tożsamości.
 
-    Opisać różne czynniki. Podkreślić słabość SMS-ów - https://www.iansresearch.com/insights/blog/blog-insights/2016/07/28/sending-out-sms-nist-recommends-shifting-to-alternative-2fa-methods
-
-W nowoczesnych systemach komputerowych przed uzyskaniem dostępu często stosuje się uwierzytelniani wieloskładnikowe (*multi-factor authentication*), w szczególności dwuskładnikowe (*two-factor authentication*), czyli łączące dwie różne metody uwierzytelniania.
+Obie formy uwierzytelniania nie są doskonałe, dla każdej z nich istnieją określone skuteczne wektory ataków, więc dążeniem Ministerstwa Cyfryzacji winno być stałe zapewnienie maksymalnej sprawności ich obu.
 
 Jest to praktykowane, ponieważ w komunikacji elektronicznej stosowanie samego hasła wiąże się z różnego rodzaju ryzykiem, a wykorzystanie kilku form uwierzytelnienia może ograniczać skutki przechwycenia (keylogger), albo podsłuchania (sniffer) hasła po którym przestaje ono być wówczas znane wyłącznie osobie uprawnionej, zaś kradzież może pozostać niezauważona. Ryzyko to można ograniczyć, wprowadzając dodatkowy składnik uwierzytelniania wykorzystując kilka form autoryzacji jednocześnie.
 
@@ -360,22 +367,30 @@ Unia Europejskiej podejmuje działania na rzecz harmonizacji środków identyfik
 Inne formy uwierzytelniania
 ---------------------------
 
-W niniejszym opracowaniu zostały pominięte formy opracowania, które nie cechują się dostateczną rozpoznawalnością w Polsce np. nie zostały wdrożone w żadnej powszechnej usłudze lub nie są adekwatne do sytuacji prawnej w Polsce np. brak otwartego państwowego dostawcy tożsamości lub nie są praktyczne do zastosowania w aplikacji webowej. 
+W niniejszym opracowaniu zostały pominięte formy opracowania, które nie cechują się dostateczną rozpoznawalnością w Polsce np. nie zostały wdrożone w żadnej powszechnej usłudze lub nie są adekwatne do sytuacji prawnej w Polsce np. brak otwartego państwowego dostawcy tożsamości lub nie są praktyczne do zastosowania w aplikacji webowej np. biometria. 
 
 Dobór form uwierzytelniania adekwatny do ryzyka
 -----------------------------------------------
 
-Według Michał Piotrowskiego przeciętny proces szczegółowej analizy ryzyka bezpieczeństwa informacji oparty na metodzie kwalifikatywnej [#computerworld_analiza_ryzyka]_ składa się z sześciu podstawowych etapów:
+Analizy ryzyka bezpieczeństwa informacji oparta winna być na ocenie zasobów, zagrożeń, zabezpieczeń i podatności systemów informatycznych organizacji, a następnie na analizie ryzyka, w tymm określenie ryzyka akceptowalnego i szczątkowego, co pozwala na skuteczne zarządzanie bezpieczeństwem informatycznym i zaprojektowanie systemu ochrony [#madej_ryzyka]_.
 
-# identyfikacji i oceny zasobów
-# identyfikacji zagrożeń
-# identyfikacji istniejących zabezpieczeń
-# identyfikacji podatności
-# szacowania ryzyka
-# opracowania rekomendacji.
+Wdrożenie dwuskładnikowego uwierzytelniania w otwartej usłudze wymaga dużej uwagi i działań promocyjnych takich rozwiazań, ze względu na brak świadomości społecznej. W wielu usługach użytkownicy wciąż nie korzystają z dwuskładnikowego uwierzytelniania, nawet gdy są one dostępne. Chociaż z drugiej strony w realiach polskich brak jest odpowiedniej kultury w IT, co przejawia się nieoferowaniem użytkownikom takich rozwiązań. Niska popularność takich rozwiazań wpływa na ograniczenie wsparcie dla wdrożenia takich rozwiązań np. brak dostawców tokenów SMS lub telefonicznych nastawionych na rynek polski, co wymaga samodzielnej implementacji w oparciu o ogólne API, co powoduje wzrost kosztu takich rozwiazań. W przypadku gdy uwierzytelnianie wymaga dedykowanego sprzętu występuje dla niego ograniczona dostępność, co wymaga poczynienia nakładów na samodzielny montaż lub import.
 
+Dopuszczalne forme uwierzytelniania winna być adekwatna do wartości chronionych zasobów i zagrożeń, a także uwzględniać czynniki społeczne np. związane z prawem do prywatności i dotychczasową dostępność tokenów U2F. Inne wymagania mogą zostać wykorzystywane w zakresie administracyjnego dostępu do systemu bankowego, a inne w przypadku powszechnego dostępu użytkowników bez szczególnych uprawnień, gdzie narażenie konta użytkownika stanowi zagrożenie wyłącznie dla jego własnych danych.
 
+Stowarzyszenie Sieć Obywaatelska - Watchdog Polska jest organizacją strażniczą dla której istotną, zapisaną w samym organizacji statucie jest poszanowanie prawa człowieka do prywatności. Podejmuje także działania kontrolne wobec służb i naczelnych organów państwa, co stwarza potencjalne zagrożenie wykorzystaniem uprawnień państwa do ingerencji w systemy informatyczne Stowarzyszenia, także w porozumieniu z potencjalnie zaufaną trzecią. Obniża to w istotny sposób uwierzytelnianie wykorzystujące bezpieczny kanał komunikacji w postaci sieci GSM, gdyż jego bezpieczeństwo jest w takich sytuacjach wątpliwe. Ograniczone grono pracowników dysponuje własnymi telefonami komórkowymi, a w tym zakresie dominuje podejście - z własnego wyboru pracowników - BYOP (bring your own phone), a więc ich wykorzystanie w procesie uwierzytelniania stanowi ingerencje w prywatność, która może zostać niezaakceptowana.
 
+Wywołuje to przeświadczenie o adekwatności trójstopniowej polityki wrażliwości kont użytkownika:
+
+* Wysoki poziom wrażliwości charakteryzowany dla kont użytkownika o administracyjnych uprawnieniach co najmniej w jednym systemie komputerowym Stowarzyszenia.
+* Średni poziom wrażliwości odnosi się do kont użytkownika, które posiadają wyższe niż przeciętne uprawnienia w co najmniej jednym systemie informatycznym Stowarzyszenia, w szczególnośći dla kont z uprawnieniami redakcyjnymi serwisy internetowe.
+* Niski poziomi wrażliwości odnosi się do kont użytkownika, które nie posiadają żadnych szczególnych uprawnień w żadnym systemie informatycznym.
+
+Dla każdego z poziomów wrażiwości kont użytkownika możliwe jest przyporządkowanie minimalnych form uwierzytelniania:
+
+* wysoki poziom wrażliwości - dwuskładnikowe uwierzytelnianie oparte o współdzielone hasło i token U2F,
+* średni poziom wrażliwości - dwuskładnikowe uwierzytelnianie oparte o współdzielone hasło i tokenem TOTP lub formy uwierzytelniania właściwe dla kont z wysokim poziomem wrażliwości,
+* współdzielone hasło lub jedna z powyższych form - jednoskładnikowe uwierzytelnianie oparte o współdzielone hasło lub formy uwierzytelniania właściwe dla kont z wysokim lub średnim poziomem wrażliwości.
 
 .. rubric:: Footnotes
 
@@ -459,4 +474,6 @@ Według Michał Piotrowskiego przeciętny proces szczegółowej analizy ryzyka b
 
 .. [#NIST_authentication] Paul A. Grassi, Michael E. Garcia, James L. Fenton, DRAFT NIST Special Publication 800-63B Digital Authentication Guideline, National Institute of Standards and Technology, online: https://pages.nist.gov/800-63-3/sp800-63-3.html
 
-.. [#computerworld_analiza_ryzyka]  Michał Piotrowski, Zarządzanie ryzykiem bezpieczeństwa informacji w systemach TI, Computer World 23 czerwca 2006, online: http://www.computerworld.pl/news/Zarzadzanie-ryzykiem-bezpieczenstwa-informacji-w-systemach-TI,318160.html
+.. [#madej_ryzyka] dr Jan Madej, Strategie analizy ryzyka w opracowywaniu polityki bezpieczeństwa systemu informatycznego,  Nierówności Społeczne a Wzrost Gospodarczy 2011, z. nr 22, s. 196 - 198
+
+.. [#ugnazi_cloudflare] Piotr Konieczny, Jak można było podmienić stronę Niebezpiecznika? Czyli błąd w dwuskładnikowym uwierzytelnieniu Google i atak na Cloudflare, Niebezpiecznik.pl 5 czerwca 2012 roku, online: https://niebezpiecznik.pl/post/jak-mozna-bylo-zhackowac-niebezpiecznika/
