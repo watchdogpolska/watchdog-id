@@ -42,7 +42,7 @@ Największym wyzwaniem w projektowaniu procesu logowania w systemach komputerowy
 
 Jeśli mechanizmy bezpieczeństwa są zbyt skomplikowane w obsłudze, użytkownicy często wybierają, aby nie używać ich w ogóle, albo poszukują metod na ich obejście.
 
-Przykładowo uwierzytelnienie z wykorzystaniem hasła wymaga współdzielonego pomiędzy użytkownikiem i systemem komputerowym sekretu. Dane te powinny zostać zapamiętane przez użytkownika w umyśle. Jednak nieprawidłowe wymogi odnośnie takiego sekretu skłaniają użytkowników do ich zapisywania narażając poufność sekretu (zob. :ref:`password_policy`). Wymaga to ostrożnego doboru sposobów (form) w jakich uwierzytelnianie ma przebiegać. Nieprawidłowy dobór, nawet mechanizmów, które technicznie zapewniają wyższy poziom bezpieczeństwa - ze względu na niezrozumienie użytkownika i nie stosowanie się do zasad bezpieczeństwa przez użytkowania (czynnik ludzki) - może paradoksalnie zwiększać zagrożenie dla systemu informatycznego.
+Przykładowo uwierzytelnienie z wykorzystaniem hasła wymaga współdzielonego pomiędzy użytkownikiem i systemem komputerowym sekretu. Dane te powinny zostać zapamiętane przez użytkownika w umyśle. Jednak nieprawidłowe wymogi odnośnie takiego sekretu skłaniają użytkowników do ich zapisywania narażając poufność sekretu (zob. :ref:`password_policy`). Wymaga to ostrożnego doboru sposobów (form) w jakich uwierzytelnianie ma przebiegać. Nieprawidłowy dobór, nawet mechanizmów, które technicznie zapewniają wyższy poziom bezpieczeństwa - ze względu na niezrozumienie i nie stosowanie się do zasad bezpieczeństwa przez użytkowania (czynnik ludzki) - może paradoksalnie zwiększać zagrożenie dla systemu informatycznego.
 
 .. todo:: Rozbudować sekcje i bibliografie:
 
@@ -311,7 +311,7 @@ Należy objaśnić, że przedstawiony identyfikator sesji (``session identifier`
       D [description = "baza danych"];
    }
 
-Klucz publiczny jest składowany często na komputerze użytkownika, co oznacza że ten sposób uwierzytelniania należy sklasyfikować jako oparty na "czymś co masz" (`authentication_form`_). Należy od razu jednak podkreślić, że klucz prywatny może przechowywany w formie zaszyfrowanej i wówczas wymagane jest wprowadzenia hasła przed tym jak wygenerowanie podpisu cyfrowego stanie się możliwe.
+Klucz prywatny jest składowany często na komputerze użytkownika, co oznacza że ten sposób uwierzytelniania należy sklasyfikować jako oparty na "czymś co masz" (`authentication_form`_). Należy od razu jednak podkreślić, że klucz prywatny może przechowywany w formie zaszyfrowanej i wówczas wymagane jest wprowadzenia hasła przed tym jak wygenerowanie podpisu cyfrowego stanie się możliwe.
 
 Ta forma uwierzytelniania nie jest wrażliwa na sytuacje, gdy poufność klucza prywatnego użytkownika zostanie naruszona. Może to mieć miejsce w sytuacji ataku złośliwego oprogramowania na komputer użytkownika. Niedostateczne w takim przypadku może okazać się szyfrowanie hasła, gdyż podczas próby użycia klucza hasło lub sam klucz może zostać przejęta przez złośliwe oprogramowanie z pamięci komputera.
 
@@ -336,7 +336,7 @@ Zapewniona jest także odpowiednia obsługa z strony popularnych przeglądarek i
 
 Ta forma uwierzytelniania zapewnia odporność wobec ataku phishingowych, gdyż wykorzystany mechanizm wyzwanie-odpowiedź zabezpiecza przed wielokrotnym użyciem odpowiedzi (`replay attack`), a weryfikacja kluczy jest dokonywana przez przeglądarkę [#u2f_phishing]_. 
 
-Wykorzystywanie uwierzytelniania z wykorzystaniem tokenu U2F może obecnie stanowić jednak wyzwanie ze względu na ograniczoną dostępność tokenów sprzętowych w Polsce. Przykładowo zapytanie o "U2F" w najpopularniejszej platformie aukcyjnej i e-commerce Allegro.pl nie zwróciło żadnych tokenów. A także podczas uwierzytelniania na urządzeniach mobilnych, gdzie rozwiązania i standardy komunikacji kształtują się.
+Wykorzystywanie uwierzytelniania z wykorzystaniem tokenu U2F może obecnie stanowić jednak wyzwanie ze względu na ograniczoną dostępność tokenów sprzętowych w Polsce. Przykładowo zapytanie o "U2F" w najpopularniejszej platformie aukcyjnej i e-commerce Allegro.pl nie zwróciło żadnych tokenów. A także podczas uwierzytelniania na urządzeniach mobilnych, gdzie dopiero kształtują się odpowiednie rozwiązania i standardy komunikacji.
 
 .. _2factor:
 
@@ -345,7 +345,7 @@ Dwuskładnikowe uwierzytelnienie
 
 W nowoczesnych systemach komputerowych przed uzyskaniem dostępu często stosuje się uwierzytelniani wieloskładnikowe (*multi-factor authentication*), w szczególności dwuskładnikowe (*two-factor authentication*), czyli łączące dwie różne metody uwierzytelniania. W takich systemach bezpieczeństwo uwierzytelniania opiera się zatem na łącznej skuteczności różnych tych form. W przypadku zawiedzenia wszystkich z form może dojść do zjawisk niepożądanych typu kradzież tożsamości.
 
-Obie formy uwierzytelniania nie są doskonałe, dla każdej z nich istnieją określone skuteczne wektory ataków, więc dążeniem Ministerstwa Cyfryzacji winno być stałe zapewnienie maksymalnej sprawności ich obu.
+Każda forma uwierzytelniania nie jest doskonałe, dla każdej istnieją określone skuteczne wektory ataków, więc dążeniem projektanta, a następnie administratora systemu winno być stałe zapewnienie maksymalnej sprawności ich obu.
 
 Jest to praktykowane, ponieważ w komunikacji elektronicznej stosowanie samego hasła wiąże się z różnego rodzaju ryzykiem, a wykorzystanie kilku form uwierzytelnienia może ograniczać skutki przechwycenia (keylogger), albo podsłuchania (sniffer) hasła po którym przestaje ono być wówczas znane wyłącznie osobie uprawnionej, zaś kradzież może pozostać niezauważona. Ryzyko to można ograniczyć, wprowadzając dodatkowy składnik uwierzytelniania wykorzystując kilka form autoryzacji jednocześnie.
 
