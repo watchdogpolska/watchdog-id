@@ -16,7 +16,6 @@ ROOT_DIR = environ.Path(__file__) - 3  # (watchdog_id/config/settings/common.py 
 APPS_DIR = ROOT_DIR.path('watchdog_id')
 
 env = environ.Env()
-env.read_env()
 
 # APP CONFIGURATION
 # ------------------------------------------------------------------------------
@@ -33,16 +32,12 @@ DJANGO_APPS = (
     # 'django.contrib.humanize',
 
     # Admin
-    'oauth2_provider',
     'django.contrib.admin',
     'django_gravatar',
 )
 
 THIRD_PARTY_APPS = (
     'crispy_forms',  # Form layouts
-    'allauth',  # registration
-    'allauth.account',  # registration
-    'allauth.socialaccount',  # registration
     'rest_framework',
     'tinymce',
     'model_utils'
@@ -234,17 +229,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # ------------------------------------------------------------------------------
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
-    'allauth.account.auth_backends.AuthenticationBackend',
 )
-
-# Some really nice defaults
-ACCOUNT_AUTHENTICATION_METHOD = 'username'
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
-
-ACCOUNT_ALLOW_REGISTRATION = env.bool('DJANGO_ACCOUNT_ALLOW_REGISTRATION', True)
-ACCOUNT_ADAPTER = 'watchdog_id.users.adapters.AccountAdapter'
-SOCIALACCOUNT_ADAPTER = 'watchdog_id.users.adapters.SocialAccountAdapter'
 
 # Custom user app defaults
 # Select the correct user model
@@ -261,16 +246,5 @@ ADMIN_URL = r'^admin/'
 
 # Your common stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------
-
-REST_FRAMEWORK = {
-    'DEFAULT_AUTHENTICATION_CLASSES': (
-        'oauth2_provider.ext.rest_framework.OAuth2Authentication',
-        'rest_framework.authentication.BasicAuthentication',
-        'rest_framework.authentication.SessionAuthentication',
-    ),
-    'DEFAULT_PERMISSION_CLASSES': (
-        'rest_framework.permissions.IsAuthenticated',
-    )
-}
 
 AVATAR_SIZES = [50, 80, 150]
