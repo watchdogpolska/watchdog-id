@@ -28,17 +28,17 @@ Kontrola dostępu
 
 Aplikacje zakładające interakcję z użytkownikiem wymagają przeprowadzenia logowania (ang. `logging in` lub `signing in`), czyli procesu składającego się zasadniczo z trzech etapów  [#f1]_:
 
-* identyfikacji (ang. `identification`) użytkownika, czyli uzyskania od użytkownika deklaracji co do swojej tożsamości np. w postaci nazwy użytkownika, w sposób umożliwiający zidnetyfikowanie tożsamości użytkownika w danym środowisku,
+* identyfikacji (ang. `identification`) użytkownika, czyli uzyskania od użytkownika deklaracji co do swojej tożsamości np. w postaci nazwy użytkownika, w sposób umożliwiający zidentyfikowanie tożsamości użytkownika w danym środowisku,
 * uwierzytelnienia (ang. `authentication`) użytkownika, czyli dostarczenia dowodów, że użytkownik jest właśnie tą zidentyfikowaną osobą (nikt się nie podszywa), a dane uzyskane w etapie identyfikacji są autentyczne,
 * autoryzacji (ang. `authorization`), czyli przyznaniu przez system komputerowy dostępu do określonego zasobu po pozytywnym uwierzytelnieniu lub potwierdzenie woli realizacji czynności w postaci elektronicznej przez uwierzytelnionego użytkownika za pomocą dodatkowych danych.
 
 Proces ten przeprowadzony łącznie na potrzeby indywidualnej sesji jest nazywany logowaniem. Jednakże może być także wykorzystywany do dodatkowego potwierdzenia akcji o szczególnej wrażliwości np. zlecenie przelewu w systemach bankowych. Każdy z tych etapów może być przeprowadzony w odmienny sposób w zależności od wymogów systemu komputerowego.
-Najpopularniejszą formą identyfikacji i uwierzytelniania użytkowników w systemach komputerowych jest wykorzystanie nazwa użytkownika (ang. `login`) i hasła. Jednak tradycyjne podejście nie jest wystarczająco bezpieczne w dzisiejszym świecie, w którym co dzień zdarzają się ataki szkodliwego oprogramowania i inne formy kradzieży haseł wykazujące słabość tego mechanizmu.
+Najpopularniejszą formą identyfikacji i uwierzytelniania użytkowników w systemach komputerowych jest wykorzystanie nazwy użytkownika (ang. `login`) i hasła. Jednak tradycyjne podejście nie jest wystarczająco bezpieczne w dzisiejszym świecie, w którym co dzień zdarzają się ataki szkodliwego oprogramowania i inne formy kradzieży haseł wykazujące słabość tego mechanizmu.
 
 Wygoda użytkowania a bezpieczeństwo
 ===================================
 
-Największym wyzwaniem w projektowaniu procesu logowania w systemach komputerowych pracujących w sieci Internet wydaje się stanowić uwierzytelnianie. Musi ono zapewnić adekwatny do charakteru systemu komputerowy poziom bezpieczeństwa systemu komputerowego przy zachowaniu użyteczność (ang. `usability`) akceptowalnej przez użytkownaia. Dwie te wartości pozostają niezwykle często w napięciu.
+Największym wyzwaniem w projektowaniu procesu logowania w systemach komputerowych pracujących w sieci Internet wydaje się być uwierzytelnianie. Musi ono zapewnić adekwatny do charakteru systemu komputerowy poziom bezpieczeństwa systemu komputerowego przy zachowaniu użyteczność (ang. `usability`) akceptowalnej przez użytkownika. Dwie te wartości pozostają niezwykle często w napięciu.
 
 Jeśli mechanizmy bezpieczeństwa są zbyt skomplikowane w obsłudze, użytkownicy często wybierają, aby nie używać ich w ogóle, albo poszukują metod na ich obejście.
 
@@ -67,9 +67,9 @@ Współdzielony sekret
 
 W przypadku wielu systemów komputerowych do uwierzytelniania wykorzystywane jest wyłącznie współdzielony sekret potocznie określony hasłem. Jest to najpopularniejszą forma uwierzytelniania. Stanowi ona formę uwierzytelniania typu *coś co wiesz*.
 
-Ten proces uwierzytelniania wymaga wcześniejszego zindywidualizowanej dla każdego użytkownika inicjalizacji polegajacej na wymianie hasła (współdzielonego sekretu) pomiędzy użytkownikiem a systemem komputerowym. W zależności od decyzji projektanta systemu współdzielone hasło może zostać wygenerowane przez system komputerowy, albo być wprowadzane przez użytkownika. 
+Ten proces uwierzytelniania wymaga wcześniejszego zindywidualizowanej dla każdego użytkownika inicjalizacji polegającej na wymianie hasła (współdzielonego sekretu) pomiędzy użytkownikiem a systemem komputerowym. W zależności od decyzji projektanta systemu współdzielone hasło może zostać wygenerowane przez system komputerowy, albo być wprowadzane przez użytkownika. 
 W przypadku dużej części aplikacji internetowych wymiana współdzielonego hasła ma miejsce podczas rejestracji. Jednocześnie powszechnie tworzone są dedykowane formularze służące do zmiany haseł i odzyskania zdolności do uwierzytelniania ("Przypomnij hasło").
-Proces wymianiy współdzielonego hasła wymaga, aby uprzednio użytkownik został zidentyfikowany w inny sposób, jeżeli uwierzytelnianie ma odwoływać się do innych tożsamości.
+Proces wymiany współdzielonego hasła wymaga, aby uprzednio użytkownik został zidentyfikowany w inny sposób, jeżeli uwierzytelnianie ma odwoływać się do innych tożsamości.
 Podstawowym warunkiem bezpieczeństwa tej formy uwierzytelniania jest zachowanie w poufności współdzielonego sekretu.
 W przypadku wykorzystania wyłącznie tej formy uwierzytelnianie polega ona na wprowadzeniu hasła użytkownika i wymiany komunikatów zgodnie z przedstawionym schematem:
 
@@ -95,7 +95,7 @@ W związku z ograniczonym bezpieczeństwem tej formy uwierzytelniania wdrażane 
 Funkcje skrótu
 ^^^^^^^^^^^^^^
 
-Wartm odnotowania mechanizmem usprawnienia mechanizmu uwierzytelniania z wykorzystaniem współdzielonego sekretu o charakterze technicznym jest tzw. *hashowanie* haseł. Polega ono na ograniczeniu dostępności w systemie komputerowmy hasła w postaci jawnej poprzez zapisanie wyłącznie danych stanowiących wynik jednokierunkowej funkcji skrótu kryptograficznego tzw. `hash`. Bezpieczne funkcje hashujące h(x) = hash są funkcjami hashującymi z następującymi właściwościami [#sekurak_kompedium1]_:
+Wartym odnotowania mechanizmem usprawnienia mechanizmu uwierzytelniania z wykorzystaniem współdzielonego sekretu o charakterze technicznym jest tzw. *hashowanie* haseł. Polega ono na ograniczeniu dostępności w systemie komputerowym hasła w postaci jawnej poprzez zapisanie wyłącznie danych stanowiących wynik jednokierunkowej funkcji skrótu kryptograficznego tzw. `hash`. Bezpieczne funkcje hashujące h(x) = hash są funkcjami hashującymi z następującymi właściwościami [#sekurak_kompedium1]_:
 
 * jednokierunkowość – na podstawie wyjścia funkcji (hash) nie możemy w żaden sposób określić wejścia (x),
 * duża zmienność wyjścia – efekt lawinowy objawiający się w dużej różnicy wyjść (hash1, hash2) wygenerowanych nawet przez bardzo podobne wejścia (x1, x2),
@@ -136,9 +136,9 @@ Hasło musi stanowić sekret znany wyłącznie przez użytkownika i system kompu
 
    seqdiag {
       U; C; S; D;
-      C -> S [label="żadanie wyzwania"];
+      C -> S [label="żądanie wyzwania"];
       S -> S [label="wygenerowanie losowej wartości X"];
-      S -> C [label="przekazanie losowej wartosci X"];
+      S -> C [label="przekazanie losowej wartości X"];
       C -> U [label="zapytanie o hasło"];
       U -> C [label="wprowadzenie hasła Z"];
       C -> C [label="obliczenie funkcji skrótu f(X, Z) = D"]
@@ -146,7 +146,7 @@ Hasło musi stanowić sekret znany wyłącznie przez użytkownika i system kompu
       S -> D [label="żądanie hasła"];
       D -> S [label="przekazanie hasła Z'"];
       S -> S [label="obliczenie funkcji skrótu f(X, Z') = D'"];
-      S -> S [label="porównianie D i D'"];
+      S -> S [label="porównanie D i D'"];
       S -> C [label="przekazanie wyniku weryfikacji"];
       C -> U [label="komunikat o weryfikacji"];
       U [description = "użytkownik"];
@@ -164,20 +164,20 @@ Phishing
 
 Phishing to forma ataku internetowego, który stanowi istotne zagrożenie dla procesu uwierzytelniania z wykorzystaniem współdzielonego sekretu. 
 
-Atak ten polega na nakłonieniu użytkownia do wprowadzenia osobistych danych na fałszywej stronie. Do nakłonienia do chodzi na skutek zastosowania przez agresora różnorodnych metod socjotechnicznych. Jedną z częstszych jest przesłanie wiadomość, która próbuje zachęcić odbiorcę, aby z określonego powodu niezwłocznie zaktualizował swoje poufne informacje, bo w przeciwnym razie dotkną go niekorzystne konsekwencje. Taka wiadomość zazwyczaj zawiera odnośnik, który stanowi odwołanie do fałszywej strony internetowej, która złudnie przypomina swój oryginał, a której celem jest rejestracja osobistycny danych ofiary.
+Atak ten polega na nakłonieniu użytkownika do wprowadzenia osobistych danych na fałszywej stronie. Do nakłonienia do chodzi na skutek zastosowania przez agresora różnorodnych metod socjotechnicznych. Jedną z częstszych jest przesłanie wiadomość, która próbuje zachęcić odbiorcę, aby z określonego powodu niezwłocznie zaktualizował swoje poufne informacje, bo w przeciwnym razie dotkną go niekorzystne konsekwencje. Taka wiadomość zazwyczaj zawiera odnośnik, który stanowi odwołanie do fałszywej strony internetowej, która złudnie przypomina swój oryginał, a której celem jest przechwycenie osobistych danych ofiary.
 
 Ataki phishingowe mogą obejmować liczne metody, które mają na celu zwiększenie swojej skuteczności poprzez zmniejszenie prawdopodobieństwa zorientowania się co do fałszywości wiadomości lub strony internetowej. Przykładowo typosquatting, homoglyph, punycode, bitsquatting, Right-to-Left override [#sekurak_phishing]_. Wykorzystywane są także certyfikaty SSL dla uwiarygodnienia fałszywych stron, w szczególności wobec zwiększonej dostępności bezpłatnych certyfikatów [#bleepingcomputer_letsencrypt]_.
 
 Ochrona przed atakami tego rodzaju przede wszystkim polega na budowaniu świadomości użytkownika odnośnie posługiwania się poufnymi wiadomościami, uwierzytelnianiu komunikacji poczty elektronicznej i innych komunikatów technicznych [#citation_needed]_.
 
-W przypadku masowych kampanii istotnym zabezpieczeniem są mechanizmy czarnych list [#mozilla_phishing]_ . Jednakże skuteczność rozwiązań wbudowanych w konkretne przeglądarki jest zróżnicowana. Z pewnością isotnym wyzwaniem w tym zakresie jest fakt, że prawie 20 % stron phishingowych istnieje tylko 3 godziny, a większość nie jest dostępna już po dwóch dniach [#cyren_phishing]_.
+W przypadku masowych kampanii istotnym zabezpieczeniem są mechanizmy czarnych list [#mozilla_phishing]_ . Jednakże skuteczność rozwiązań wbudowanych w konkretne przeglądarki jest zróżnicowana. Z pewnością istotnym wyzwaniem w tym zakresie jest fakt, że prawie 20 % stron phishingowych istnieje tylko 3 godziny, a większość nie jest dostępna już po dwóch dniach [#cyren_phishing]_.
 
 Inne środki techniczne wzmocnienia uwierzytelniania hasłem
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Coraz większą popularnością cieszą się algorytmy szyfrowania całej komunikacji w architekturze klient-serwer np. HTTPS (ang. `Hypertext Transfer Protocol Secure`). Przy spełnieniu pewnych warunków zabezpieczają one hasło (a także całą komunikacje sieciową) przez podsłuchem. Ogólne dostępne statystyki użytkowania przeglądarki Chrome wskazują, że 14 marca 2015 roku na platformie Windows 39% stron była wczytywana z wykorzystaniem HTTPS. Natomiast 1 października 2016 roku wskaźnik ten przekroczył 50% i wciąż systematycznie rośnie [#HTTPS_Usage]_.
 
-Należy w tym miejscu zwrócić także uwagę na presje płynącą z strony twórców przeglądarek internetowych. Od stycznia 2017 roku w przeglądarce Chrome w przypadku formularza zawierającego pole hasła i transmisji nieszyfrowej wyświetlane jest ostrzeżenie, a presja ta ma być rozszeszana także na inne sytuacje komunikacji nieszyfrowanej [#HTTPS_Warning]_. Podobne mechanizmy są wdrażane w aktualnych wydaniach przeglądarki Firefox [#HTTPS_Firefox]_
+Należy w tym miejscu zwrócić także uwagę na presje płynącą z strony twórców przeglądarek internetowych. Od stycznia 2017 roku w przeglądarce Chrome w przypadku formularza zawierającego pole hasła i transmisji nieszyfrowej wyświetlane jest ostrzeżenie, a presja ta ma być rozszerzana także na inne sytuacje komunikacji nieszyfrowanej [#HTTPS_Warning]_. Podobne mechanizmy są wdrażane w aktualnych wydaniach przeglądarki Firefox [#HTTPS_Firefox]_
 
 Należy zaznaczyć, że szyfrowanie komunikacji klient-serwer nie zabezpiecza przed przypadkami, gdy hasło zostanie podsłuchane pomiedzy użytkownikiem, a przeglądarką np. na skutek wykorzystania `keyloggerów` lub innego złośliwego oprogramowania pracujące na komputerze użytkownika.
 
@@ -192,7 +192,7 @@ W aspekcie technicznym podejmowane są działania, które mogą ograniczyć skut
 Polityki haseł
 ^^^^^^^^^^^^^^
 
-W zakresie organizacyjnym, który często wspierany jest także odpowiednimi rozwiązaniami technicznymi wprowadzone są polityki haseł. Obejmują one najczęsciej zagadnienia dotyczącego ponownego wykorzystania tych samych haseł w różnych systemach komputerowych, złożoność haseł i częstotliwość ich zmiany.
+W zakresie organizacyjnym, który często wspierany jest także odpowiednimi rozwiązaniami technicznymi wprowadzone są polityki haseł. Obejmują one najczęściej zagadnienia dotyczącego ponownego wykorzystania tych samych haseł w różnych systemach komputerowych, złożoność haseł i częstotliwość ich zmiany.
 
 Warto w tym miejscu dostrzec, że nieadekwatna polityka haseł może prowadzić do ograniczenia bezpieczeństwa, a nie jego poprawy. Moim zdaniem dotyczy to w szczególności wymogu częstej zmiany haseł bez wdrożenia alternatywnych rozwiązań. Częsta zmiana haseł rodzi kilka zasadniczych problemów. Nie wszyscy posiadają zdolność zapamiętania złożonych haseł, co prowadzi do ponownego używania haseł w wielu miejscach lub stosowania haseł schematycznych z wykorzystaniem prostych transformacji. W takim wypadku zbyt skomplikowane i często zmieniane hasła prowadzą do zapisywania ich w jawnej formie, co może narażać na ich kradzież.
 
@@ -209,7 +209,7 @@ Uwierzytelnianie z wykorzystaniem tokenów
 
 Jedną z popularniejszych form wdrożenia tokenów dwuskładnikowego uwierzytelniania są jednorazowe kody oparte na zdarzeniu bazujące na RFC4225 tzw. HOTP oraz oparte na czasie bazujące na RFC6238 tzw. TOTP. W generalnym ujęciu są one do siebie bardzo zbliżone. 
 
-Oba z tych algorytmów bazują na współdzielonym sekrecie, który złączony z licznikiem dla HOTP lub z TOTP aktualnym wskazaniem zegara poddawany jest odpowiedniej transformacji funkcji krytograficznej w celu uzyskania krótkoterminowego / jednorazowego tokenu. Operacja ta jest wykonywana przez obie strony procesu uwierzytelniania, co stanowi dowód, że podmiot podlegający uwierzytelnieniu jest w posiadaniu danych identyfikacyjnych lub dane te znajdują się pod jego kontrolą.
+Oba z tych algorytmów bazują na współdzielonym sekrecie, który złączony z licznikiem dla HOTP lub z TOTP aktualnym wskazaniem zegara poddawany jest odpowiedniej transformacji funkcji kryptograficznej w celu uzyskania krótkoterminowego / jednorazowego tokenu. Operacja ta jest wykonywana przez obie strony procesu uwierzytelniania, co stanowi dowód, że podmiot podlegający uwierzytelnieniu jest w posiadaniu danych identyfikacyjnych lub dane te znajdują się pod jego kontrolą.
 
 Sekret o odpowiedniej sile jest generowany przez serwer i prezentowany z wykorzystaniem kodów QR, które są odczytywane przez użytkownika i w bezpieczny sposób przechowywane w aplikacjach takich jak Google Authenticator lub Authy [#citation_needed]_.
 
@@ -218,7 +218,7 @@ Uwierzytelnienie odrębnym kanałem
 
 Uwierzytelnianie może także opierać się na wykorzystaniu odrębnego kanału, co opiera się wówczas na uwierzytelnianiu typu *coś co masz*, gdyż weryfikowany jest wówczas dostęp do alternatywnego kanału komunikacji. Forma ta obejmuje przede wszystkim sytuacje jednorazowych haseł wymagających wprowadzenia w celu uwierzytelniania operacji na stronie internetowych przekazanych z wykorzystaniem kodów SMS, lecz możliwe jest także wykorzystanie połączeń telefonicznych, a także autoryzacji operacji bezpośrednio za pomocą odrębnego kanału komunikacji.
 
-Istnieją zróżnicowane warianty tej formy uwierzytelniania, jednak podstawą cechą wyróżniającą cechą jest zaistnienie komunikacji odrębnym kanałem. Przykładowo w systemie ePUAP uwierzytelnianie polega na przesłaniu hasła z wykorzystaniem kodu SMS, a następnie oczekiwaniu na wprowadzenie go na stronie internetowej [#epuap_sms]_. Natomiast Amazon AWS - co ustalono poprzez badanie w realnym środowisku - realizuje uwierzytelnianie, gdzie użytkownikowi w przeglądarce prezentowany jest kod, który ma wprowadzić podczas automatycznie wyzwolonego połączenia telefonicznego przychodzącego do użytkownika. Odwrotnie postępuje Google, które jako jedną formę uwierzytelniania przewiduje połączenie telefoniczne w trakcie którego użytkownikowi odczytywany jest przez lektora kod, który użytkownik ma wprowadzić na stronie internetowej [#google_call]_. Tymczasem mBank wykorzystuje powiadomienia push w aplikacji mobilnej, które odnoszą się do autoryzacji indywidualnej operacji i nie wymagane jest przepisanie dodaotkowych kodów [#mbank]_. 
+Istnieją zróżnicowane warianty tej formy uwierzytelniania, jednak podstawą cechą wyróżniającą cechą jest zaistnienie komunikacji odrębnym kanałem. Przykładowo w systemie ePUAP uwierzytelnianie polega na przesłaniu hasła z wykorzystaniem kodu SMS, a następnie oczekiwaniu na wprowadzenie go na stronie internetowej [#epuap_sms]_. Natomiast Amazon AWS - co ustalono poprzez badanie w realnym środowisku - realizuje uwierzytelnianie, gdzie użytkownikowi w przeglądarce prezentowany jest kod, który ma wprowadzić podczas automatycznie wyzwolonego połączenia telefonicznego przychodzącego do użytkownika. Odwrotnie postępuje Google, które jako jedną formę uwierzytelniania przewiduje połączenie telefoniczne w trakcie którego użytkownikowi odczytywany jest przez lektora kod, który użytkownik ma wprowadzić na stronie internetowej [#google_call]_. Tymczasem mBank wykorzystuje powiadomienia push w aplikacji mobilnej, które odnoszą się do autoryzacji indywidualnej operacji i nie wymagane jest przepisanie dodatkowych kodów [#mbank]_. 
 
 Proces uwierzytelniania z wykorzystaniem haseł jednorazowych przekazanych za pomocą komunikacji SMS można przedstawić z wykorzystaniem następującego diagramu:
 
@@ -249,20 +249,20 @@ Podstawowym warunkiem bezpieczeństwa tej formy uwierzytelniania jest brak nieau
 
 Zagrożenie istnieje ze strony protokołu GSM. Należy dostrzec, że były one projektowane z uwzględnieniem ograniczonego bezpieczeństwa, ze względu na wymogi państw i nie był projektowany z przeznaczeniem wykorzystania ich do uwierzytelniania. Istnieją udokumentowane ataki obejmujące zdalne przejęcie komunikacji obranego telefonu komórkowego [#gsm_attack]_. 
 
-Możliwe jest zagrożenie z powodu słabości organizacyjnych operatora GSM. Naciski socjotechniczne na operatorów, błąd w logice biznesowej operatorów np. podczas odzyskiwania karty, zlecenie przekierowania usług, czy nacisków rządów na operatorów GSM mogą prowadzić do ujawnienia kodu za pośrednictwem samego operatora GSM. Przykładowo w przypadku ataku UGNazi vs. Cloudflare w 2012 nakłoniono operatora od przekierowania poczty głosowej [#ugnazi_cloudflare]_ , w ataku na @Deray z 2016 roku nakłoniono operatora do przekierowania wiadomości [#derey_verizon]_. Natomiast w analizie ataku na uwierzytelnianie usługi Telegram przeprowadzonym w 2016 roku sugeruje się uległość operatora wobec rządu [#telegram_russia]_. W 2016 roku operator Play w Polsce uruchomił usługę TelePlay. Umożliwiała ona odbiór połączeń i wiadomosći SMS z wykorzystaniem strony internetowej. Słabość form uwierzytelniania portalu internetowego została wykorzystania do wykradania kodów jednorazowych do innych usług [#play_teleplay]_. 
+Możliwe jest zagrożenie z powodu słabości organizacyjnych operatora GSM. Naciski socjotechniczne na operatorów, błąd w logice biznesowej operatorów np. podczas odzyskiwania karty, zlecenie przekierowania usług, czy nacisków rządów na operatorów GSM mogą prowadzić do ujawnienia kodu za pośrednictwem samego operatora GSM. Przykładowo w przypadku ataku UGNazi vs. Cloudflare w 2012 nakłoniono operatora od przekierowania poczty głosowej [#ugnazi_cloudflare]_ , w ataku na @Deray z 2016 roku nakłoniono operatora do przekierowania wiadomości [#derey_verizon]_. Natomiast w analizie ataku na uwierzytelnianie usługi Telegram przeprowadzonym w 2016 roku sugeruje się uległość operatora wobec rządu [#telegram_russia]_. W 2016 roku operator Play w Polsce uruchomił usługę TelePlay. Umożliwiała ona odbiór połączeń i wiadomości SMS z wykorzystaniem strony internetowej. Słabość form uwierzytelniania portalu internetowego została wykorzystania do wykradania kodów jednorazowych do innych usług [#play_teleplay]_. 
 
-Możliwe jest także zagrożenie ze strony samego użytkownika. Na smatfony powstały i są aktywnie wykorzystywane aplikacje, których celem jest przejęcie jednorazowych kodów w celu narażenia uwierzytelniania systemów finansowych [#krebs_perkley]_.
+Możliwe jest także zagrożenie ze strony samego użytkownika. Na smartfony powstały i są aktywnie wykorzystywane złośliwe aplikacje, których celem jest przejęcie jednorazowych kodów w celu narażenia uwierzytelniania systemów finansowych [#krebs_perkley]_.
 
 Ta forma uwierzytelniania nie wyklucza możliwości przeprowadzenia ataku phishingowego, gdyż przez cały proces strona phishingowa może pośredniczyć w komunikacji do pożądanej strony, aby pozyskać od niej odpowiednie identyfikatory sesji lub uzyskać fałszywą operacje autoryzacji [#sms_phishing]_ . Dlatego podczas procesu uwierzytelnienie strony internetowej musi zostać przeprowadzone w inny sposób.
 
 Nie można też pominąć, że w maju 2016 roku NIST opublikował wytyczne zalecające wygaszenie wykorzystania SMS jako czynnik uwierzytelniania [#NIST_authentication]_. Oznacza to, że przyszłe systemy informatyczne administracji federalnej Stanów Zjednoczonej mogą zostać zmuszone do rezygnacji z tego kanału uwierzytelniania.
 
-Należy wskazać, że uwierzytelnianie z wykorzystaniem kodu SMS lub połączenia telefonicznego może stanowić ingerencje w prywatność użytkownika, gdyż wymagane jest ze strony użytkownika ujawnienie usłudze internetowej jego indywidualnego numeru telefonu. Praktycznie każdy może jednocześnei użytkować ograniczoną ilość numerów telefonu, zatem ten identyfikator identyfikuje użytkownika nie tylko w danej usłudze, ale także będzie współdzielony w innych usługach. Taka sytuacja może budzić opór niektórych użytkowników, a w niektórych społecznościach stanowić wręcz nieakceptowalną ingerencje w prywatnościach.  Taka forma nie występuje w pozostałych przedstawionych formach uwierzytelniania.
+Należy wskazać, że uwierzytelnianie z wykorzystaniem kodu SMS lub połączenia telefonicznego może stanowić ingerencje w prywatność użytkownika, gdyż wymagane jest ze strony użytkownika ujawnienie usłudze internetowej jego indywidualnego numeru telefonu. Praktycznie każdy może jednocześnie użytkować ograniczoną ilość numerów telefonu, zatem ten identyfikator identyfikuje użytkownika nie tylko w danej usłudze, ale także będzie współdzielony w innych usługach. Taka sytuacja może budzić opór niektórych użytkowników, a w niektórych społecznościach stanowić wręcz nieakceptowalną ingerencje w prywatnościach.  Taka forma nie występuje w pozostałych przedstawionych formach uwierzytelniania.
 
 Kryptografia asymetryczna
 -------------------------
 
-Dość powszechnie - stosowane zarówno w środowisku przemysłowym i domowym - zwłaszcza w środowisku systemu operacyjnego Linux jest uwierzytelnianie z wykorzystaniem klucza publicznego. Polega ono na przedstawioniu podpisanej cyfrowo wiadomości.
+Dość powszechnie - stosowane zarówno w środowisku przemysłowym i domowym - zwłaszcza w środowisku systemu operacyjnego Linux jest uwierzytelnianie z wykorzystaniem klucza publicznego. Polega ono na przedstawieniu podpisanej cyfrowo wiadomości.
 
 Ten rodzaj uwierzytelniania został zastosowany m .in . w protokole SSH2, którego specyfikacja wymaga implementacji tej formy uwierzytelniani [#SSH_public_key]_. Uwierzytelnienie klienta odbywa się po negocjacji warunków połączenia i uwierzytelnienie serwera. Polega na przesłaniu pakietu o następującej strukturze::
 
@@ -313,16 +313,16 @@ Należy objaśnić, że przedstawiony identyfikator sesji (``session identifier`
 
 Klucz publiczny jest składowany często na komputerze użytkownika, co oznacza że ten sposób uwierzytelniania należy sklasyfikować jako oparty na "czymś co masz" (`authentication_form`_). Należy od razu jednak podkreślić, że klucz prywatny może przechowywany w formie zaszyfrowanej i wówczas wymagane jest wprowadzenia hasła przed tym jak wygenerowanie podpisu cyfrowego stanie się możliwe.
 
-Ta forma uwierzytelniania nie jest wrażliwa na sytuacje, gdy poufność klucza prywatnego użytkownika zostanie naruszona. Może to mieć miejsce w sytuacji ataku złoślwiego oprogramowania na komputer użytkownika. Niedostateczne w takim przypadku może okazać się szyfrowanie hasła, gdyż podczas próby użycia klucza hasło lub sam klucz może zostać przejęta przez złośliwe oprogramowanie z pamięci komputera.
+Ta forma uwierzytelniania nie jest wrażliwa na sytuacje, gdy poufność klucza prywatnego użytkownika zostanie naruszona. Może to mieć miejsce w sytuacji ataku złośliwego oprogramowania na komputer użytkownika. Niedostateczne w takim przypadku może okazać się szyfrowanie hasła, gdyż podczas próby użycia klucza hasło lub sam klucz może zostać przejęta przez złośliwe oprogramowanie z pamięci komputera.
 
-Jest ona natomiast pozbawione zagrożenia, że użycie tych samych danych dostępowych stanowić będzie zagrożenie dla samego użytkownika. Nie ma zatem konieczności - analogicznie do współdzielonego sekretu - wprowadzenia rozwiązań, które chroniłyby poufność kluczy po stronie system uwierzytelniającego, a w szczególności przechoywanie danych z wykorzystaniem funkcji skrótu (:ref:`hashing`).
+Jest ona natomiast pozbawione zagrożenia, że użycie tych samych danych dostępowych stanowić będzie zagrożenie dla samego użytkownika. Nie ma zatem konieczności - analogicznie do współdzielonego sekretu - wprowadzenia rozwiązań, które chroniłyby poufność kluczy po stronie system uwierzytelniającego, a w szczególności przechowanie danych z wykorzystaniem funkcji skrótu (:ref:`hashing`).
 
 Istotne jest jedynie zagwarantowanie integralności bazy uprawnionych kluczy, gdyż jego modyfikacja, w szczególności dopisanie kluczy obcych może prowadzić do obejścia zabezpieczeń.
 
 Universal 2nd Factor
 ^^^^^^^^^^^^^^^^^^^^
 
-Jedną z form ochrony kluczy prywatnych wykorzystywanych do uwierzytalniania przed atakim złośliwego oprogramowania może stanowić wykorzystanie do tego celu dedykowanych układów elektronicznych, które stanowić będą sprzętowe zabezpieczenie przed naruszeniem poufności zawartego w układzie klucza prywatnego. Wykorzystanie ich jednak wymaga odpowiedniego sprzętu, oprogramowania (sterowników), a w przypadku aplikacji działających w przeglądarce także wsparcie z strony przeglądarki internetowej.
+Jedną z form ochrony kluczy prywatnych wykorzystywanych do uwierzytelniania przed atakom złośliwego oprogramowania może stanowić wykorzystanie do tego celu dedykowanych układów elektronicznych, które stanowić będą sprzętowe zabezpieczenie przed naruszeniem poufności zawartego w układzie klucza prywatnego. Wykorzystanie ich jednak wymaga odpowiedniego sprzętu, oprogramowania (sterowników), a w przypadku aplikacji działających w przeglądarce także wsparcie z strony przeglądarki internetowej.
 
 W ostatnim czasie rosnącą popularność zyskuje otwarty standard `Universal 2nd Factor` (U2F), który to realizuje. Opisuje sposób komunikacji stron internetowych z dedykowanym tokenem (kluczem sprzętowych) podłączonym z wykorzystaniem powszechnie dostępnego w komputerach portu USB bez wykorzystania dodatkowych sterowników za pośrednictwem przeglądarki w celu przeprowadzenia procesu uwierzytelniania. Stanowi zatem kompleksowe rozwiązanie umożliwiające przechowywanie kluczy kryptograficznych w sprzętowym tokenie i wykorzystanie ich w aplikacjach działających w przeglądarce internetowej wymagających uwierzytelnienia.
 
@@ -349,12 +349,12 @@ Obie formy uwierzytelniania nie są doskonałe, dla każdej z nich istnieją okr
 
 Jest to praktykowane, ponieważ w komunikacji elektronicznej stosowanie samego hasła wiąże się z różnego rodzaju ryzykiem, a wykorzystanie kilku form uwierzytelnienia może ograniczać skutki przechwycenia (keylogger), albo podsłuchania (sniffer) hasła po którym przestaje ono być wówczas znane wyłącznie osobie uprawnionej, zaś kradzież może pozostać niezauważona. Ryzyko to można ograniczyć, wprowadzając dodatkowy składnik uwierzytelniania wykorzystując kilka form autoryzacji jednocześnie.
 
-Najpopularniejszym rozwiązaniem jest - łacznie z hasłem - wykorzystanie m. in.:
+Najpopularniejszym rozwiązaniem jest - łącznie z hasłem - wykorzystanie m. in.:
 
 * sprzętowego tokenu istniejącego w jednym, unikatowym egzemplarzu, więc jego użycie wymaga fizycznego dostępu lub kradzieży, która zostanie zauważona (cecha coś co masz),
 * jednorazowych kodów generowanych programowo (TOTP), a także przesłanych z użyciem alternatywnego kanału komunikacji (SMS, połączenia, e-mail).
 
-W ostatnich latach zauważalna jest popularność takich rozwiązań w powszechnych usługach internetowych. Obsługę dla wieloskładnikowego uwierzytelniania zapewnia usługa poczty Gmail i Outlook.com, serwisy społecznościowe Facebook i Google+, a nawet platformy gier Battle.net i Steam. Istnieją dedykowane strony internetowe, których celem jest popularyzacja takich rozwiąząń - `TwoFactorAuth.info.org <http://TwoFactorAuth.info.org>`_  i `Dongleauth.info <https://Dongleauth.info>`_ . Po pierwsze, poprzez promocję wśród konsumentów witryn internetowych, które wspierają bezpieczne formy uwierzytelniania. Po drugie, mają wywierać presję na dostawców usług internetowych, aby wdrożyli oni w optymalny sposób bezpieczne formy uwierzytelniania.
+W ostatnich latach zauważalna jest popularność takich rozwiązań w powszechnych usługach internetowych. Obsługę dla wieloskładnikowego uwierzytelniania zapewnia usługa poczty Gmail i Outlook.com, serwisy społecznościowe Facebook i Google+, a nawet platformy gier Battle.net i Steam. Istnieją dedykowane strony internetowe, których celem jest popularyzacja takich rozwiązań - `TwoFactorAuth.info.org <http://TwoFactorAuth.info.org>`_  i `Dongleauth.info <https://Dongleauth.info>`_ . Po pierwsze, poprzez promocję wśród konsumentów witryn internetowych, które wspierają bezpieczne formy uwierzytelniania. Po drugie, mają wywierać presję na dostawców usług internetowych, aby wdrożyli oni w optymalny sposób bezpieczne formy uwierzytelniania.
 
 W Polsce dostępność takich rozwiązań rośnie. Analiza witryny Dwa-Skladniki.pl przeprowadzona wskazuje, że żaden krajowy dostawa usług pocztowych nie oferuje takich form uwierzytelniania. Ani Interia, ani O2.pl, ani WP.pl, ani Onet.pl nie oferują takich rozwiązań. Zainteresowane osoby zmuszone są do korzystania z usług w/w zagranicznych gigantów. Natomiast spośród firm hostingowych jakąkolwiek formę dwuskładnikowego uwierzytelniania zapewnia wyłącznie MyDevil.net. Jeżeli chce się mieć bezpieczny hosting w Polsce – należy samemu nim zarządzać. Wówczas można skorzystać z usług OVH, Oktawave lub e24cloud [#2fa_analiza_pl]_.
 
@@ -374,19 +374,19 @@ Dobór form uwierzytelniania adekwatny do ryzyka
 
 Analizy ryzyka bezpieczeństwa informacji oparta winna być na ocenie zasobów, zagrożeń, zabezpieczeń i podatności systemów informatycznych organizacji, a następnie na analizie ryzyka, w tymm określenie ryzyka akceptowalnego i szczątkowego, co pozwala na skuteczne zarządzanie bezpieczeństwem informatycznym i zaprojektowanie systemu ochrony [#madej_ryzyka]_.
 
-Wdrożenie dwuskładnikowego uwierzytelniania w otwartej usłudze wymaga dużej uwagi i działań promocyjnych takich rozwiazań, ze względu na brak świadomości społecznej. W wielu usługach użytkownicy wciąż nie korzystają z dwuskładnikowego uwierzytelniania, nawet gdy są one dostępne. Chociaż z drugiej strony w realiach polskich brak jest odpowiedniej kultury w IT, co przejawia się nieoferowaniem użytkownikom takich rozwiązań. Niska popularność takich rozwiazań wpływa na ograniczenie wsparcie dla wdrożenia takich rozwiązań np. brak dostawców tokenów SMS lub telefonicznych nastawionych na rynek polski, co wymaga samodzielnej implementacji w oparciu o ogólne API, co powoduje wzrost kosztu takich rozwiazań. W przypadku gdy uwierzytelnianie wymaga dedykowanego sprzętu występuje dla niego ograniczona dostępność, co wymaga poczynienia nakładów na samodzielny montaż lub import.
+Wdrożenie dwuskładnikowego uwierzytelniania w otwartej usłudze wymaga dużej uwagi i działań promocyjnych takich rozwiązań, ze względu na brak świadomości społecznej. W wielu usługach użytkownicy wciąż nie korzystają z dwuskładnikowego uwierzytelniania, nawet gdy są one dostępne. Chociaż z drugiej strony w realiach polskich brak jest odpowiedniej kultury w IT, co przejawia się nieoferowaniem użytkownikom takich rozwiązań. Niska popularność takich rozwiązań wpływa na ograniczenie wsparcie dla wdrożenia takich rozwiązań np. brak dostawców tokenów SMS lub telefonicznych nastawionych na rynek polski, co wymaga samodzielnej implementacji w oparciu o ogólne API, co powoduje wzrost kosztu takich rozwiązań. W przypadku gdy uwierzytelnianie wymaga dedykowanego sprzętu występuje dla niego ograniczona dostępność, co wymaga poczynienia nakładów na samodzielny montaż lub import.
 
-Dopuszczalne forme uwierzytelniania winna być adekwatna do wartości chronionych zasobów i zagrożeń, a także uwzględniać czynniki społeczne np. związane z prawem do prywatności i dotychczasową dostępność tokenów U2F. Inne wymagania mogą zostać wykorzystywane w zakresie administracyjnego dostępu do systemu bankowego, a inne w przypadku powszechnego dostępu użytkowników bez szczególnych uprawnień, gdzie narażenie konta użytkownika stanowi zagrożenie wyłącznie dla jego własnych danych.
+Dopuszczalne formę uwierzytelniania winna być adekwatna do wartości chronionych zasobów i zagrożeń, a także uwzględniać czynniki społeczne np. związane z prawem do prywatności i dotychczasową dostępność tokenów U2F. Inne wymagania mogą zostać wykorzystywane w zakresie administracyjnego dostępu do systemu bankowego, a inne w przypadku powszechnego dostępu użytkowników bez szczególnych uprawnień, gdzie narażenie konta użytkownika stanowi zagrożenie wyłącznie dla jego własnych danych.
 
-Stowarzyszenie Sieć Obywaatelska - Watchdog Polska jest organizacją strażniczą dla której istotną, zapisaną w samym organizacji statucie jest poszanowanie prawa człowieka do prywatności. Podejmuje także działania kontrolne wobec służb i naczelnych organów państwa, co stwarza potencjalne zagrożenie wykorzystaniem uprawnień państwa do ingerencji w systemy informatyczne Stowarzyszenia, także w porozumieniu z potencjalnie zaufaną trzecią. Obniża to w istotny sposób uwierzytelnianie wykorzystujące bezpieczny kanał komunikacji w postaci sieci GSM, gdyż jego bezpieczeństwo jest w takich sytuacjach wątpliwe. Ograniczone grono pracowników dysponuje własnymi telefonami komórkowymi, a w tym zakresie dominuje podejście - z własnego wyboru pracowników - BYOP (bring your own phone), a więc ich wykorzystanie w procesie uwierzytelniania stanowi ingerencje w prywatność, która może zostać niezaakceptowana.
+Stowarzyszenie Sieć Obywatelska - Watchdog Polska jest organizacją strażniczą dla której istotną, zapisaną w samym organizacji statucie jest poszanowanie prawa człowieka do prywatności. Podejmuje także działania kontrolne wobec służb i naczelnych organów państwa, co stwarza potencjalne zagrożenie wykorzystaniem uprawnień państwa do ingerencji w systemy informatyczne Stowarzyszenia, także w porozumieniu z potencjalnie zaufaną trzecią. Obniża to w istotny sposób uwierzytelnianie wykorzystujące bezpieczny kanał komunikacji w postaci sieci GSM, gdyż jego bezpieczeństwo jest w takich sytuacjach wątpliwe. Ograniczone grono pracowników dysponuje własnymi telefonami komórkowymi, a w tym zakresie dominuje podejście - z własnego wyboru pracowników - BYOP (bring your own phone), a więc ich wykorzystanie w procesie uwierzytelniania stanowi ingerencje w prywatność, która może zostać niezaakceptowana.
 
 Wywołuje to przeświadczenie o adekwatności trójstopniowej polityki wrażliwości kont użytkownika:
 
 * Wysoki poziom wrażliwości charakteryzowany dla kont użytkownika o administracyjnych uprawnieniach co najmniej w jednym systemie komputerowym Stowarzyszenia.
-* Średni poziom wrażliwości odnosi się do kont użytkownika, które posiadają wyższe niż przeciętne uprawnienia w co najmniej jednym systemie informatycznym Stowarzyszenia, w szczególnośći dla kont z uprawnieniami redakcyjnymi serwisy internetowe.
+* Średni poziom wrażliwości odnosi się do kont użytkownika, które posiadają wyższe niż przeciętne uprawnienia w co najmniej jednym systemie informatycznym Stowarzyszenia, w szczególności dla kont z uprawnieniami redakcyjnymi serwisy internetowe.
 * Niski poziomi wrażliwości odnosi się do kont użytkownika, które nie posiadają żadnych szczególnych uprawnień w żadnym systemie informatycznym.
 
-Dla każdego z poziomów wrażiwości kont użytkownika możliwe jest przyporządkowanie minimalnych form uwierzytelniania:
+Dla każdego z poziomów wrażliwości kont użytkownika możliwe jest przyporządkowanie minimalnych form uwierzytelniania:
 
 * wysoki poziom wrażliwości - dwuskładnikowe uwierzytelnianie oparte o współdzielone hasło i token U2F,
 * średni poziom wrażliwości - dwuskładnikowe uwierzytelnianie oparte o współdzielone hasło i tokenem TOTP lub formy uwierzytelniania właściwe dla kont z wysokim poziomem wrażliwości,
