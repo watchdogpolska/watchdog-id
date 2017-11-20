@@ -6,7 +6,8 @@ from django.contrib import messages
 from django.views.generic import FormView
 from django.utils.translation import ugettext_lazy as _
 
-from watchdog_id.auth_factories import get_identified_user, set_user
+from watchdog_id.auth_factories import get_identified_user, set_user, register_authenticated_factory
+from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authenticated
 
 
 class PasswordForm(SingleButtonMixin, forms.Form):
@@ -41,6 +42,7 @@ class PasswordLoginView(FormView):
         return kwargs
 
     def form_valid(self, form):
-        set_user(self.request, form.user)
+        from watchdog_id.auth_factories.password.config import PasswordConfig
         messages.success(self.request, _("Password authentication succeeded."))
-        return redirect('auth_factories:list')
+        register_authenticated_factory(self.request, PasswordConfig)
+        return redirect_unless_full_authenticated(self.request)

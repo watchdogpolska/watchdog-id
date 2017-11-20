@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 class BaseConfig(object):
     id = None
     urlpatterns = None
+    weight = 50
 
     @property
     def name(self):

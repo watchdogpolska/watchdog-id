@@ -10,3 +10,4 @@ class PasswordConfig(BaseConfig):
     id = 'password'
     urlpatterns = 'watchdog_id.auth_factories.password.urls'
     name = _("Password")
+    weight = 100

@@ -11,8 +11,10 @@ from django.utils.functional import cached_property
 from django.views.generic import FormView, ListView, TemplateView
 from django.utils.translation import ugettext_lazy as _
 
-from watchdog_id.auth_factories import set_identified_user, get_identified_user, Registry, unset_user
+from watchdog_id.auth_factories import set_identified_user, get_identified_user, Registry, unset_user, \
+    get_authenticated_factory_list
 from watchdog_id.auth_factories.models import Factor
+from watchdog_id.auth_factories.shortcuts import get_user_weight, get_authenticated_weight
 from watchdog_id.users.models import User
 
 
@@ -48,26 +50,38 @@ class FactorListView(ListView):
         if self.identified_user is None:
             messages.warning(self.request, _("You must first identify yourself."))
             return redirect(reverse('auth_factories:login'))
-        if not self.request.user.is_anonymous():
-            messages.warning(self.request, _("You do not need to authenticate more."))
-            return redirect(self.request.session.get('success_url', reverse('home')))
+        # if not self.request.user.is_anonymous():
+        #     messages.warning(self.request, _("You do not need to authenticate more."))
+        #     return redirect(self.request.session.get('success_url', reverse('home')))
 
         return super(FactorListView, self).dispatch(request, *args, **kwargs)
-
-    def get_queryset(self):
-        return super(FactorListView, self).get_queryset()
 
     def get_context_data(self, **kwargs):
         kwargs['factory_list'] = self.get_factory_list()
         kwargs['registry'] = Registry
         kwargs['identified_user'] = self.identified_user
+        kwargs.update(self.get_weight())
         return super(FactorListView, self).get_context_data(**kwargs)
 
     def get_factory_list(self):
         data = []
-        for _, config in Registry.items():
-            data.append((config.name, config.get_authentication_url()))
+        authenticated_list = get_authenticated_factory_list(self.request)
+        for _, factory in Registry.items():
+            data.append(self.get_factory_list_item(authenticated_list, factory))
         return data
+
+    def get_factory_list_item(self, authenticated_list, config):
+        return (config.name, config.get_authentication_url(), config.weight, config in authenticated_list)
+
+    def get_weight(self):
+        weight = {}
+        user = get_user_weight(self.request.user)
+        authenticated = get_authenticated_weight(self.request)
+        left = user - authenticated
+        left = 0 if left < 0 else left
+        return {'user_weight': user,
+                'authenticated_weight': authenticated,
+                'left_weight': left}
 
 
 class LogoutForm(SingleButtonMixin, forms.Form):

@@ -3,10 +3,12 @@
 {% block content %}
 
     {% if factory_list %}
-        <h2>{% trans 'Select authentication method' %}</h2>
+        <h2>{% trans 'Select authentication method' %}
+            <span class="badge badge-warning" title="{% blocktrans %}You earned {{ authenticated_weight }} points required from {{ user_weight }} points.{% endblocktrans %}">{% blocktrans %}{{ left_weight }} weight points left!{% endblocktrans %}</span>
+        </h2>
         <div class="list-group">
-            {% for name, url in factory_list %}
-                <a href="{{ url }}" class="list-group-item list-group-item-action">{{ name }}</a>
+            {% for name, url, weight, active in factory_list %}
+                <a href="{{ url }}" class="list-group-item list-group-item-action">{{ name }} <span class="badge badge-{{ active|yesno:"secondary,primary" }}">{{ weight }}</span></a>
             {% endfor %}
         </div>
     {% else %}
