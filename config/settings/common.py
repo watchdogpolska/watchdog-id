@@ -39,7 +39,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'crispy_forms',  # Form layouts
     'rest_framework',
-    'tinymce',
+    # 'tinymce',
     'model_utils'
 )
 
@@ -47,7 +47,9 @@ THIRD_PARTY_APPS = (
 LOCAL_APPS = (
     # custom users app
     'watchdog_id.main',
-    'watchdog_id.news.apps.NewsConfig',
+    'watchdog_id.auth_factories.apps.AuthFactoriesConfig',
+    'watchdog_id.auth_factories.password.apps.PasswordConfig',
+    'watchdog_id.auth_factories.console_otp.apps.ConsoleOtpConfig',
     'watchdog_id.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 )
@@ -62,7 +64,7 @@ MIDDLEWARE = (
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'watchdog_id.auth_factories.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )

@@ -1,9 +1,0 @@
-{% extends 'news/post_base.html' %}
-{% load i18n %}
-
-{% block news_content %}
-{% for post in object_list %}
-<h1><a href="{{post.get_absolute_url}}">{{post.title}}</a><small>{% blocktrans with author=post.user published_at=post.published_at %}by {{author}} on {{published_at}}{% endblocktrans %}</small></h1>
-{{ post.content | safe }}
-{% endfor %}
-{% endblock %}

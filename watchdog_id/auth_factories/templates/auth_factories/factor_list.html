@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load i18n %}
+{% block content %}
+
+    {% if factory_list %}
+        <h2>{% trans 'Select authentication method' %}</h2>
+        <div class="list-group">
+            {% for name, url in factory_list %}
+                <a href="{{ url }}" class="list-group-item list-group-item-action">{{ name }}</a>
+            {% endfor %}
+        </div>
+    {% else %}
+        {% trans 'No authentication method.' %}
+    {% endif %}
+
+{% endblock %}
