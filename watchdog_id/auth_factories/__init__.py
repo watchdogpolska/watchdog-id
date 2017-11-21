@@ -18,35 +18,6 @@ def get_user(request):
     return user or AnonymousUser()
 
 
-def set_user(request, user):
-    request.session[SESSION_KEY] = user.pk
-
-
-def unset_user(request):
-    del request.session[SESSION_KEY]
-    del request.session[SESSION_IDENTIFIED_KEY]
-    del request.session[FACTORY_LIST_SESSION_KEY]
-
-
-def set_identified_user(request, user):
-    request.session[SESSION_IDENTIFIED_KEY] = user.pk
-
-
-def unset_identified_user(request):
-    del request.session[SESSION_IDENTIFIED_KEY]
-    del request.session[FACTORY_LIST_SESSION_KEY]
-
-
-def register_authenticated_factory(request, factory):
-    current = request.session.get(FACTORY_LIST_SESSION_KEY, [])
-    current.append(factory.id)
-    request.session[FACTORY_LIST_SESSION_KEY] = current
-
-
-def get_authenticated_factory_list(request):
-    return [Registry[factory_id] for factory_id in request.session.get(FACTORY_LIST_SESSION_KEY, [])]
-
-
 def get_identified_user(request):
     from django.contrib.auth.models import AnonymousUser
     user = None

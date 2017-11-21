@@ -2,6 +2,7 @@ from django.conf import settings
 from django.utils.functional import SimpleLazyObject
 from django.utils.deprecation import MiddlewareMixin
 from watchdog_id import auth_factories
+from watchdog_id.auth_factories.manager import SessionFactoryManager
 
 
 def get_user(request):
@@ -22,3 +23,4 @@ class AuthenticationMiddleware(MiddlewareMixin):
             "'django.contrib.auth.middleware.AuthenticationMiddleware'."
         ) % ("_CLASSES" if settings.MIDDLEWARE is None else "")
         request.user = SimpleLazyObject(lambda: get_user(request))
+        request.user_manager = SessionFactoryManager(request)

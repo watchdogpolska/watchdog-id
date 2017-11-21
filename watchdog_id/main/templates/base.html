@@ -48,6 +48,9 @@
                     <li class="nav-item">
                         <a class="nav-link" href="{% url 'auth_factories:logout' %}">{% trans "Sign Out" %}</a>
                     </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'auth_factories:settings' %}">{% trans "Authentication settings" %}</a>
+                    </li>
                 {% else %}
                     {#                <li class="nav-item">#}
                     {#                  <a id="sign-up-link" class="nav-link" href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>#}

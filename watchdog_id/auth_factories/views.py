@@ -11,10 +11,9 @@ from django.utils.functional import cached_property
 from django.views.generic import FormView, ListView, TemplateView
 from django.utils.translation import ugettext_lazy as _
 
-from watchdog_id.auth_factories import set_identified_user, get_identified_user, Registry, unset_user, \
-    get_authenticated_factory_list
+from watchdog_id.auth_factories import Registry
 from watchdog_id.auth_factories.models import Factor
-from watchdog_id.auth_factories.shortcuts import get_user_weight, get_authenticated_weight
+from watchdog_id.auth_factories.shortcuts import get_user_weight
 from watchdog_id.users.models import User
 
 
@@ -32,7 +31,7 @@ class LoginFormView(FormView):
     template_name = "auth_factories/login_form.html"
 
     def form_valid(self, form):
-        set_identified_user(self.request, form.cleaned_data['user'])
+        self.request.user_manager.set_identified_user(form.cleaned_data['user'])
         return HttpResponseRedirect(self.get_success_url())
 
     def get_success_url(self):
@@ -42,12 +41,8 @@ class LoginFormView(FormView):
 class FactorListView(ListView):
     model = Factor
 
-    @cached_property
-    def identified_user(self):
-        return get_identified_user(self.request)
-
     def dispatch(self, request, *args, **kwargs):
-        if self.identified_user is None:
+        if self.request.user is None:
             messages.warning(self.request, _("You must first identify yourself."))
             return redirect(reverse('auth_factories:login'))
         # if not self.request.user.is_anonymous():
@@ -59,26 +54,25 @@ class FactorListView(ListView):
     def get_context_data(self, **kwargs):
         kwargs['factory_list'] = self.get_factory_list()
         kwargs['registry'] = Registry
-        kwargs['identified_user'] = self.identified_user
+        kwargs['identified_user'] = self.request.user
         kwargs.update(self.get_weight())
         return super(FactorListView, self).get_context_data(**kwargs)
 
-    def get_factory_list(self):
-        data = []
-        authenticated_list = get_authenticated_factory_list(self.request)
-        for _, factory in Registry.items():
-            data.append(self.get_factory_list_item(authenticated_list, factory))
-        return data
+    @cached_property
+    def authenticated_list(self):
+        return self.request.user_manager.get_authenticated_factory_list()
 
-    def get_factory_list_item(self, authenticated_list, config):
-        return (config.name, config.get_authentication_url(), config.weight, config in authenticated_list)
+    def get_factory_list(self):
+        return [self.get_factory_item(x) for x in self.request.user_manager.get_enabled_factory_list()]
+
+    def get_factory_item(self, factory):  # TODO: Move to views
+        return (factory.name, factory.get_authentication_url(), factory.weight, factory in self.authenticated_list)
 
     def get_weight(self):
-        weight = {}
         user = get_user_weight(self.request.user)
-        authenticated = get_authenticated_weight(self.request)
+        authenticated = self.request.user_manager.get_authenticated_weight()
         left = user - authenticated
-        left = 0 if left < 0 else left
+        left = max(0, left)
         return {'user_weight': user,
                 'authenticated_weight': authenticated,
                 'left_weight': left}
@@ -95,5 +89,26 @@ class LogoutActionView(FormView):
 
     def form_valid(self, form):
         messages.success(self.request, _("The user is logged out correctly."))
-        unset_user(self.request)
+        self.request.user_manager.unset_user()
         return super(LogoutActionView, self).form_valid(form)
+
+
+class SettingsView(TemplateView):
+    template_name = "auth_factories/settings.html"
+
+    def get_context_data(self, **kwargs):
+        kwargs['factory_list'] = self.get_factory_list()
+        return super(SettingsView, self).get_context_data(**kwargs)
+
+    def get_factory_list(self):
+        return [self.get_factory_item(factory) for factory in self.request.user_manager.get_available_factory_list()]
+
+    @cached_property
+    def enabled_factory(self):
+        return self.request.user_manager.get_enabled_factory_list()
+
+    def get_factory_item(self, factory):
+        print(self.enabled_factory)
+        return {'name': factory.name,
+                'active': factory in self.enabled_factory,
+                'factory': factory}

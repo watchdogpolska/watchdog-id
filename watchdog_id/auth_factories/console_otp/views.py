@@ -10,7 +10,7 @@ from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 
-from watchdog_id.auth_factories import get_identified_user, set_user, register_authenticated_factory
+from watchdog_id.auth_factories import get_identified_user
 from watchdog_id.auth_factories.console_otp.config import ConsoleOtpConfig
 from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authenticated
 
@@ -66,9 +66,8 @@ class LoginView(FormView):
         return kwargs
 
     def form_valid(self, form):
-        set_user(self.request, form.user)
         messages.success(self.request, _("Console OTP authentication succeeded."))
-        register_authenticated_factory(self.request, ConsoleOtpConfig)
+        self.request.user_manager.add_authenticated_factory(self.request, ConsoleOtpConfig)
         return redirect_unless_full_authenticated(self.request)
 
     def form_invalid(self, form):
