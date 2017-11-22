@@ -19,13 +19,16 @@ var gulp = require('gulp'),
       exec = require('child_process').exec,
       runSequence = require('run-sequence'),
       browserSync = require('browser-sync').create(),
-      reload = browserSync.reload;
+      reload = browserSync.reload,
+      concat = require('gulp-concat');
 
 
 // Relative paths function
+
+
 var pathsConfig = function (appName) {
   this.app = "./" + (appName || pjson.name);
-
+  this.python = pythonPath = process.env.VIRTUAL_ENV || process.env.PWD || "/usr/local/lib/python2.7/";
   return {
     app: this.app,
     templates: this.app + '/templates',
@@ -34,6 +37,9 @@ var pathsConfig = function (appName) {
     fonts: this.app + '/static/fonts',
     images: this.app + '/static/images',
     js: this.app + '/static/js',
+    vendor_js: [
+        'node_modules/qrious/dist/qrious.js'
+    ]
   }
 };
 
@@ -58,11 +64,19 @@ gulp.task('styles', function() {
 
 // Javascript minification
 gulp.task('scripts', function() {
-  return gulp.src(paths.js + '/project.js')
+  gulp.src(paths.js + '/project.js')
     .pipe(plumber()) // Checks for errors
     .pipe(uglify()) // Minifies the js
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest(paths.js));
+
+  gulp.src(paths.vendor_js)
+    .pipe(uglify()) // Minifies the js
+    .pipe(concat('vendor.js'))
+    .pipe(gulp.dest(paths.js))
+    .pipe(rename({ suffix: '.min' }))
+    .pipe(gulp.dest(paths.js));
+
 });
 
 // Image compression
