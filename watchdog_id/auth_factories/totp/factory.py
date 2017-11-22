@@ -6,13 +6,11 @@ from watchdog_id.auth_factories.config import BaseConfig
 from watchdog_id.auth_factories.password import views
 
 
-class PasswordConfig(BaseConfig):
-    id = 'password'
-    urlpatterns = 'watchdog_id.auth_factories.password.urls'
-    name = _("Password")
+class TOTPFactory(BaseConfig):
+    id = 'totp'
+    urlpatterns = 'watchdog_id.auth_factories.totp.urls'
+    name = _("TOTP token")
     weight = 100
 
     def is_enabled(self, user):
-        if not hasattr(user, 'passwordsettings'):  # Password enabled by default
-            return True
-        return user.passwordsettings.status
+        return user.otppassword_set.all().exists()
