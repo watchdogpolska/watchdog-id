@@ -3,6 +3,7 @@ from atom.views import DeleteMessageMixin
 from braces.views import UserFormKwargsMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic.edit import CreateView, DeleteView
 from django_tables2 import SingleTableView
@@ -46,6 +47,11 @@ class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
     form_class = AuthenticationForm
     factory = YubicoOtpFactory
     success_message = _("OTP authentication succeeded.")
+
+    def form_valid(self, form):
+        form.token.last_used = now()
+        form.token.save()
+        return super(AuthenticationView, self).form_valid(form)
 
     def get_form_kwargs(self):
         kwargs = super(AuthenticationView, self).get_form_kwargs()
