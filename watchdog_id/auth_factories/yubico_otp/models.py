@@ -14,11 +14,13 @@ class YubicoOTPDeviceQuerySet(models.QuerySet):
 
 class YubicoOTPDevice(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    device_id = models.CharField(max_length=12, help_text=_("Device ID"))
+    device_id = models.CharField(max_length=12, verbose_name=_("Device ID"))
     device_name = models.CharField(max_length=25,
                                    default=_("Yubico Token"),
+                                   verbose_name=_("Device name"),
                                    help_text=_("Affordable user name token"))
-    last_used = models.DateTimeField(null=True, blank=True, help_text=_("Time of last use of the token"))
+    last_used = models.DateTimeField(null=True, blank=True, verbose_name=_("Last used"),
+                                     help_text=_("Time of last use of the token"))
     objects = YubicoOTPDeviceQuerySet.as_manager()
 
     class Meta:

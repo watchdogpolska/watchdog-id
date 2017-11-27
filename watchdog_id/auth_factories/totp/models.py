@@ -12,9 +12,10 @@ class OTPPasswordQuerySet(models.QuerySet):
 
 class OTPPassword(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
-    device_name = models.CharField(max_length=25, help_text=_("Device name"))
-    last_used = models.DateTimeField(null=True, blank=True, help_text=_("Time of last use of the token"))
-    shared_secret = models.CharField(max_length=16, help_text=_("base32 secret"))
+    device_name = models.CharField(max_length=25, verbose_name=_("Device name"))
+    last_used = models.DateTimeField(null=True, blank=True, verbose_name=_("Last used"),
+                                     help_text=_("Time of last use of the token"))
+    shared_secret = models.CharField(max_length=16, verbose_name=_("base32 secret"))
     objects = OTPPasswordQuerySet.as_manager()
 
     class Meta:
