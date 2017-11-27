@@ -7,6 +7,7 @@ from atom.views import DeleteMessageMixin
 from braces.views import LoginRequiredMixin, FormValidMessageMixin, UserFormKwargsMixin
 from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
+from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, UpdateView, DeleteView, FormView
 from django_tables2 import SingleTableView
@@ -97,6 +98,10 @@ class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
     def get_form_kwargs(self):
         kwargs = super(AuthenticationView, self).get_form_kwargs()
         user = get_identified_user(self.request)
-        kwargs['totps'] = [pyotp.TOTP(x.shared_secret)
-                           for x in OTPPassword.objects.for_user(user).all()]
+        kwargs['otp_password_list'] = OTPPassword.objects.for_user(user).all()
         return kwargs
+
+    def form_valid(self, form):
+        form.otp_password.last_used = now()
+        form.otp_password.save()
+        return super(AuthenticationView, self).form_valid(form)

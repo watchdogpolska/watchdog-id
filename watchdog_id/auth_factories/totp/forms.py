@@ -61,7 +61,9 @@ class PasswordForm(SingleButtonMixin, forms.Form):
                       }
 
     def __init__(self, *args, **kwargs):
-        self.totps = kwargs.pop('totps', [])
+
+        self.otp_passwords = kwargs.pop('otp_password_list', [])
+        self.totps = [(x, pyotp.TOTP(x.shared_secret)) for x in self.otp_passwords]
         super(PasswordForm, self).__init__(*args, **kwargs)
 
     def clean_token(self):
@@ -69,9 +71,19 @@ class PasswordForm(SingleButtonMixin, forms.Form):
         self.verify_token_match(token)
         return self.cleaned_data
 
+    def _find_valid_totp(self, token):
+        for otp_password, totp in self.totps:
+            if totp.verify(token):
+                return otp_password, totp
+        return (None, None)
+
     def verify_token_match(self, token):
-        if not any(totp.verify(int(token)) for totp in self.totps):
+        otp_password, totp = self._find_valid_totp(token)
+
+        if not totp:
             raise forms.ValidationError(
                 self.error_messages['mismatch_token'],
                 code='mismatch_token',
             )
+
+        self.otp_password = otp_password
