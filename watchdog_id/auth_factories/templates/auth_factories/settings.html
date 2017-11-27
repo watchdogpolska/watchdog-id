@@ -11,8 +11,14 @@
 {% block content %}
 
     {% if factory_list %}
-        {{ factory_list }}
-        {{ user.passwordsettings }}
+        {% if debug %}
+            <div class="bg-warning">
+                <h2>{% trans 'Factory list' %}</h2>
+                <pre>{{ factory_list |pprint }}</pre>
+                <h2>{% trans 'Password settings' %}</h2>
+                <pre>{{ user.passwordsettings }}</pre>
+            </div>
+        {% endif %}
         <h2>{% trans 'Authentication settings' %}</h2>
         <div class="list-group">
             {% for item in factory_list %}
