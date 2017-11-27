@@ -1,0 +1,120 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-27 22:10+0000\n"
+"PO-Revision-Date: 2017-11-27 23:14+0100\n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
+"%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
+"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"Language-Team: \n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: factory.py:9
+msgid "TOTP token"
+msgstr "TOTP token"
+
+#: forms.py:24
+msgid "Invalid token. Token consists only of digits."
+msgstr "Nieprawidłowy token. Token może zawierać tylko liczby."
+
+#: forms.py:29
+msgid "Token"
+msgstr "Token"
+
+#: forms.py:39
+msgid "The token you entered is invalid. Hurry up and try again."
+msgstr ""
+"Wprowadzony token jest nieprawidłowy. Pośpiesz się i spróbuj ponownie."
+
+#: forms.py:58
+msgid "OTP"
+msgstr "OTP"
+
+#: forms.py:60
+msgid "Invalid token. No device match. Hurry up and try again."
+msgstr ""
+"Nieprawidłowy token. Nie znaleziono urządzenia. Pospiesz się i spróbuj "
+"ponownie."
+
+#: models.py:15
+msgid "Device name"
+msgstr "Nazwa urządzenia"
+
+#: models.py:16
+msgid "Last used"
+msgstr "Ostatnio użyty"
+
+#: models.py:17
+msgid "Time of last use of the token"
+msgstr "Czas ostatniego użycia tokena"
+
+#: models.py:18
+msgid "base32 secret"
+msgstr "Sekret base32"
+
+#: models.py:22
+msgid "OTP Password"
+msgstr "Hasło OTP"
+
+#: models.py:23
+msgid "OTP Passwords"
+msgstr "Hasła OTP"
+
+#: templates/totp/_otpassword_table.html:3
+msgid "Update"
+msgstr "Aktualizuj"
+
+#: templates/totp/_otpassword_table.html:6
+#: templates/totp/otppassword_confirm_delete.html:25
+msgid "Delete"
+msgstr "Usuń"
+
+#: templates/totp/otppassword_confirm_delete.html:16
+msgid "Confirmation"
+msgstr "Potwierdzenie"
+
+#: templates/totp/otppassword_confirm_delete.html:19
+msgid "Deletion confirmation"
+msgstr "Potwierdzenie usuwania"
+
+#: templates/totp/otppassword_confirm_delete.html:24
+msgid "Action buttons"
+msgstr "Przyciski akcji"
+
+#: templates/totp/otppassword_confirm_delete.html:26
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: templates/totp/otppassword_list.html:15
+msgid "Add device"
+msgstr "Dodaj urządzenie"
+
+#: views.py:72
+#, python-brace-format
+msgid "{0} created!"
+msgstr "{0} utworzony!"
+
+#: views.py:81
+#, python-brace-format
+msgid "{0} updated!"
+msgstr "{0} zaktualizowany!"
+
+#: views.py:89
+#, python-brace-format
+msgid "{0} deleted!"
+msgstr "{0} usunięty!"
+
+#: views.py:96
+msgid "OTP authentication succeeded."
+msgstr "OTP uwierzytelniony poprawnie."

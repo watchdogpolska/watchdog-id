@@ -29,4 +29,4 @@ class YubicoOTPDevice(TimeStampedModel):
         ordering = ['created', ]
 
     def __str__(self):
-        return "YubicoOTPDevice [{}]".format(self.device_id)
+        return _("Yubico OTP Device [{}]").format(self.device_id)

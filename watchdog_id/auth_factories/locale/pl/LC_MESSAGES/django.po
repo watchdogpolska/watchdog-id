@@ -1,0 +1,104 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-27 22:10+0000\n"
+"PO-Revision-Date: 2017-11-27 23:05+0100\n"
+"Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
+"%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
+"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: templates/auth_factories/factor_list.html:13
+#: templates/auth_factories/settings.html:16
+msgid "Factory list"
+msgstr "Lista składników"
+
+#: templates/auth_factories/factor_list.html:15
+#: templates/auth_factories/settings.html:18
+msgid "Password settings"
+msgstr "Ustawienia hasła"
+
+#: templates/auth_factories/factor_list.html:19
+msgid "Select authentication method"
+msgstr "Wybierz formę uwierzytelniania"
+
+#: templates/auth_factories/factor_list.html:21
+#, python-format
+msgid ""
+"You earned %(authenticated_weight)s points required from %(user_weight)s "
+"points."
+msgstr ""
+"Uzyskałeś %(authenticated_weight)s punktów z %(user_weight)s wymaganych do "
+"uwierzytelniania."
+
+#: templates/auth_factories/factor_list.html:21
+#, python-format
+msgid ""
+"\n"
+"                %(left_weight)s weight points left!"
+msgstr ""
+"\n"
+"                %(left_weight)s punktów pozostało!"
+
+#: templates/auth_factories/factor_list.html:31
+#: templates/auth_factories/settings.html:47
+msgid "No authentication method."
+msgstr "Brak form uwierzytelniania"
+
+#: templates/auth_factories/logout.html:12
+msgid "Logout"
+msgstr "Wyloguj"
+
+#: templates/auth_factories/settings.html:22
+msgid "Authentication settings"
+msgstr "Ustawienia uwierzytelniania"
+
+#: templates/auth_factories/settings.html:29
+#: templates/auth_factories/settings.html:38
+msgid "Active"
+msgstr "Aktywne"
+
+#: templates/auth_factories/settings.html:31
+#: templates/auth_factories/settings.html:40
+msgid "Inactive"
+msgstr "Nieaktywne"
+
+#: views.py:21
+msgid "Log in"
+msgstr "Zaloguj"
+
+#: views.py:26
+msgid "Username"
+msgstr "Nazwa użytkownika"
+
+#: views.py:59
+msgid "You must first identify yourself."
+msgstr "Najpierw musisz się przedstawić."
+
+#: views.py:62
+msgid "You do not need to authenticate more."
+msgstr "Nie musisz się więcej uwierzytelniać."
+
+#: views.py:87
+msgid "Log out"
+msgstr "Wyloguj"
+
+#: views.py:96
+msgid "The user is logged out correctly."
+msgstr "Wylogowano poprawnie."
+
+#: views.py:139
+msgid "You have already used this authentication method."
+msgstr "Użyłeś już tej metody uwierzytelniania."

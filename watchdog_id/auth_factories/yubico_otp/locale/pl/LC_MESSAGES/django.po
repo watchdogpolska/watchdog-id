@@ -1,0 +1,123 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2017-11-27 22:10+0000\n"
+"PO-Revision-Date: 2017-11-27 23:10+0100\n"
+"Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
+"Language-Team: \n"
+"Language: pl\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n==1 ? 0 : (n%10>=2 && n%10<=4) && (n"
+"%100<12 || n%100>=14) ? 1 : n!=1 && (n%10>=0 && n%10<=1) || (n%10>=5 && n"
+"%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
+"X-Generator: Poedit 1.8.7.1\n"
+
+#: yubico_otp/factory.py:10
+msgid "Yubico OTP"
+msgstr "Yubico OTP"
+
+#: yubico_otp/forms.py:11
+msgid "OTP"
+msgstr "OTP"
+
+#: yubico_otp/forms.py:13
+msgid "Please enter a correct OTP."
+msgstr "Wprowadź poprawny kod OTP."
+
+#: yubico_otp/forms.py:14
+msgid "Token verification failed (invalid signature). Try again."
+msgstr ""
+"Weryfikacja tokenu nie powiodła się (niepoprawny podpis). Spróbuj ponownie."
+
+#: yubico_otp/forms.py:15
+msgid "The used token is already registered for the current user."
+msgstr "Używany token jest już zarejestrowany dla bieżącego użytkownika."
+
+#: yubico_otp/forms.py:16
+msgid "Token verification failed (rejected by auth server). Try again."
+msgstr ""
+"Nieudana weryfikacja tokena (odrzucona przez serwer uwierzytelniania). "
+"Spróbuj ponownie."
+
+#: yubico_otp/models.py:17
+msgid "Device ID"
+msgstr "ID urządzenia"
+
+#: yubico_otp/models.py:19
+msgid "Yubico Token"
+msgstr "Token Yubico"
+
+#: yubico_otp/models.py:20
+msgid "Device name"
+msgstr "Nazwa urządzenia"
+
+#: yubico_otp/models.py:21
+msgid "Affordable user name token"
+msgstr "Przystępna, użytkownika nazwa tokenu "
+
+#: yubico_otp/models.py:22
+msgid "Last used"
+msgstr "Ostatnio użyty"
+
+#: yubico_otp/models.py:23
+msgid "Time of last use of the token"
+msgstr "Czas ostatniego użycia tokena"
+
+#: yubico_otp/models.py:27
+msgid "Yubico OTP Device"
+msgstr "Yubico OTP urządzenie"
+
+#: yubico_otp/models.py:28
+msgid "Yubico OTP Devices"
+msgstr "Yubico OTP urządzenia"
+
+#: yubico_otp/models.py:32
+msgid "Yubico OTP Device [{}]"
+msgstr "Yubico OTP urządzenie [{}]"
+
+#: yubico_otp/templates/yubico_otp/_yubicootpdevice_table.html:6
+#: yubico_otp/templates/yubico_otp/yubicootpdevice_confirm_delete.html:25
+msgid "Delete"
+msgstr "Usuń"
+
+#: yubico_otp/templates/yubico_otp/yubicootpdevice_confirm_delete.html:16
+msgid "Confirmation"
+msgstr "Potwierdzenie"
+
+#: yubico_otp/templates/yubico_otp/yubicootpdevice_confirm_delete.html:19
+msgid "Deletion confirmation"
+msgstr "Potwierdzenie usuwania"
+
+#: yubico_otp/templates/yubico_otp/yubicootpdevice_confirm_delete.html:24
+msgid "Action buttons"
+msgstr "Przyciski akcji"
+
+#: yubico_otp/templates/yubico_otp/yubicootpdevice_confirm_delete.html:26
+msgid "Cancel"
+msgstr "Anuluj"
+
+#: yubico_otp/templates/yubico_otp/yubicootpdevice_list.html:15
+msgid "Add token"
+msgstr "Dodaj token"
+
+#: yubico_otp/views.py:35
+#, python-brace-format
+msgid "{0} created!"
+msgstr "{0} utworzony!"
+
+#: yubico_otp/views.py:43
+#, python-brace-format
+msgid "{0} deleted!"
+msgstr "{0} usunięty!"
+
+#: yubico_otp/views.py:49
+msgid "OTP authentication succeeded."
+msgstr "OTP uwierzytelniony poprawnie."
