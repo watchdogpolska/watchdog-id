@@ -1,30 +1,26 @@
-from django.contrib import messages
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, UpdateView
 
 from watchdog_id.auth_factories import get_identified_user
+
 from watchdog_id.auth_factories.password.forms import PasswordForm, PasswordSettingsForm
 from watchdog_id.auth_factories.password.models import PasswordSettings
-from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authenticated
-from watchdog_id.auth_factories.views import AuthenticationProcessMixin
+from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView
+from watchdog_id.auth_factories.password.factory import PasswordFactory
 
 
-class AuthenticationView(AuthenticationProcessMixin, FormView):
+class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
     form_class = PasswordForm
     template_name = 'password/form.html'
+    success_message = _("Password authentication succeeded.")
+    factory = PasswordFactory
 
     def get_form_kwargs(self):
         kwargs = super(AuthenticationView, self).get_form_kwargs()
         kwargs['user'] = get_identified_user(self.request)
         kwargs['request'] = self.request
         return kwargs
-
-    def form_valid(self, form):
-        from watchdog_id.auth_factories.password.config import PasswordFactory
-        messages.success(self.request, _("Password authentication succeeded."))
-        self.request.user_manager.add_authenticated_factory(PasswordFactory)
-        return redirect_unless_full_authenticated(self.request)
 
 
 class SettingsView(UpdateView):

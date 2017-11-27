@@ -1,5 +1,14 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Authentication" "auth_factories:login" %}
+    {% breadcrumb "TOTP authentication" "auth_factories:totp:login" %}
+{% endblock %}
+
 {% block content %}
     {% crispy form %}
 {% endblock %}

@@ -65,7 +65,6 @@ class PasswordForm(SingleButtonMixin, forms.Form):
         super(PasswordForm, self).__init__(*args, **kwargs)
 
     def clean_token(self):
-        self.print_token()
         token = self.cleaned_data.get('token')
         self.verify_token_match(token)
         return self.cleaned_data

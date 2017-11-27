@@ -1,6 +1,7 @@
 from atom.ext.crispy_forms.forms import SingleButtonMixin
 from django import forms
 from django.contrib import messages
+from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 # Create your views here.
@@ -12,7 +13,7 @@ from django.views.generic import FormView, ListView, TemplateView
 
 from watchdog_id.auth_factories import Registry, get_identified_user
 from watchdog_id.auth_factories.models import Factor
-from watchdog_id.auth_factories.shortcuts import get_user_weight
+from watchdog_id.auth_factories.shortcuts import get_user_weight, redirect_unless_full_authenticated
 from watchdog_id.users.models import User
 
 
@@ -28,13 +29,11 @@ class UserForm(SingleButtonMixin, forms.Form):
 class LoginFormView(FormView):
     form_class = UserForm
     template_name = "auth_factories/login_form.html"
+    success_url = reverse_lazy('auth_factories:list')
 
     def form_valid(self, form):
         self.request.user_manager.set_identified_user(form.cleaned_data['user'])
         return HttpResponseRedirect(self.get_success_url())
-
-    def get_success_url(self):
-        return reverse('auth_factories:list')
 
 
 class AuthenticationProcessMixin(View):
@@ -59,10 +58,9 @@ class FactorListView(AuthenticationProcessMixin, ListView):
         if self.request.user is None:
             messages.warning(self.request, _("You must first identify yourself."))
             return redirect(reverse('auth_factories:login'))
-        # if not self.request.user.is_anonymous():
-        #     messages.warning(self.request, _("You do not need to authenticate more."))
-        #     return redirect(self.request.session.get('success_url', reverse('home')))
-
+        if not self.request.user.is_anonymous():
+            messages.warning(self.request, _("You do not need to authenticate more."))
+            return redirect(self.request.session.get('success_url', reverse('home')))
         return super(FactorListView, self).dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
@@ -72,14 +70,14 @@ class FactorListView(AuthenticationProcessMixin, ListView):
         return super(FactorListView, self).get_context_data(**kwargs)
 
     @cached_property
-    def authenticated_list(self):
-        return self.request.user_manager.get_authenticated_factory_list()
+    def authenticated_factories(self):
+        return self.request.user_manager.get_authenticated_factory_map()
 
     def get_factory_list(self):
-        return [self.get_factory_item(x) for x in self.request.user_manager.get_enabled_factory_list()]
+        return [self.get_factory_item(x) for _, x in self.request.user_manager.get_enabled_factory_map().items()]
 
     def get_factory_item(self, factory):  # TODO: Move to views
-        return (factory.name, factory.get_authentication_url(), factory.weight, factory in self.authenticated_list)
+        return (factory.name, factory.get_authentication_url(), factory.weight, factory.id in self.authenticated_factories)
 
 
 class LogoutForm(SingleButtonMixin, forms.Form):
@@ -105,14 +103,51 @@ class SettingsView(TemplateView):
         return super(SettingsView, self).get_context_data(**kwargs)
 
     def get_factory_list(self):
-        return [self.get_factory_item(factory) for factory in self.request.user_manager.get_available_factory_list()]
+        return [self.get_factory_item(factory) for _, factory in self.request.user_manager.get_available_factory_map().items()]
 
     @cached_property
     def enabled_factory(self):
-        return self.request.user_manager.get_enabled_factory_list()
+        return self.request.user_manager.get_enabled_factory_map()
 
     def get_factory_item(self, factory):
         print(self.enabled_factory)
         return {'name': factory.name,
-                'active': factory in self.enabled_factory,
+                'active': factory.id in self.enabled_factory,
                 'factory': factory}
+
+
+class AuthenticationFormView(FormView):
+    success_message = None
+
+    def dispatch(self, request, *args, **kwargs):
+        if self.factory.id in self.request.user_manager.get_authenticated_factory_map():
+            messages.warning(self.request, _("You have already used this authentication method."))
+            return redirect_unless_full_authenticated(self.request)
+        return super(AuthenticationFormView, self).dispatch(request, *args, **kwargs)
+
+    @property
+    def factory(self):
+        raise ImproperlyConfigured('{0} is missing a factory authenticated. '
+                                   'Define {0}.factory'.format(self.__class__.__name__))
+
+    def get_succcess_message(self):
+        """Get message about success authentication
+        Returns:
+            str: the message
+        Raises:
+            ImproperlyConfigured: Missing a message
+        """
+        if self.success_message is None:
+            raise ImproperlyConfigured(
+                '{0} is missing a messages about success authentication.'
+                'Define {0}.succcess_message or override {0}.get_succcess_message().'
+                ''.format(self.__class__.__name__))
+        return self.success_message
+
+    def authentication_success(self):
+        messages.success(self.request, self.get_succcess_message())
+        self.request.user_manager.add_authenticated_factory(self.factory)
+        return redirect_unless_full_authenticated(self.request)
+
+    def form_valid(self, form):
+        return self.authentication_success()

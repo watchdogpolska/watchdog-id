@@ -16,7 +16,7 @@ from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authentica
 from watchdog_id.auth_factories.totp.factory import TOTPFactory
 from watchdog_id.auth_factories.totp.forms import CreateOTPPasswordForm, OTPPasswordForm, PasswordForm
 from watchdog_id.auth_factories.totp.tables import OTPPasswordTable
-from watchdog_id.auth_factories.views import AuthenticationProcessMixin
+from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView
 from .models import OTPPassword
 
 
@@ -88,9 +88,11 @@ class OTPPasswordDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
         return _("{0} deleted!").format(self.object)
 
 
-class AuthenticationView(AuthenticationProcessMixin, FormView):
+class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
     form_class = PasswordForm
+    factory = TOTPFactory
     template_name = 'totp/authentication.html'
+    success_message = _("OTP authentication succeeded.")
 
     def get_form_kwargs(self):
         kwargs = super(AuthenticationView, self).get_form_kwargs()
@@ -98,8 +100,3 @@ class AuthenticationView(AuthenticationProcessMixin, FormView):
         kwargs['totps'] = [pyotp.TOTP(x.shared_secret)
                            for x in OTPPassword.objects.for_user(user).all()]
         return kwargs
-
-    def form_valid(self, form):
-        messages.success(self.request, _("OTP authentication succeeded."))
-        self.request.user_manager.add_authenticated_factory(TOTPFactory)
-        return redirect_unless_full_authenticated(self.request)
