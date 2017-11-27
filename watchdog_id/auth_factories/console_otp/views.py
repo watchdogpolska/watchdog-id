@@ -25,19 +25,13 @@ class PasswordForm(SingleButtonMixin, forms.Form):
                       }
 
     def __init__(self, *args, **kwargs):
-        self.user = kwargs.pop('user')
-        self.request = kwargs.pop('request')
+        self.code = kwargs.pop('code')
         super(PasswordForm, self).__init__(*args, **kwargs)
 
     def clean_password(self):
         password = self.cleaned_data.get('password')
 
-        if SESSION_KEY_NAME not in self.request.session:
-            raise forms.ValidationError(
-                self.error_messages['lack_session_code'],
-                code='lack_session_code',
-            )
-        if password and str(self.request.session.get(SESSION_KEY_NAME)) != password:
+        if password and self.code != password:
             raise forms.ValidationError(
                 self.error_messages['invalid_password'],
                 code='invalid_password',
@@ -61,8 +55,7 @@ class LoginView(AuthenticationProcessMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super(LoginView, self).get_form_kwargs()
-        kwargs['user'] = get_identified_user(self.request)
-        kwargs['request'] = self.request
+        kwargs['code'] = self.request.session[SESSION_KEY_NAME]
         return kwargs
 
     def form_valid(self, form):
