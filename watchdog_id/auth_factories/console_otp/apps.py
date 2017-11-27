@@ -10,5 +10,5 @@ class ConsoleOtpConfig(AppConfig):
     name = 'watchdog_id.auth_factories.console_otp'
 
     def ready(self):
-        from .config import ConsoleOtpConfig as cfg
+        from .factory import ConsoleOtpFactory as cfg
         Registry[cfg.id] = cfg()

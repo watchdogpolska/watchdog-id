@@ -9,5 +9,5 @@ class PasswordConfig(AppConfig):
     name = 'watchdog_id.auth_factories.password'
 
     def ready(self):
-        from .config import PasswordConfig as cfg
+        from .factory import PasswordFactory as cfg
         Registry[cfg.id] = cfg()

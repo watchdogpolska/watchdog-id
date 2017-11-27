@@ -1,9 +1,9 @@
 from django.utils.translation import ugettext_lazy as _
 
-from watchdog_id.auth_factories.config import BaseConfig
+from watchdog_id.auth_factories.factory import BaseFactory
 
 
-class PasswordConfig(BaseConfig):
+class PasswordFactory(BaseFactory):
     id = 'password'
     urlpatterns = 'watchdog_id.auth_factories.password.urls'
     name = _("Password")

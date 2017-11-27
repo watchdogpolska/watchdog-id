@@ -21,9 +21,9 @@ class AuthenticationView(AuthenticationProcessMixin, FormView):
         return kwargs
 
     def form_valid(self, form):
-        from watchdog_id.auth_factories.password.config import PasswordConfig
+        from watchdog_id.auth_factories.password.config import PasswordFactory
         messages.success(self.request, _("Password authentication succeeded."))
-        self.request.user_manager.add_authenticated_factory(PasswordConfig)
+        self.request.user_manager.add_authenticated_factory(PasswordFactory)
         return redirect_unless_full_authenticated(self.request)
 
 
