@@ -1,5 +1,12 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Authentication" "auth_factories:login" %}
+    {% breadcrumb "Logout" "auth_factories:logout" %}
+{% endblock %}
 
 {% block content %}
     <h2>{% trans 'Logout' %}</h2>

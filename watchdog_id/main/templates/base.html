@@ -1,5 +1,7 @@
-{% load staticfiles i18n %}<!DOCTYPE html>
-<html lang="en">
+{% load staticfiles i18n %}
+{% load django_bootstrap_breadcrumbs %}
+<!DOCTYPE html>
+<html lang="pl">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
@@ -80,6 +82,12 @@
             <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}">{{ message }}</div>
         {% endfor %}
     {% endif %}
+
+    {% block breadcrumbs %}
+        {% clear_breadcrumbs %}
+    {% endblock %}
+
+    {% render_breadcrumbs "django_bootstrap_breadcrumbs/bootstrap4.html" %}
 
     {% block content %}
         <p>Use this document as a way to quick start any new project.</p>

@@ -1,5 +1,12 @@
 {% extends 'auth_factories/_progress.html' %}
 {% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Authentication" "auth_factories:login" %}
+{% endblock %}
+
 {% block progress_content %}
     {% if factory_list %}
         <h2>{% trans 'Select authentication method' %}

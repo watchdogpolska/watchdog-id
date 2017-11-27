@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 {% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Authentication" "auth_factories:login" %}
+    {% breadcrumb "Settings" "auth_factories:settings" %}
+{% endblock %}
+
 {% block content %}
 
     {% if factory_list %}

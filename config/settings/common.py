@@ -40,6 +40,7 @@ THIRD_PARTY_APPS = (
     'crispy_forms',  # Form layouts
     'rest_framework',
     'django_tables2',
+    'django_bootstrap_breadcrumbs',
     # 'tinymce',
     'model_utils'
 )
