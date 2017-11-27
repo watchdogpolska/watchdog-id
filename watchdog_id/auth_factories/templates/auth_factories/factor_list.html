@@ -8,6 +8,13 @@
 {% endblock %}
 
 {% block progress_content %}
+    {% if debug %}
+        <div class="bg-warning">
+            <h2>{% trans 'Factory list' %}</h2>
+            <pre>{{ factory_list |pprint }}</pre>
+            <h2>{% trans 'Password settings' %}</h2>
+        </div>
+    {% endif %}
     {% if factory_list %}
         <h2>{% trans 'Select authentication method' %}
             <span class="badge badge-warning"
@@ -15,9 +22,9 @@
                 {{ left_weight }} weight points left!{% endblocktrans %}</span>
         </h2>
         <div class="list-group">
-            {% for name, url, weight, active in factory_list %}
-                <a href="{{ url }}" class="list-group-item list-group-item-action">{{ name }} <span
-                        class="badge badge-{{ active|yesno:"secondary,primary" }}">{{ weight }}</span></a>
+            {% for factory in factory_list %}
+                <a href="{{ factory.url }}" class="list-group-item list-group-item-action">{{ factory.name }} <span
+                        class="badge badge-{{ factory.authenticated|yesno:"success,primary" }}">{{ factory.weight }}</span></a>
             {% endfor %}
         </div>
     {% else %}

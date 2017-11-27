@@ -77,7 +77,10 @@ class FactorListView(AuthenticationProcessMixin, ListView):
         return [self.get_factory_item(x) for _, x in self.request.user_manager.get_enabled_factory_map().items()]
 
     def get_factory_item(self, factory):  # TODO: Move to views
-        return (factory.name, factory.get_authentication_url(), factory.weight, factory.id in self.authenticated_factories)
+        return {'name': factory.name,
+                'url': factory.get_authentication_url(),
+                'weight': factory.weight,
+                'authenticated': factory.id in self.authenticated_factories}
 
 
 class LogoutForm(SingleButtonMixin, forms.Form):
@@ -103,14 +106,18 @@ class SettingsView(TemplateView):
         return super(SettingsView, self).get_context_data(**kwargs)
 
     def get_factory_list(self):
-        return [self.get_factory_item(factory) for _, factory in self.request.user_manager.get_available_factory_map().items()]
+        return [self.get_factory_item(factory) for _, factory in
+                self.request.user_manager.get_available_factory_map().items()]
 
     @cached_property
     def enabled_factory(self):
         return self.request.user_manager.get_enabled_factory_map()
 
+    @cached_property
+    def used_factory(self):
+        return self.request.user_manager.get_authenticated_factory_map()
+
     def get_factory_item(self, factory):
-        print(self.enabled_factory)
         return {'name': factory.name,
                 'active': factory.id in self.enabled_factory,
                 'factory': factory}
@@ -120,6 +127,8 @@ class AuthenticationFormView(FormView):
     success_message = None
 
     def get_template_names(self):
+        if getattr(self, 'template_name', None):
+            return self.template_name
         return ["{}/authentication.html".format(self.factory.id),
                 "auth_factories/{}/authentication.html".format(self.factory.id),
                 "auth_factories/_default/authentication.html".format(self.factory.id),
