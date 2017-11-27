@@ -8,10 +8,11 @@ from django.http import HttpResponseRedirect
 # Create your views here.
 from django.shortcuts import redirect
 from django.utils.functional import cached_property
+from django.views import View
 from django.views.generic import FormView, ListView, TemplateView
 from django.utils.translation import ugettext_lazy as _
 
-from watchdog_id.auth_factories import Registry
+from watchdog_id.auth_factories import Registry, get_identified_user
 from watchdog_id.auth_factories.models import Factor
 from watchdog_id.auth_factories.shortcuts import get_user_weight
 from watchdog_id.users.models import User
@@ -38,7 +39,22 @@ class LoginFormView(FormView):
         return reverse('auth_factories:list')
 
 
-class FactorListView(ListView):
+class AuthenticationProcessMixin(View):
+    def get_weight(self):
+        user = get_user_weight(get_identified_user(self.request))
+        authenticated = self.request.user_manager.get_authenticated_weight()
+        left = user - authenticated
+        left = max(0, left)
+        return {'user_weight': user,
+                'authenticated_weight': authenticated,
+                'left_weight': left}
+
+    def get_context_data(self, **kwargs):
+        kwargs.update(self.get_weight())
+        return super(AuthenticationProcessMixin, self).get_context_data(**kwargs)
+
+
+class FactorListView(AuthenticationProcessMixin, ListView):
     model = Factor
 
     def dispatch(self, request, *args, **kwargs):
@@ -55,7 +71,6 @@ class FactorListView(ListView):
         kwargs['factory_list'] = self.get_factory_list()
         kwargs['registry'] = Registry
         kwargs['identified_user'] = self.request.user
-        kwargs.update(self.get_weight())
         return super(FactorListView, self).get_context_data(**kwargs)
 
     @cached_property
@@ -67,15 +82,6 @@ class FactorListView(ListView):
 
     def get_factory_item(self, factory):  # TODO: Move to views
         return (factory.name, factory.get_authentication_url(), factory.weight, factory in self.authenticated_list)
-
-    def get_weight(self):
-        user = get_user_weight(self.request.user)
-        authenticated = self.request.user_manager.get_authenticated_weight()
-        left = user - authenticated
-        left = max(0, left)
-        return {'user_weight': user,
-                'authenticated_weight': authenticated,
-                'left_weight': left}
 
 
 class LogoutForm(SingleButtonMixin, forms.Form):

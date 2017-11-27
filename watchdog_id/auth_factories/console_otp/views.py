@@ -13,6 +13,7 @@ from django.views.generic import FormView
 from watchdog_id.auth_factories import get_identified_user
 from watchdog_id.auth_factories.console_otp.config import ConsoleOtpConfig
 from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authenticated
+from watchdog_id.auth_factories.views import AuthenticationProcessMixin
 
 SESSION_KEY_NAME = 'OTP:code'
 
@@ -29,7 +30,7 @@ class PasswordForm(SingleButtonMixin, forms.Form):
         self.request = kwargs.pop('request')
         super(PasswordForm, self).__init__(*args, **kwargs)
 
-    def clean(self):
+    def clean_password(self):
         password = self.cleaned_data.get('password')
 
         if SESSION_KEY_NAME not in self.request.session:
@@ -43,12 +44,12 @@ class PasswordForm(SingleButtonMixin, forms.Form):
                 code='invalid_password',
             )
 
-        return self.cleaned_data
+        return password
 
 
-class LoginView(FormView):
+class LoginView(AuthenticationProcessMixin, FormView):
     form_class = PasswordForm
-    template_name = 'auth_factories/password/index.html'
+    template_name = 'password/form.html'
 
     def set_session_code(self):
         session_code = random.randint(1000, 9999)
@@ -67,7 +68,7 @@ class LoginView(FormView):
 
     def form_valid(self, form):
         messages.success(self.request, _("Console OTP authentication succeeded."))
-        self.request.user_manager.add_authenticated_factory(self.request, ConsoleOtpConfig)
+        self.request.user_manager.add_authenticated_factory(ConsoleOtpConfig)
         return redirect_unless_full_authenticated(self.request)
 
     def form_invalid(self, form):

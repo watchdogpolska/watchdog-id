@@ -19,7 +19,6 @@ def get_user(request):
 
 
 def get_identified_user(request):
-    from django.contrib.auth.models import AnonymousUser
     user = None
     try:
         user_id = request.session[SESSION_IDENTIFIED_KEY]

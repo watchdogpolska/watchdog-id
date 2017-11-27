@@ -19,3 +19,14 @@ Issues with the above approach:
 4. Undocumented: No mention in the documentation, or it's too hard for me to find
 */
 $('.form-group').removeClass('row');
+
+(function () {
+    Array.prototype.forEach.call(document.querySelectorAll("[data-qr]"), function (element) {
+        console.log(element);
+        new QRious({
+            element: element,
+            value: element.dataset.qr,
+            size: element.dataset.size
+        });
+    })
+})();

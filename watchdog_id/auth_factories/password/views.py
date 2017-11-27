@@ -7,9 +7,10 @@ from watchdog_id.auth_factories import get_identified_user
 from watchdog_id.auth_factories.password.forms import PasswordForm, PasswordSettingsForm
 from watchdog_id.auth_factories.password.models import PasswordSettings
 from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authenticated
+from watchdog_id.auth_factories.views import AuthenticationProcessMixin
 
 
-class AuthenticationView(FormView):
+class AuthenticationView(AuthenticationProcessMixin, FormView):
     form_class = PasswordForm
     template_name = 'password/form.html'
 

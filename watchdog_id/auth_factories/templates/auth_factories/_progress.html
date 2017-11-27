@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+
+{% block content %}
+    <div class="progress">
+        {% widthratio authenticated_weight user_weight 100 as progress_value %}
+        <div class="progress-bar"
+             role="progressbar"
+             style="width: {{ progress_value }}%"
+             aria-valuenow="{{ progress_value }}"
+             aria-valuemin="0"
+             aria-valuemax="100">
+        </div>
+    </div>
+    {% block progress_content %}{% endblock %}
+{% endblock %}

@@ -1,6 +1,7 @@
 from django.contrib.auth import logout
 
-from watchdog_id.auth_factories import SESSION_KEY, SESSION_IDENTIFIED_KEY, FACTORY_LIST_SESSION_KEY, Registry
+from watchdog_id.auth_factories import SESSION_KEY, SESSION_IDENTIFIED_KEY, FACTORY_LIST_SESSION_KEY, Registry, \
+    get_identified_user
 
 
 class SessionFactoryManager(object):
@@ -32,7 +33,7 @@ class SessionFactoryManager(object):
         return [Registry[factory_id] for factory_id in self.request.session.get(FACTORY_LIST_SESSION_KEY, [])]
 
     def get_enabled_factory_list(self):
-        return [v for k, v in Registry.items() if v.is_enabled(self.request.user)]
+        return [v for k, v in Registry.items() if v.is_enabled(get_identified_user(self.request))]
 
     def get_active_factory_list(self):
         return [Registry[factory_id] for factory_id in self.request.session.get(FACTORY_LIST_SESSION_KEY, [])]

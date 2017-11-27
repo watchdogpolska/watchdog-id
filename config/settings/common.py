@@ -39,6 +39,7 @@ DJANGO_APPS = (
 THIRD_PARTY_APPS = (
     'crispy_forms',  # Form layouts
     'rest_framework',
+    'django_tables2',
     # 'tinymce',
     'model_utils'
 )
@@ -248,4 +249,4 @@ ADMIN_URL = r'^admin/'
 
 AVATAR_SIZES = [50, 80, 150]
 
-AUTH_FACTORY_MIN_WEIGHT = 50
+AUTH_FACTORY_MIN_WEIGHT = 75

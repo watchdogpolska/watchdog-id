@@ -8,14 +8,15 @@ from model_utils.models import TimeStampedModel
 
 
 class OTPPasswordQuerySet(models.QuerySet):
-    pass
+    def for_user(self, user):
+        return self.filter(user=user)
 
 
 class OTPPassword(TimeStampedModel):
     user = models.ForeignKey(settings.AUTH_USER_MODEL)
     device_name = models.CharField(max_length=25, help_text=_("Device name"))
     last_used = models.DateTimeField(null=True, blank=True, help_text=_("Time of last use of the token"))
-    shared_secret = models.CharField(max_length=16, help_text=_("base32 secret"), default=pyotp.random_base32)
+    shared_secret = models.CharField(max_length=16, help_text=_("base32 secret"))
     objects = OTPPasswordQuerySet.as_manager()
 
     class Meta:
@@ -25,6 +26,3 @@ class OTPPassword(TimeStampedModel):
 
     def __str__(self):
         return "Token [{}]".format(self.device_name)
-
-    def get_absolute_url(self):
-        return reverse('auth_factories:totp:details', kwargs={'pk': self.pk})
