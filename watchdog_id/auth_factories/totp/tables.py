@@ -4,7 +4,7 @@ from watchdog_id.auth_factories.totp.models import OTPPassword
 
 
 class OTPPasswordTable(tables.Table):
-    delete = TemplateColumn(template_name='totp/_otpassword_table.html')
+    action = TemplateColumn(template_name='totp/_otpassword_table.html')
 
     class Meta:
         model = OTPPassword

@@ -119,6 +119,12 @@ class SettingsView(TemplateView):
 class AuthenticationFormView(FormView):
     success_message = None
 
+    def get_template_names(self):
+        return ["{}/authentication.html".format(self.factory.id),
+                "auth_factories/{}/authentication.html".format(self.factory.id),
+                "auth_factories/_default/authentication.html".format(self.factory.id),
+                ]
+
     def dispatch(self, request, *args, **kwargs):
         if self.factory.id in self.request.user_manager.get_authenticated_factory_map():
             messages.warning(self.request, _("You have already used this authentication method."))
@@ -143,6 +149,11 @@ class AuthenticationFormView(FormView):
                 'Define {0}.succcess_message or override {0}.get_succcess_message().'
                 ''.format(self.__class__.__name__))
         return self.success_message
+
+    def get_context_data(self, **kwargs):
+        kwargs['authentication_url'] = self.factory().get_authentication_url()
+        kwargs['factory_name'] = self.factory().name
+        return super(AuthenticationFormView, self).get_context_data(**kwargs)
 
     def authentication_success(self):
         messages.success(self.request, self.get_succcess_message())

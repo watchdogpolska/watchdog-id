@@ -53,6 +53,7 @@ LOCAL_APPS = (
     'watchdog_id.auth_factories.password.apps.PasswordConfig',
     'watchdog_id.auth_factories.console_otp.apps.ConsoleOtpConfig',
     'watchdog_id.auth_factories.totp.apps.TotpConfig',
+    'watchdog_id.auth_factories.yubico_otp.apps.YubicoOtpConfig',
     'watchdog_id.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 )
@@ -251,3 +252,5 @@ ADMIN_URL = r'^admin/'
 AVATAR_SIZES = [50, 80, 150]
 
 AUTH_FACTORY_MIN_WEIGHT = 75
+YUBICO_AUTH_CLIENT_ID = env.str('YUBICO_AUTH_CLIENT_ID')
+YUBICO_AUTH_SECRET_KEY = env.str('YUBICO_AUTH_SECRET_KEY')

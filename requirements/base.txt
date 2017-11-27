@@ -52,4 +52,5 @@ sphinxcontrib-seqdiag==0.8.5
 # watchdog_id.auth_factories.totp
 pyotp==2.2.6
 django-bootstrap-breadcrumbs==0.8.2
+yubico-client==1.10.0
 
