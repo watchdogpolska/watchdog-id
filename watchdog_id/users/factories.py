@@ -1,5 +1,6 @@
-from watchdog_id.users import models
 import factory
+
+from watchdog_id.users import models
 
 
 class UserFactory(factory.django.DjangoModelFactory):
@@ -9,4 +10,4 @@ class UserFactory(factory.django.DjangoModelFactory):
 
     class Meta:
         model = models.User
-        django_get_or_create = ('username', )
+        django_get_or_create = ('username',)

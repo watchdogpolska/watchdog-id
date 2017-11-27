@@ -6,7 +6,6 @@ import random
 from atom.ext.crispy_forms.forms import SingleButtonMixin
 from django import forms
 from django.contrib import messages
-from django.shortcuts import redirect
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView
 

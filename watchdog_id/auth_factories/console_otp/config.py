@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.utils.translation import ugettext_lazy as _
+
 from watchdog_id.auth_factories.config import BaseConfig
 
 

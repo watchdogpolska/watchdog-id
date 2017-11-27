@@ -76,7 +76,6 @@ class OTPPasswordUpdateView(LoginRequiredMixin, UserQuerysetMixin, FormValidMess
     form_class = OTPPasswordForm
     success_url = reverse_lazy('auth_factories:totp:list')
 
-
     def get_form_valid_message(self):
         return _("{0} updated!").format(self.object)
 

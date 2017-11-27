@@ -6,9 +6,9 @@
 {% block breadcrumbs %}
     {% breadcrumb "Home" "/" %}
     {% breadcrumb "Authentication" "auth_factories:login" %}
-    {% breadcrumb "Password authentication" "auth_factories:password:login"%}
+    {% breadcrumb "Password authentication" "auth_factories:password:login" %}
 {% endblock %}
 
 {% block progress_content %}
-{% crispy form %}
+    {% crispy form %}
 {% endblock %}

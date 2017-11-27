@@ -1,5 +1,4 @@
-from django_tables2 import tables, A, LinkColumn, TemplateColumn
-from django.utils.translation import ugettext_lazy as _
+from django_tables2 import tables, TemplateColumn
 
 from watchdog_id.auth_factories.totp.models import OTPPassword
 

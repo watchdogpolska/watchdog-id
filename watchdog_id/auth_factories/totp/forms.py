@@ -45,7 +45,7 @@ class CreateOTPPasswordForm(SingleButtonMixin, UserKwargModelFormMixin, forms.Mo
 
     class Meta:
         model = OTPPassword
-        fields = ('device_name', )
+        fields = ('device_name',)
 
 
 class OTPPasswordForm(SingleButtonMixin, forms.ModelForm):

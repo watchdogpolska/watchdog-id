@@ -60,4 +60,4 @@ class PasswordSettingsForm(SingleButtonMixin, forms.ModelForm):
 
     class Meta:
         model = PasswordSettings
-        fields = ('status', )
+        fields = ('status',)

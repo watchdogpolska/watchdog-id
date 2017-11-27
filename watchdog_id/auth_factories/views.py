@@ -1,16 +1,14 @@
 from atom.ext.crispy_forms.forms import SingleButtonMixin
-from atom.views import ActionView
 from django import forms
 from django.contrib import messages
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
-
 # Create your views here.
 from django.shortcuts import redirect
 from django.utils.functional import cached_property
+from django.utils.translation import ugettext_lazy as _
 from django.views import View
 from django.views.generic import FormView, ListView, TemplateView
-from django.utils.translation import ugettext_lazy as _
 
 from watchdog_id.auth_factories import Registry, get_identified_user
 from watchdog_id.auth_factories.models import Factor
