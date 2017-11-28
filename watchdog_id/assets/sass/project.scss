@@ -1,11 +1,19 @@
+$primary: #a7944f;
+@import 'bootstrap/scss/bootstrap';
+
 // project specific CSS goes here
 
 ////////////////////////////////
 //Variables//
 ////////////////////////////////
+//$bg-color: blue;
+//
+//body {
+//    background: $bg-color;
+//}
 
 // Alert colors
-
+/*
 $white: #fff;
 $mint-green: #d6e9c6;
 $black: #000;
@@ -57,6 +65,7 @@ $red: #b94a48;
     float: none !important;
   }
 }
+*/
 
 ////////////////////////////////
 //Django Toolbar//
@@ -65,6 +74,7 @@ $red: #b94a48;
 // Display django-debug-toolbar.
 // See https://github.com/django-debug-toolbar/django-debug-toolbar/issues/742
 // and https://github.com/pydanny/cookiecutter-django/issues/317
+
 
 [hidden][style="display: block;"] {
   display: block !important;
