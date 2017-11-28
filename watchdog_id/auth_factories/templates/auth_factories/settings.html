@@ -9,10 +9,11 @@
 {% endblock %}
 
 {% block content %}
-    <h2>{% block page_title %}{% trans 'Authentication settings' %}{% endblock %}</h2>
+    <h2>{% block page_title %}{% trans 'Security settings' %}{% endblock %}</h2>
     <div class="row">
         <div class="col-md-3">
             {% if factory_list %}
+                <h3>{% trans 'Proofs of identity' %}</h3>
                 <div class="list-group">
                     {% for item in factory_list %}
                         {% if item.factory.get_settings_url %}
