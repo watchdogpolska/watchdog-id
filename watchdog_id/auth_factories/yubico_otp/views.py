@@ -9,7 +9,7 @@ from django.views.generic.edit import CreateView, DeleteView
 from django_tables2 import SingleTableView
 
 from watchdog_id.auth_factories import get_identified_user
-from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView
+from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView, SettingsViewMixin
 from watchdog_id.auth_factories.yubico_otp.factory import YubicoOtpFactory
 from watchdog_id.auth_factories.yubico_otp.forms import AuthenticationForm, CreateYubicoOTPDeviceForm
 from watchdog_id.auth_factories.yubico_otp.models import YubicoOTPDevice
@@ -21,12 +21,12 @@ class UserQuerysetMixin(object):
         return super(UserQuerysetMixin, self).get_queryset().filter(user=self.request.user)
 
 
-class YubicoOTPDeviceListView(UserQuerysetMixin, SingleTableView):
+class YubicoOTPDeviceListView(SettingsViewMixin, UserQuerysetMixin, SingleTableView):
     model = YubicoOTPDevice
     table_class = YubicoOTPDeviceTable
 
 
-class YubicoOTPDeviceCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
+class YubicoOTPDeviceCreateView(SettingsViewMixin, LoginRequiredMixin, UserFormKwargsMixin, CreateView):
     model = YubicoOTPDevice
     form_class = CreateYubicoOTPDeviceForm
     success_url = reverse_lazy('auth_factories:yubico_otp:list')
@@ -35,7 +35,7 @@ class YubicoOTPDeviceCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateV
         return _("{0} created!").format(self.object)
 
 
-class YubicoOTPDeviceDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
+class YubicoOTPDeviceDeleteView(SettingsViewMixin, LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = YubicoOTPDevice
     success_url = reverse_lazy('auth_factories:yubico_otp:list')
 

@@ -1,6 +1,7 @@
-{% extends 'base.html' %}
+{% extends 'auth_factories/settings.html' %}
 {% load i18n %}
 {% load django_bootstrap_breadcrumbs %}
+{% load render_table from django_tables2 %}
 
 {% block breadcrumbs %}
     {% breadcrumb "Home" "/" %}
@@ -9,8 +10,7 @@
     {% breadcrumb "Yubico OTP" "auth_factories:totp:settings" %}
 {% endblock %}
 
-{% load render_table from django_tables2 %}
-{% block content %}
+{% block settings %}
     {% render_table table %}
     <a href="{% url 'auth_factories:yubico_otp:create' %}" class="btn btn-primary">{% trans 'Add token' %}</a>
 {% endblock %}

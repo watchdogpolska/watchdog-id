@@ -57,8 +57,8 @@ var paths = pathsConfig();
 // Styles autoprefixing and minification
 gulp.task('styles', function () {
     return gulp.src(paths.assets.sass + '/*.scss')
-        .pipe(sass({includePaths: ['node_modules']}))
         .pipe(plumber()) // Checks for errors
+        .pipe(sass({includePaths: ['node_modules']}))
         .pipe(autoprefixer()) // Adds vendor prefixes
         .pipe(pixrem())  // add fallbacks for rem units
         .pipe(browserSync.stream())

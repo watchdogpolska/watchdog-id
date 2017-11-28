@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: \n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-11-27 22:10+0000\n"
-"PO-Revision-Date: 2017-11-27 23:05+0100\n"
+"POT-Creation-Date: 2017-11-28 02:01+0000\n"
+"PO-Revision-Date: 2017-11-28 03:01+0100\n"
 "Last-Translator: Adam Dobrawy <naczelnik@jawnosc.tk>\n"
 "Language-Team: \n"
 "Language: pl\n"
@@ -20,21 +20,11 @@ msgstr ""
 "%10<=9) || (n%100>=12 && n%100<=14) ? 2 : 3);\n"
 "X-Generator: Poedit 1.8.7.1\n"
 
-#: templates/auth_factories/factor_list.html:13
-#: templates/auth_factories/settings.html:16
-msgid "Factory list"
-msgstr "Lista składników"
-
-#: templates/auth_factories/factor_list.html:15
-#: templates/auth_factories/settings.html:18
-msgid "Password settings"
-msgstr "Ustawienia hasła"
-
-#: templates/auth_factories/factor_list.html:19
+#: templates/auth_factories/factor_list.html:12
 msgid "Select authentication method"
 msgstr "Wybierz formę uwierzytelniania"
 
-#: templates/auth_factories/factor_list.html:21
+#: templates/auth_factories/factor_list.html:14
 #, python-format
 msgid ""
 "You earned %(authenticated_weight)s points required from %(user_weight)s "
@@ -43,7 +33,7 @@ msgstr ""
 "Uzyskałeś %(authenticated_weight)s punktów z %(user_weight)s wymaganych do "
 "uwierzytelniania."
 
-#: templates/auth_factories/factor_list.html:21
+#: templates/auth_factories/factor_list.html:14
 #, python-format
 msgid ""
 "\n"
@@ -52,8 +42,8 @@ msgstr ""
 "\n"
 "                %(left_weight)s punktów pozostało!"
 
-#: templates/auth_factories/factor_list.html:31
-#: templates/auth_factories/settings.html:47
+#: templates/auth_factories/factor_list.html:25
+#: templates/auth_factories/settings.html:41
 msgid "No authentication method."
 msgstr "Brak form uwierzytelniania"
 
@@ -61,19 +51,40 @@ msgstr "Brak form uwierzytelniania"
 msgid "Logout"
 msgstr "Wyloguj"
 
-#: templates/auth_factories/settings.html:22
+#: templates/auth_factories/settings.html:12
 msgid "Authentication settings"
 msgstr "Ustawienia uwierzytelniania"
 
-#: templates/auth_factories/settings.html:29
-#: templates/auth_factories/settings.html:38
+#: templates/auth_factories/settings.html:23
+#: templates/auth_factories/settings.html:32
 msgid "Active"
 msgstr "Aktywne"
 
-#: templates/auth_factories/settings.html:31
-#: templates/auth_factories/settings.html:40
+#: templates/auth_factories/settings.html:25
+#: templates/auth_factories/settings.html:34
 msgid "Inactive"
 msgstr "Nieaktywne"
+
+#: templates/auth_factories/settings.html:46
+msgid ""
+"<p>On the right side, you have the choice of authentication forms arranged "
+"according to security level.\n"
+"                    Make the choice of authentication forms that will be "
+"convenient for you.</p>\n"
+"                <p>Be aware of emergency situations when you lose a hardware "
+"token. Also try to activate a backup\n"
+"                    form of authentication. Do not activate too many forms "
+"of authentication, because paradoxically it\n"
+"                    will reduce security, because the aggressor will also "
+"have more choice.</p>"
+msgstr ""
+"<p>On the right side, you have the choice of authentication forms arranged "
+"according to security level. Make the choice of authentication forms that "
+"will be convenient for you.</p>\n"
+"<p>Be aware of emergency situations when you lose a hardware token. Also try "
+"to activate a backup form of authentication. Do not activate too many forms "
+"of authentication, because paradoxically it will reduce security, because "
+"the aggressor will also have more choice.</p>"
 
 #: views.py:21
 msgid "Log in"
@@ -99,6 +110,12 @@ msgstr "Wyloguj"
 msgid "The user is logged out correctly."
 msgstr "Wylogowano poprawnie."
 
-#: views.py:139
+#: views.py:142
 msgid "You have already used this authentication method."
 msgstr "Użyłeś już tej metody uwierzytelniania."
+
+#~ msgid "Factory list"
+#~ msgstr "Lista składników"
+
+#~ msgid "Password settings"
+#~ msgstr "Ustawienia hasła"

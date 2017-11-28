@@ -62,8 +62,7 @@ node_modules/
 watchdog_id/media/
 
 # Gulp-generated vendor
-watchdog_id/static/js/vendor.js
-watchdog_id/static/js/vendor.min.js
+watchdog_id/static/
 
 
 staticfiles/

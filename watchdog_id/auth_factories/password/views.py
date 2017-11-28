@@ -6,7 +6,7 @@ from watchdog_id.auth_factories import get_identified_user
 
 from watchdog_id.auth_factories.password.forms import PasswordForm, PasswordSettingsForm
 from watchdog_id.auth_factories.password.models import PasswordSettings
-from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView
+from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView, SettingsViewMixin
 from watchdog_id.auth_factories.password.factory import PasswordFactory
 
 
@@ -23,7 +23,7 @@ class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
         return kwargs
 
 
-class SettingsView(UpdateView):
+class SettingsView(SettingsViewMixin, UpdateView):
     form_class = PasswordSettingsForm
     model = PasswordSettings
     success_url = reverse_lazy('auth_factories:settings')

@@ -1,19 +1,10 @@
-$primary: #a7944f;
+$primary: #d72626;
+$enable-gradients: true;
+$enable-shadows: true;
+$navbar-light-color: #4c4c4c;
+
 @import 'bootstrap/scss/bootstrap';
 
-// project specific CSS goes here
-
-////////////////////////////////
-//Variables//
-////////////////////////////////
-//$bg-color: blue;
-//
-//body {
-//    background: $bg-color;
-//}
-
-// Alert colors
-/*
 $white: #fff;
 $mint-green: #d6e9c6;
 $black: #000;
@@ -41,33 +32,6 @@ $red: #b94a48;
 }
 
 ////////////////////////////////
-//Navbar//
-////////////////////////////////
-
-// This is a fix for the bootstrap4 alpha release
-
-.navbar {
-  border-radius: 0px;
-}
-
-@media (max-width: 47.9em) {
-  .navbar-nav .nav-item {
-    display: inline-block;
-    float: none;
-    width: 100%;
-  }
-
-  .navbar-nav .nav-item + .nav-item {
-    margin-left: 0;
-  }
-
-  .nav.navbar-nav.pull-xs-right {
-    float: none !important;
-  }
-}
-*/
-
-////////////////////////////////
 //Django Toolbar//
 ////////////////////////////////
 
@@ -78,4 +42,10 @@ $red: #b94a48;
 
 [hidden][style="display: block;"] {
   display: block !important;
+}
+
+.authentication-content {
+  //border-radius: 2rem;
+  border: 1px solid #adb5bd;
+  padding: 25px;
 }

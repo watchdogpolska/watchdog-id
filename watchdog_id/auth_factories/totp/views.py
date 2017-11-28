@@ -17,7 +17,7 @@ from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authentica
 from watchdog_id.auth_factories.totp.factory import TOTPFactory
 from watchdog_id.auth_factories.totp.forms import CreateOTPPasswordForm, OTPPasswordForm, PasswordForm
 from watchdog_id.auth_factories.totp.tables import OTPPasswordTable
-from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView
+from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView, SettingsViewMixin
 from .models import OTPPassword
 
 
@@ -26,12 +26,12 @@ class UserQuerysetMixin(object):
         return super(UserQuerysetMixin, self).get_queryset().filter(user=self.request.user)
 
 
-class OTPPasswordListView(UserQuerysetMixin, SingleTableView):
+class OTPPasswordListView(SettingsViewMixin, UserQuerysetMixin, SingleTableView):
     model = OTPPassword
     table_class = OTPPasswordTable
 
 
-class OTPPasswordCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView):
+class OTPPasswordCreateView(SettingsViewMixin, LoginRequiredMixin, UserFormKwargsMixin, CreateView):
     model = OTPPassword
     form_class = CreateOTPPasswordForm
     success_url = reverse_lazy('auth_factories:totp:list')
@@ -72,7 +72,8 @@ class OTPPasswordCreateView(LoginRequiredMixin, UserFormKwargsMixin, CreateView)
         return _("{0} created!").format(self.object)
 
 
-class OTPPasswordUpdateView(LoginRequiredMixin, UserQuerysetMixin, FormValidMessageMixin, UpdateView):
+class OTPPasswordUpdateView(SettingsViewMixin, LoginRequiredMixin, UserQuerysetMixin, FormValidMessageMixin,
+                            UpdateView):
     model = OTPPassword
     form_class = OTPPasswordForm
     success_url = reverse_lazy('auth_factories:totp:list')
@@ -81,7 +82,7 @@ class OTPPasswordUpdateView(LoginRequiredMixin, UserQuerysetMixin, FormValidMess
         return _("{0} updated!").format(self.object)
 
 
-class OTPPasswordDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
+class OTPPasswordDeleteView(SettingsViewMixin, LoginRequiredMixin, DeleteMessageMixin, DeleteView):
     model = OTPPassword
     success_url = reverse_lazy('auth_factories:totp:list')
 
@@ -92,7 +93,7 @@ class OTPPasswordDeleteView(LoginRequiredMixin, DeleteMessageMixin, DeleteView):
 class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
     form_class = PasswordForm
     factory = TOTPFactory
-    template_name = 'totp/authentication.html'
+    # template_name = 'totp/authentication.html'
     success_message = _("OTP authentication succeeded.")
 
     def get_form_kwargs(self):

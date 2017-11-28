@@ -98,12 +98,11 @@ class LogoutActionView(FormView):
         return super(LogoutActionView, self).form_valid(form)
 
 
-class SettingsView(TemplateView):
-    template_name = "auth_factories/settings.html"
+class SettingsViewMixin(object):
 
     def get_context_data(self, **kwargs):
         kwargs['factory_list'] = self.get_factory_list()
-        return super(SettingsView, self).get_context_data(**kwargs)
+        return super(SettingsViewMixin, self).get_context_data(**kwargs)
 
     def get_factory_list(self):
         return [self.get_factory_item(factory) for _, factory in
@@ -121,6 +120,10 @@ class SettingsView(TemplateView):
         return {'name': factory.name,
                 'active': factory.id in self.enabled_factory,
                 'factory': factory}
+
+
+class SettingsView(SettingsViewMixin, TemplateView):
+    template_name = "auth_factories/settings.html"
 
 
 class AuthenticationFormView(FormView):
