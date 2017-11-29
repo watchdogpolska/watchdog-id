@@ -14,4 +14,4 @@ class YubicoOtpFactory(BaseFactory):
         return True
 
     def is_enabled(self, user):
-        return True
+        return user.yubicootpdevice_set.all()

@@ -22,6 +22,7 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     debug = require('gulp-debug'),
     spawn = require('child_process').spawn;
+    sourcemaps = require('gulp-sourcemaps');
 // Relative paths function
 
 
@@ -42,8 +43,14 @@ var pathsConfig = function (appName) {
         css: this.app + '/static/css',
         fonts: this.app + '/static/fonts',
         vendor_js: [
+            'node_modules/jquery/jquery.js',
+            'node_modules/popper.js/dist/umd/popper.js',
             'node_modules/qrious/dist/qrious.js',
-            'node_modules/bootstrap/js/dist/*.js'
+            'node_modules/bootstrap/dist/js/bootstrap.js',
+            'node_modules/conditionizr/dist/conditionizr.js',
+            'node_modules/conditionizr/detects/chrome.js',
+            'node_modules/conditionizr/detects/chromium.js'
+
         ]
     }
 };
@@ -74,10 +81,12 @@ gulp.task('styles', function () {
 gulp.task('scripts', function () {
     gulp.src([paths.assets.js].concat(paths.vendor_js))
         .pipe(plumber()) // Checks for errors
-        .pipe(uglify()) // Minifies the js
+        .pipe(sourcemaps.init())
         .pipe(concat('project.js'))
+        .pipe(sourcemaps.write())
         .pipe(gulp.dest(paths.js))
         .pipe(rename({suffix: '.min'}))
+        .pipe(uglify()) // Minifies the js
         .pipe(gulp.dest(paths.js))
         .pipe(browserSync.stream());
 });
@@ -92,13 +101,14 @@ gulp.task('imgCompression', function () {
 // Browser sync server for live reload
 gulp.task('browserSync', function () {
     browserSync.init({
-        proxy: "localhost:8000"
+        proxy: "https://localhost:8000",
+        https: true
     });
 });
 
 // Run django server
 gulp.task('runServer', function() {
-    spawn('python', ['manage.py', 'runserver'], { stdio: 'inherit' })
+    spawn('python', ['manage.py', 'runserver_plus', '--cert', '/tmp/ssl'], { stdio: 'inherit' })
 });
 
 // Default task

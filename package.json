@@ -3,11 +3,13 @@
   "version": "0.1.0",
   "dependencies": {
     "bootstrap": "^4.0.0-alpha.6",
+    "jquery-slim": "^3.0.0",
     "qrious": "^4.0.2"
   },
   "devDependencies": {
     "bootstrap": "^4.0.0-beta.2",
     "browser-sync": "^2.18.13",
+    "conditionizr": "^4.5.1",
     "del": "^2.2.2",
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
@@ -19,8 +21,10 @@
     "gulp-plumber": "^1.1.0",
     "gulp-rename": "^1.2.2",
     "gulp-sass": "^2.3.2",
+    "gulp-sourcemaps": "^2.6.1",
     "gulp-uglify": "^2.0.0",
     "gulp-util": "^3.0.7",
+    "popper.js": "^1.12.9",
     "run-sequence": "^1.2.2"
   },
   "engines": {

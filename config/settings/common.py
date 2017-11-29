@@ -54,6 +54,7 @@ LOCAL_APPS = (
     'watchdog_id.auth_factories.console_otp.apps.ConsoleOtpConfig',
     'watchdog_id.auth_factories.totp.apps.TotpConfig',
     'watchdog_id.auth_factories.yubico_otp.apps.YubicoOtpConfig',
+    'watchdog_id.auth_factories.watchdog_u2f.apps.WatchdogU2FConfig',
     'watchdog_id.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 )

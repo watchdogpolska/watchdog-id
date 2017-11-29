@@ -1,0 +1,16 @@
+{% extends 'auth_factories/settings.html' %}
+{% load crispy_forms_tags %}
+{% load django_bootstrap_breadcrumbs %}
+{% load i18n %}
+{% block breadcrumbs %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Authentication" "auth_factories:login" %}
+    {% breadcrumb "Settings" "auth_factories:settings" %}
+    {% breadcrumb "U2F" "auth_factories:u2ftoken:list" %}
+    {% breadcrumb object "auth_factories:u2ftoken:detail" pk%}
+{% endblock %}
+
+{% block settings %}
+    <h2>{{ object }}</h2>
+    <p>{% trans 'Last used' %}: {{ object.last_used }}</p>
+{% endblock %}

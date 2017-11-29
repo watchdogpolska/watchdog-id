@@ -9,7 +9,8 @@ from django.views.generic.edit import CreateView, DeleteView
 from django_tables2 import SingleTableView
 
 from watchdog_id.auth_factories import get_identified_user
-from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView, SettingsViewMixin
+from watchdog_id.auth_factories.views import AuthenticationFormView
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
 from watchdog_id.auth_factories.yubico_otp.factory import YubicoOtpFactory
 from watchdog_id.auth_factories.yubico_otp.forms import AuthenticationForm, CreateYubicoOTPDeviceForm
 from watchdog_id.auth_factories.yubico_otp.models import YubicoOTPDevice

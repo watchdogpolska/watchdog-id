@@ -8,7 +8,8 @@ from django.views.generic import FormView
 
 from watchdog_id.auth_factories.console_otp.factory import ConsoleOtpFactory
 from watchdog_id.auth_factories.console_otp.forms import AuthenticationForm
-from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView
+from watchdog_id.auth_factories.views import AuthenticationFormView
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin
 
 SESSION_KEY_NAME = 'OTP:code'
 

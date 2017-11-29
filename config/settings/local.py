@@ -69,6 +69,6 @@ INSTALLED_APPS += ('django_extensions', )
 # TESTING
 # ------------------------------------------------------------------------------
 TEST_RUNNER = 'django.test.runner.DiscoverRunner'
-
+CSRF_TRUSTED_ORIGINS = ['localhost:3000', 'localhost:8000']
 # Your local stuff: Below this line define 3rd party library settings
 # ------------------------------------------------------------------------------

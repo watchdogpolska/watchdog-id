@@ -1,0 +1,9 @@
+{% load i18n %}
+<div class="btn-group" role="group" aria-label="{{ record }} actions">
+<a href="{% url 'auth_factories:u2ftoken:update' pk=record.pk %}" class="btn btn-success">
+    {% trans 'Update' %}
+</a>
+<a href="{% url 'auth_factories:u2ftoken:delete' pk=record.pk %}" class="btn btn-danger">
+    {% trans 'Delete' %}
+</a>
+</div>

@@ -5,19 +5,18 @@ import pyotp
 import qrcode
 from atom.views import DeleteMessageMixin
 from braces.views import LoginRequiredMixin, FormValidMessageMixin, UserFormKwargsMixin
-from django.contrib import messages
 from django.core.urlresolvers import reverse_lazy
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import CreateView, UpdateView, DeleteView, FormView
+from django.views.generic import CreateView, UpdateView, DeleteView
 from django_tables2 import SingleTableView
 
 from watchdog_id.auth_factories import get_identified_user
-from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authenticated
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
 from watchdog_id.auth_factories.totp.factory import TOTPFactory
 from watchdog_id.auth_factories.totp.forms import CreateOTPPasswordForm, OTPPasswordForm, PasswordForm
 from watchdog_id.auth_factories.totp.tables import OTPPasswordTable
-from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView, SettingsViewMixin
+from watchdog_id.auth_factories.views import AuthenticationFormView
 from .models import OTPPassword
 
 
@@ -93,7 +92,6 @@ class OTPPasswordDeleteView(SettingsViewMixin, LoginRequiredMixin, DeleteMessage
 class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
     form_class = PasswordForm
     factory = TOTPFactory
-    # template_name = 'totp/authentication.html'
     success_message = _("OTP authentication succeeded.")
 
     def get_form_kwargs(self):

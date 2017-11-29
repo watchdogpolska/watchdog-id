@@ -6,7 +6,8 @@ from watchdog_id.auth_factories import get_identified_user
 
 from watchdog_id.auth_factories.password.forms import PasswordForm, PasswordSettingsForm
 from watchdog_id.auth_factories.password.models import PasswordSettings
-from watchdog_id.auth_factories.views import AuthenticationProcessMixin, AuthenticationFormView, SettingsViewMixin
+from watchdog_id.auth_factories.views import AuthenticationFormView
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
 from watchdog_id.auth_factories.password.factory import PasswordFactory
 
 
