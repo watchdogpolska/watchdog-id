@@ -3,6 +3,9 @@
 -r base.txt
 
 
+# Bleeding edge Django
+django==1.10.3
+
 
 # WSGI Handler
 # ------------------------------------------------

@@ -4,11 +4,13 @@
 # Verified bug on Python 3.5.1
 wheel==0.29.0
 
-# Bleeding edge Django
-django==1.10.3
-
 # Configuration
 django-environ==0.4.1
+
+# Templates
+django-bootstrap-breadcrumbs==0.8.2
+django-tables2==1.15.0
+
 
 # Forms
 django-braces==1.10.0
@@ -45,12 +47,15 @@ django-oauth-toolkit==0.11.0
 djangorestframework==3.5.3
 django-gravatar2==1.4.0
 
-
 # Documentation
 sphinxcontrib-seqdiag==0.8.5
 
 # watchdog_id.auth_factories.totp
 pyotp==2.2.6
-django-bootstrap-breadcrumbs==0.8.2
+qrcode==5.3
+
+# watchdog_id.auth_factories.yubico_otp
 yubico-client==1.10.0
 
+# watchdog_id.auth_factories.watchdog_u2f
+python-u2flib-server==5.0.0
