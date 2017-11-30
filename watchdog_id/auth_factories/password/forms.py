@@ -12,13 +12,11 @@ class PasswordForm(SingleButtonMixin, forms.Form):
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
-        self.request = kwargs.pop('request')
         super(PasswordForm, self).__init__(*args, **kwargs)
 
     def clean(self):
         password = self.cleaned_data.get('password')
-
-        if password and not self.user.check_password(password):
+        if not self.user.check_password(password):
             raise forms.ValidationError(
                 self.error_messages['invalid_password'],
                 code='invalid_password',
