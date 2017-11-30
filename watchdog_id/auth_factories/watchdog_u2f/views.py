@@ -49,11 +49,11 @@ class U2FTokenCreateForm(SingleButtonMixin, forms.ModelForm):
     u2f_enroll_signed = forms.CharField(widget=forms.HiddenInput(), required=True)
     u2f_bind = forms.CharField(widget=forms.HiddenInput(), required=True)
 
-    ERROR_MSG = {1: _('An unexpected error happened.'),
-                 2: _('The request can not be processed because it is bad. Try reload the website.'),
-                 3: _('Client configuration is not supported.'),
-                 4: _('The presented device is not eligible for this request eg. already registered.'),
-                 5: _('Timeout reached while waiting on device. Hurry up and try again.')}
+    error_messages = {1: _('An unexpected error happened.'),
+                      2: _('The request can not be processed because it is bad. Try reload the website.'),
+                      3: _('Client configuration is not supported.'),
+                      4: _('The presented device is not eligible for this request eg. already registered.'),
+                      5: _('Timeout reached while waiting on device. Hurry up and try again.')}
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -79,7 +79,8 @@ class U2FTokenCreateForm(SingleButtonMixin, forms.ModelForm):
             raise forms.ValidationError(_("Signed response missing. Try again."))
         data = json.loads(self.cleaned_data['u2f_bind'])
         if 'errorCode' in data:
-            raise forms.ValidationError(U2F_ERROR_MSG.get(data['errorCode'], U2F_ERROR_MSG[1]))
+            raise forms.ValidationError(self.error_messages.get(data['errorCode'],
+                                                                self.error_messages[1]))
         return data
 
     def clean(self):
@@ -115,11 +116,11 @@ class U2FTokenAuthenticationForm(SingleButtonMixin, forms.Form):
     u2f_challenge_signed = forms.CharField(widget=forms.HiddenInput(), required=True)
     u2f_verify = forms.CharField(widget=forms.HiddenInput(), required=True)
 
-    ERROR_MSG = {1: _('An unexpected error happened.'),
-                 2: _('The request can not be processed because it is bad. Try reload the website.'),
-                 3: _('Client configuration is not supported.'),
-                 4: _('This device is not registered.'),
-                 5: _('Timeout reached while waiting on device. Hurry up and try again.')}
+    error_messages = {1: _('An unexpected error happened.'),
+                      2: _('The request can not be processed because it is bad. Try reload the website.'),
+                      3: _('Client configuration is not supported.'),
+                      4: _('This device is not registered.'),
+                      5: _('Timeout reached while waiting on device. Hurry up and try again.')}
 
     def __init__(self, *args, **kwargs):
         self.user = kwargs.pop('user')
@@ -145,7 +146,8 @@ class U2FTokenAuthenticationForm(SingleButtonMixin, forms.Form):
             raise forms.ValidationError(_("Challenge signature missing. Try again."))
         data = json.loads(self.data['u2f_verify'])
         if 'errorCode' in data:
-            raise forms.ValidationError(self.ERROR_MSG.get(data['errorCode'], self.ERROR_MSG[1]))
+            raise forms.ValidationError(self.error_messages.get(data['errorCode'],
+                                                                self.error_messages[1]))
         return data
 
     def clean(self):
