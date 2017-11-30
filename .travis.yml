@@ -18,12 +18,12 @@ env:
     - TOX_ENV=py34-dj111-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
     - TOX_ENV=py34-djmaster-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
 
-    - TOX_ENV=py27-dj110-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py27-dj111-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py27-djmaster-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py34-dj110-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py34-dj111-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py34-djmaster-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
+    - TOX_ENV=py27-dj110-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - TOX_ENV=py27-dj111-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - TOX_ENV=py27-djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - TOX_ENV=py34-dj110-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - TOX_ENV=py34-dj111-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - TOX_ENV=py34-djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
 
     - TOX_ENV=flake8
 
@@ -34,10 +34,10 @@ matrix:
     - env: TOX_ENV=py34-dj111-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
     - env: TOX_ENV=py34-djmaster-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
 
-    - env: TOX_ENV=py27-djmaster-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
-    - env: TOX_ENV=py34-dj110-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
-    - env: TOX_ENV=py34-dj111-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
-    - env: TOX_ENV=py34-djmaster-coveralls DATABASE_URL="postgres://root:@localhost/test_watchdog_id"
+    - env: TOX_ENV=py27-djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - env: TOX_ENV=py34-dj110-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - env: TOX_ENV=py34-dj111-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - env: TOX_ENV=py34-djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
     - env: TOX_ENV=flake8
 
 install:
