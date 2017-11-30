@@ -1,13 +1,20 @@
+from django.shortcuts import redirect
 from django.utils.functional import cached_property
 from django.views import View
 
-from watchdog_id.auth_factories import get_identified_user
+from watchdog_id.auth_factories.manager import UserAuthenticationManager
 from watchdog_id.auth_factories.shortcuts import get_user_weight
+
+
+class UserSessionManageMixin(View):
+    def dispatch(self, request, *args, **kwargs):
+        request.user_manager = UserAuthenticationManager(request.session)
+        return super(UserSessionManageMixin, self).dispatch(request, *args, **kwargs)
 
 
 class AuthenticationProcessMixin(View):
     def get_weight(self):
-        user = get_user_weight(get_identified_user(self.request))
+        user = get_user_weight(self.request.user_manager.get_identified_user())
         authenticated = self.request.user_manager.get_authenticated_weight()
         left = user - authenticated
         left = max(0, left)
@@ -15,12 +22,19 @@ class AuthenticationProcessMixin(View):
                 'authenticated_weight': authenticated,
                 'left_weight': left}
 
+    def dispatch(self, request, *args, **kwargs):
+        request.user_manager = UserAuthenticationManager(request.session)
+
+        if not self.request.user_manager.get_identified_user():
+            return redirect('auth_factories:login')
+        return super(AuthenticationProcessMixin, self).dispatch(request, *args, **kwargs)
+
     def get_context_data(self, **kwargs):
         kwargs.update(self.get_weight())
         return super(AuthenticationProcessMixin, self).get_context_data(**kwargs)
 
 
-class SettingsViewMixin(object):
+class SettingsViewMixin(UserSessionManageMixin, View):
 
     def get_context_data(self, **kwargs):
         kwargs['factory_list'] = self.get_factory_list()

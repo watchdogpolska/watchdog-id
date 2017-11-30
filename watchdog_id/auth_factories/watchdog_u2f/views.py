@@ -8,16 +8,12 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, UpdateView, DeleteView, CreateView
 from django_tables2 import SingleTableView
 
-from watchdog_id.auth_factories import get_identified_user
 from watchdog_id.auth_factories.mixins import SettingsViewMixin, AuthenticationProcessMixin
 from watchdog_id.auth_factories.views import AuthenticationFormView
 from watchdog_id.auth_factories.watchdog_u2f.factory import WatchdogU2FFactory
 from watchdog_id.auth_factories.watchdog_u2f.forms import U2FTokenForm, U2FTokenCreateForm, U2FTokenAuthenticationForm
 from watchdog_id.auth_factories.watchdog_u2f.models import U2FToken
 from watchdog_id.auth_factories.watchdog_u2f.tables import U2FTokenTable
-
-APP_ID = "https://localhost:3000"
-FACET = APP_ID
 
 
 class UserQuerysetMixin(object):
@@ -62,7 +58,7 @@ class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
 
     def get_form_kwargs(self):
         kwargs = super(AuthenticationView, self).get_form_kwargs()
-        kwargs['user'] = get_identified_user(self.request)
+        kwargs['user'] = self.request.user_manager.get_identified_user()
         return kwargs
 
     def form_valid(self, form):

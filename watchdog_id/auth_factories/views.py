@@ -1,5 +1,3 @@
-from atom.ext.crispy_forms.forms import SingleButtonMixin
-from django import forms
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
 from django.core.urlresolvers import reverse, reverse_lazy
@@ -11,22 +9,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, ListView, TemplateView
 
 from watchdog_id.auth_factories import Registry
-from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
+from watchdog_id.auth_factories.forms import LogoutForm, UserForm
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin, UserSessionManageMixin
 from watchdog_id.auth_factories.models import Factor
 from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authenticated
-from watchdog_id.users.models import User
 
 
-class UserForm(SingleButtonMixin, forms.Form):
-    action_text = _("Log in")
-    user = forms.ModelChoiceField(queryset=User.objects.all(),
-                                  to_field_name='username',
-                                  widget=forms.widgets.TextInput(),
-                                  empty_label=None,
-                                  label=_("Username"))
-
-
-class LoginFormView(FormView):
+class LoginFormView(UserSessionManageMixin, FormView):
     form_class = UserForm
     template_name = "auth_factories/login_form.html"
     success_url = reverse_lazy('auth_factories:list')
@@ -68,11 +57,7 @@ class FactorListView(AuthenticationProcessMixin, ListView):
                 'authenticated': factory.id in self.authenticated_factories}
 
 
-class LogoutForm(SingleButtonMixin, forms.Form):
-    action_text = _("Log out")
-
-
-class LogoutActionView(FormView):
+class LogoutActionView(UserSessionManageMixin, FormView):
     form_class = LogoutForm
     template_name = "auth_factories/logout.html"
     success_url = reverse_lazy('home')

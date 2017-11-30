@@ -15,7 +15,7 @@ class AuthenticationForm(SingleButtonMixin, forms.Form):
     def clean_password(self):
         password = self.cleaned_data.get('password')
 
-        if password and str(self.code) != password:
+        if not password or str(self.code) != password:
             raise forms.ValidationError(
                 self.error_messages['invalid_password'],
                 code='invalid_password',

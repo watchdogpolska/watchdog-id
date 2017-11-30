@@ -8,7 +8,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.edit import CreateView, DeleteView
 from django_tables2 import SingleTableView
 
-from watchdog_id.auth_factories import get_identified_user
 from watchdog_id.auth_factories.views import AuthenticationFormView
 from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
 from watchdog_id.auth_factories.yubico_otp.factory import YubicoOtpFactory
@@ -56,5 +55,5 @@ class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
 
     def get_form_kwargs(self):
         kwargs = super(AuthenticationView, self).get_form_kwargs()
-        kwargs['user'] = get_identified_user(self.request)
+        kwargs['user'] = self.request.user_manager.get_identified_user()
         return kwargs

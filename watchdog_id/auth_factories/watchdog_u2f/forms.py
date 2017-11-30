@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 from u2flib_server.u2f import begin_registration, complete_registration, begin_authentication, complete_authentication
 
 from watchdog_id.auth_factories.watchdog_u2f.models import U2FToken
-from watchdog_id.auth_factories.watchdog_u2f.views import APP_ID, FACET
+from watchdog_id.auth_factories.watchdog_u2f import APP_ID, FACET
 from watchdog_id.auth_factories.watchdog_u2f.utils import get_user_devices
 
 

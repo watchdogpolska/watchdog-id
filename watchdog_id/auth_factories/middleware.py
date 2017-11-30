@@ -2,13 +2,14 @@ from django.conf import settings
 from django.utils.deprecation import MiddlewareMixin
 from django.utils.functional import SimpleLazyObject
 
+import watchdog_id.auth_factories.shortcuts
 from watchdog_id import auth_factories
-from watchdog_id.auth_factories.manager import SessionFactoryManager
+from watchdog_id.auth_factories.manager import UserAuthenticationManager
 
 
 def get_user(request):
     if not hasattr(request, '_cached_user'):
-        request._cached_user = auth_factories.get_user(request)
+        request._cached_user = watchdog_id.auth_factories.shortcuts.get_user(request)
     return request._cached_user
 
 
@@ -24,4 +25,3 @@ class AuthenticationMiddleware(MiddlewareMixin):
                                              "'django.contrib.auth.middleware.AuthenticationMiddleware'."
                                              ) % ("_CLASSES" if settings.MIDDLEWARE is None else "")
         request.user = SimpleLazyObject(lambda: get_user(request))
-        request.user_manager = SessionFactoryManager(request)

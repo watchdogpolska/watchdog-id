@@ -1,8 +1,7 @@
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
-from django.views.generic import FormView, UpdateView
+from django.views.generic import UpdateView
 
-from watchdog_id.auth_factories import get_identified_user
 
 from watchdog_id.auth_factories.password.forms import PasswordForm, PasswordSettingsForm
 from watchdog_id.auth_factories.password.models import PasswordSettings
@@ -19,7 +18,7 @@ class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
 
     def get_form_kwargs(self):
         kwargs = super(AuthenticationView, self).get_form_kwargs()
-        kwargs['user'] = get_identified_user(self.request)
+        kwargs['user'] = self.request.user_manager.get_identified_user()
         kwargs['request'] = self.request
         return kwargs
 

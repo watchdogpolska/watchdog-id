@@ -11,7 +11,6 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django_tables2 import SingleTableView
 
-from watchdog_id.auth_factories import get_identified_user
 from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
 from watchdog_id.auth_factories.totp.factory import TOTPFactory
 from watchdog_id.auth_factories.totp.forms import CreateOTPPasswordForm, OTPPasswordForm, PasswordForm
@@ -96,7 +95,7 @@ class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
 
     def get_form_kwargs(self):
         kwargs = super(AuthenticationView, self).get_form_kwargs()
-        user = get_identified_user(self.request)
+        user = self.request.user_manager.get_identified_user()
         kwargs['otp_password_list'] = OTPPassword.objects.for_user(user).all()
         return kwargs
 
