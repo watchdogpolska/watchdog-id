@@ -3,8 +3,6 @@ from django.utils.deprecation import MiddlewareMixin
 from django.utils.functional import SimpleLazyObject
 
 import watchdog_id.auth_factories.shortcuts
-from watchdog_id import auth_factories
-from watchdog_id.auth_factories.manager import UserAuthenticationManager
 
 
 def get_user(request):

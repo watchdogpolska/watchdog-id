@@ -11,8 +11,11 @@ class LogoutForm(SingleButtonMixin, forms.Form):
 
 class UserForm(SingleButtonMixin, forms.Form):
     action_text = _("Log in")
+
     user = forms.ModelChoiceField(queryset=User.objects.all(),
                                   to_field_name='username',
                                   widget=forms.widgets.TextInput(),
                                   empty_label=None,
-                                  label=_("Username"))
+                                  label=_("Username"),
+                                  error_messages={'invalid_choice': _('The username you entered is not valid. '
+                                                                      'The specified user does not exist.')})

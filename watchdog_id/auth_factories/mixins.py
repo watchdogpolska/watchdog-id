@@ -1,5 +1,9 @@
+import user
+
 from django.shortcuts import redirect
+from django.test import SimpleTestCase
 from django.utils.functional import cached_property
+from django.utils.timezone import now
 from django.views import View
 
 from watchdog_id.auth_factories.manager import UserAuthenticationManager
@@ -56,3 +60,41 @@ class SettingsViewMixin(UserSessionManageMixin, View):
         return {'name': factory.name,
                 'active': factory.id in self.enabled_factory,
                 'factory': factory}
+
+
+class Test2FAMixin(SimpleTestCase):
+    def login_2fa(self, user):
+        session = self.client.session
+
+        user_manager = UserAuthenticationManager(session)
+        user_manager.set_user(user)
+
+        session.save()
+        return True
+
+    def identify_2fa(self, user):
+        session = self.client.session
+
+        user_manager = UserAuthenticationManager(session)
+        user_manager.set_identified_user(user)
+
+        session.save()
+        return True
+
+    def login_2fa_factory(self, request, usuer):
+        session = getattr(request, 'session', {})
+        user_manager = UserAuthenticationManager(session)
+        user_manager.set_user(user)
+        request.session = session
+
+    def identify_2fa_factory(self, request, user):
+        session = getattr(request, 'session', {})
+        user_manager = UserAuthenticationManager(session)
+        user_manager.set_identified_user(user)
+        request.session = session
+
+    def assertAlmostTimeEqual(self, first, second=None, delta=None):
+        second = second or now()
+        self.assertAlmostEqual(int(first.strftime("%s")),
+                               int(second.strftime("%s")),
+                               delta=delta)

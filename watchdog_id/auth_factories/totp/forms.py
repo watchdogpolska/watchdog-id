@@ -54,36 +54,35 @@ class OTPPasswordForm(SingleButtonMixin, forms.ModelForm):
         fields = ('device_name',)
 
 
-class PasswordForm(SingleButtonMixin, forms.Form):
+class AuthenticationForm(SingleButtonMixin, forms.Form):
     token = TokenField(label=_("OTP"))
 
-    error_messages = {'mismatch_token': _("Invalid token. No device match. Hurry up and try again."),
-                      }
+    error_messages = {'mismatch_token': _("Invalid token. No device match. Hurry up and try again.")}
 
     def __init__(self, *args, **kwargs):
 
         self.otp_passwords = kwargs.pop('otp_password_list', [])
         self.totps = [(x, pyotp.TOTP(x.shared_secret)) for x in self.otp_passwords]
-        super(PasswordForm, self).__init__(*args, **kwargs)
+        super(AuthenticationForm, self).__init__(*args, **kwargs)
 
     def clean_token(self):
         token = self.cleaned_data.get('token')
-        self.verify_token_match(token)
+        self.cleaned_data['totp'] = self.verify_token_match(token)
         return self.cleaned_data
 
     def _find_valid_totp(self, token):
         for otp_password, totp in self.totps:
             if totp.verify(token):
-                return otp_password, totp
-        return (None, None)
+                return otp_password
+        return None
 
     def verify_token_match(self, token):
-        otp_password, totp = self._find_valid_totp(token)
+        otp_password = self._find_valid_totp(token)
 
-        if not totp:
+        if not otp_password:
             raise forms.ValidationError(
                 self.error_messages['mismatch_token'],
                 code='mismatch_token',
             )
 
-        self.otp_password = otp_password
+        return otp_password

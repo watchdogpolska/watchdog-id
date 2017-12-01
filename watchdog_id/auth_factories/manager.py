@@ -10,6 +10,7 @@ class UserAuthenticationManager(object):
 
     def set_user(self, user):
         self.session[SESSION_KEY] = user.pk
+        self.set_identified_user(user)
 
     def unset_user(self):
         del self.session[SESSION_KEY]

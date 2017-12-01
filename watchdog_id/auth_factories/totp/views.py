@@ -1,8 +1,3 @@
-import base64
-import cStringIO
-
-import pyotp
-import qrcode
 from atom.views import DeleteMessageMixin
 from braces.views import LoginRequiredMixin, FormValidMessageMixin, UserFormKwargsMixin
 from django.core.urlresolvers import reverse_lazy
@@ -13,7 +8,8 @@ from django_tables2 import SingleTableView
 
 from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
 from watchdog_id.auth_factories.totp.factory import TOTPFactory
-from watchdog_id.auth_factories.totp.forms import CreateOTPPasswordForm, OTPPasswordForm, PasswordForm
+from watchdog_id.auth_factories.totp.forms import CreateOTPPasswordForm, OTPPasswordForm, AuthenticationForm
+from watchdog_id.auth_factories.totp.managers import TOTPManager
 from watchdog_id.auth_factories.totp.tables import OTPPasswordTable
 from watchdog_id.auth_factories.views import AuthenticationFormView
 from .models import OTPPassword
@@ -33,37 +29,20 @@ class OTPPasswordCreateView(SettingsViewMixin, LoginRequiredMixin, UserFormKwarg
     model = OTPPassword
     form_class = CreateOTPPasswordForm
     success_url = reverse_lazy('auth_factories:totp:list')
+    totp_manager_class = TOTPManager
 
-    def get_totp_secret(self):
-        if 'totp_token' not in self.request.session:
-            self.request.session['totp_token'] = pyotp.random_base32()
-        return self.request.session['totp_token']
-
-    def get_totp(self):
-        if not hasattr(self, 'totp'):
-            self.totp = pyotp.TOTP(self.get_totp_secret())
-        return self.totp
+    def dispatch(self, request, *args, **kwargs):
+        self.totp = self.totp_manager_class(self.request.session, self.request.user)
+        return super(OTPPasswordCreateView, self).dispatch(request, *args, **kwargs)
 
     def get_form_kwargs(self):
         kwargs = super(OTPPasswordCreateView, self).get_form_kwargs()
-        kwargs['totp_secret'] = self.get_totp_secret()
+        kwargs['totp_secret'] = self.totp.get_totp_secret()
         return kwargs
 
-    def get_totp_uri(self):
-        return self.get_totp().provisioning_uri(name=self.request.user.email,
-                                                issuer_name=self.request.user.email)
-
-    def get_totp_image(self):
-        image = qrcode.make(self.get_totp_uri())
-
-        buffer = cStringIO.StringIO()
-        image.save(buffer, format="JPEG")
-        content = base64.b64encode(buffer.getvalue())
-        return "data:image/png;base64,{}".format(content)
-
     def get_context_data(self, **kwargs):
-        kwargs['totp_uri'] = self.get_totp_uri()
-        kwargs['totp_img'] = self.get_totp_image()
+        kwargs['totp_img'] = self.totp.get_totp_image()
+        kwargs['totp_secret'] = self.totp.get_totp_secret()
         return super(OTPPasswordCreateView, self).get_context_data(**kwargs)
 
     def get_form_valid_message(self):
@@ -89,7 +68,7 @@ class OTPPasswordDeleteView(SettingsViewMixin, LoginRequiredMixin, DeleteMessage
 
 
 class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
-    form_class = PasswordForm
+    form_class = AuthenticationForm
     factory = TOTPFactory
     success_message = _("OTP authentication succeeded.")
 
@@ -100,6 +79,6 @@ class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
         return kwargs
 
     def form_valid(self, form):
-        form.otp_password.last_used = now()
-        form.otp_password.save()
+        form.cleaned_data['totp'].last_used = now()
+        form.cleaned_data['totp'].save()
         return super(AuthenticationView, self).form_valid(form)

@@ -1,5 +1,3 @@
-from django.contrib.auth.models import AnonymousUser
-from django.contrib.messages.middleware import MessageMiddleware
 from django.test import TestCase, RequestFactory
 from django.urls import reverse
 
