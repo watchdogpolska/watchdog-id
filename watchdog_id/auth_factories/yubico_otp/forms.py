@@ -9,12 +9,11 @@ from watchdog_id.auth_factories.yubico_otp.utils import get_client
 
 class OTPFieldMixin(forms.Form):
     otp = forms.CharField(label=_("OTP"))
-
+    _yubico_client = get_client()
     error_messages = {'invalid_password': _("Please enter a correct OTP."),
                       'signature_mismatch': _("Token verification failed (invalid signature). Try again."),
                       'duplicate_device_id': _("The used token is already registered for the current user."),
-                      'status_code': _("Token verification failed (rejected by auth server). Try again.")
-                      }
+                      'status_code': _("Token verification failed (rejected by auth server). Try again.")}
 
     def clean_otp(self):
         otp = self.cleaned_data.get('otp')
@@ -23,7 +22,7 @@ class OTPFieldMixin(forms.Form):
 
     def _validate_otp(self, otp):
         try:
-            if otp and not get_client().verify(otp):
+            if otp and not self._yubico_client.verify(otp):
                 raise forms.ValidationError(
                     self.error_messages['invalid_password'],
                     code='invalid_password',
@@ -79,7 +78,7 @@ class CreateYubicoOTPDeviceForm(SingleButtonMixin, OTPFieldMixin, forms.ModelFor
             )
 
     def save(self, commit=True):
-        self.instance.device_id = self.cleaned_data.get('otp')[:12]
+        self.instance.device_id = self.cleaned_data['otp'][:12]
         self.instance.user = self.user
         return super(CreateYubicoOTPDeviceForm, self).save(commit)
 

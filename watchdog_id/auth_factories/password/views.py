@@ -6,12 +6,12 @@ from django.views.generic import UpdateView
 
 from watchdog_id.auth_factories.password.forms import PasswordForm, PasswordSettingsForm
 from watchdog_id.auth_factories.password.models import PasswordSettings
-from watchdog_id.auth_factories.views import AuthenticationFormView
+from watchdog_id.auth_factories.views import BaseAuthenticationFormView
 from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
 from watchdog_id.auth_factories.password.factory import PasswordFactory
 
 
-class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
+class AuthenticationView(AuthenticationProcessMixin, BaseAuthenticationFormView):
     form_class = PasswordForm
     template_name = 'password/form.html'
     success_message = _("Password authentication succeeded.")

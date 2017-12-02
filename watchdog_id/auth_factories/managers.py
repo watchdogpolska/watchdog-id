@@ -1,7 +1,9 @@
 # coding=utf-8
 from django.contrib.auth import get_user_model
+from django.contrib.auth.models import AnonymousUser
 
 from watchdog_id.auth_factories import SESSION_KEY, SESSION_IDENTIFIED_KEY, FACTORY_LIST_SESSION_KEY, Registry
+from watchdog_id.auth_factories.shortcuts import get_user
 
 
 class UserAuthenticationManager(object):
@@ -12,10 +14,13 @@ class UserAuthenticationManager(object):
         self.session[SESSION_KEY] = user.pk
         self.set_identified_user(user)
 
+    def get_user(self):
+        return get_user(self.session)
+
     def unset_user(self):
-        del self.session[SESSION_KEY]
-        del self.session[SESSION_IDENTIFIED_KEY]
-        del self.session[FACTORY_LIST_SESSION_KEY]
+        if SESSION_KEY in self.session:
+            del self.session[SESSION_KEY]
+        self.unset_identified_user()
         self.session.flush()
 
     def get_identified_user(self):
@@ -32,8 +37,11 @@ class UserAuthenticationManager(object):
         self._identified_user = user
 
     def unset_identified_user(self):
-        del self.session[SESSION_IDENTIFIED_KEY]
-        del self.session[FACTORY_LIST_SESSION_KEY]
+        self._identified_user = None
+        if SESSION_IDENTIFIED_KEY in self.session:
+            del self.session[SESSION_IDENTIFIED_KEY]
+        if FACTORY_LIST_SESSION_KEY in self.session:
+            del self.session[FACTORY_LIST_SESSION_KEY]
 
     def add_authenticated_factory(self, factory):
         current = self.session.get(FACTORY_LIST_SESSION_KEY, [])

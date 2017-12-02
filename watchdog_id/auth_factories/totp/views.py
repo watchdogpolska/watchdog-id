@@ -11,7 +11,7 @@ from watchdog_id.auth_factories.totp.factory import TOTPFactory
 from watchdog_id.auth_factories.totp.forms import CreateOTPPasswordForm, OTPPasswordForm, AuthenticationForm
 from watchdog_id.auth_factories.totp.managers import TOTPManager
 from watchdog_id.auth_factories.totp.tables import OTPPasswordTable
-from watchdog_id.auth_factories.views import AuthenticationFormView
+from watchdog_id.auth_factories.views import BaseAuthenticationFormView
 from .models import OTPPassword
 
 
@@ -67,14 +67,14 @@ class OTPPasswordDeleteView(SettingsViewMixin, LoginRequiredMixin, DeleteMessage
         return _("{0} deleted!").format(self.object)
 
 
-class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
+class AuthenticationView(AuthenticationProcessMixin, BaseAuthenticationFormView):
     form_class = AuthenticationForm
     factory = TOTPFactory
     success_message = _("OTP authentication succeeded.")
 
     def get_form_kwargs(self):
         kwargs = super(AuthenticationView, self).get_form_kwargs()
-        user = self.request.user_manager.get_identified_user()
+        user = self.user_manager.get_identified_user()
         kwargs['otp_password_list'] = OTPPassword.objects.for_user(user).all()
         return kwargs
 

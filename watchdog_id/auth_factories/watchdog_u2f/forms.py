@@ -38,7 +38,7 @@ class U2FTokenCreateForm(SingleButtonMixin, forms.ModelForm):
         self.fields['u2f_enroll_signed'].initial = signing.dumps(enroll, salt=self._get_sign_salt())
 
     def _get_sign_salt(self):
-        return self.__module__ + str(self.user.pk)
+        return __name__ + str(self.user.pk)
 
     def clean_u2f_enroll_signed(self):
         if 'u2f_enroll_signed' not in self.data:

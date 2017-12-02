@@ -2,7 +2,7 @@ from django.test import TestCase, RequestFactory
 from django.urls import reverse
 
 from watchdog_id.auth_factories.console_otp.views import AuthenticationView, CodeSessionManager
-from watchdog_id.auth_factories.manager import UserAuthenticationManager
+from watchdog_id.auth_factories.managers import UserAuthenticationManager
 from watchdog_id.users.factories import UserFactory
 
 

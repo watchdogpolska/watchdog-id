@@ -12,19 +12,20 @@ def get_user_weight(user):
     return MIN_WEIGHT
 
 
-def redirect_unless_full_authenticated(request):
-    min_weight = get_user_weight(request.user)
-    if min_weight > request.user_manager.get_authenticated_weight():
+def redirect_unless_full_authenticated(user_manager):
+    min_weight = get_user_weight(user_manager.get_identified_user())
+    if min_weight > user_manager.get_authenticated_weight():
         return redirect('auth_factories:list')
-    request.user_manager.set_user(request.user_manager.get_identified_user())
-    return redirect(request.session.get('success_url', reverse('home')))
+    user_manager.set_user(user_manager.get_identified_user())
+    return redirect(user_manager.session.get('success_url', reverse('home')))
 
 
-def get_user(request):
+def get_user(request_or_session):
     from django.contrib.auth.models import AnonymousUser
+    session = getattr(request_or_session, 'session', request_or_session)
     user = None
     try:
-        user_id = request.session[SESSION_KEY]
+        user_id = session[SESSION_KEY]
         user = get_user_model().objects.get(pk=user_id)
     except (KeyError, get_user_model().DoesNotExist):
         pass

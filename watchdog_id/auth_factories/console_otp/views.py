@@ -8,7 +8,7 @@ from django.utils.translation import ugettext_lazy as _
 
 from watchdog_id.auth_factories.console_otp.factory import ConsoleOtpFactory
 from watchdog_id.auth_factories.console_otp.forms import AuthenticationForm
-from watchdog_id.auth_factories.views import AuthenticationFormView
+from watchdog_id.auth_factories.views import BaseAuthenticationFormView
 from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin
 
 SESSION_KEY_NAME = 'console_otp:code'
@@ -33,7 +33,7 @@ class CodeSessionManager(object):
         return self.session[self.KEY]
 
 
-class AuthenticationView(AuthenticationProcessMixin, AuthenticationFormView):
+class AuthenticationView(AuthenticationProcessMixin, BaseAuthenticationFormView):
     form_class = AuthenticationForm
     template_name = 'console_otp/form.html'
     factory = ConsoleOtpFactory
