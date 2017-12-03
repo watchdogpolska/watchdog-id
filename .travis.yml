@@ -1,5 +1,5 @@
 language: python
-python: 2.7
+python: 3.4
 
 cache:
   directories:
@@ -11,33 +11,22 @@ env:
     - DJANGO_SETTINGS_MODULE="config.settings.local"
     - secure: EISJIPM6AKhe72FqspngjmIXwdXWAWveLUkVJVPYohcUpmboxmC4pVMV5dNQT28mrOoMTak0eatbypBA2oj3JZOlawqtQkxr9ztzkOXt3k/SY4rvJ9OH6zJLJ1DPwYNEszjDhvHLlhtOwSkqCLfEPF5nli22QrBSdRzzJXr/qEz7dGtB3Qi+0XuAfuGrkoxqg1unbkQiZOgsn8lO/QFX6LU8fCQzpZkr63yCKjkRMaSR7CrI014FvdEMMDQxg7etuEJ2avHMeuqvrV3kw7I/w1HOyW/VUbPvIdpvxSlYity8ex4A+YEonsYIYKOpU/BY4Gv6kd5GHC0EvLVaJXhz7/L/xIQq1ph6CIqVqn6aB0IXbWUAujphSzisatsvLouWOMCSRePNM58Gcx99LCdujNvtmHqhoxMIxGTYZve+YwUJTVe7F6PAwA3wElGTtqm48l2NsrD7flm7T9t+2+AhwKMvvs0mRfUYUKMe5DEMn60B3+GsH2K08A/kV6Rkr6hplcXeVVgRi3NACoaTVIBCLB/0McTK1uXasQ5kSHphINW900Ut6Q/xHMYsAgCvQj3TBUVssR+0kKNaC59tWFdrYkqX8Ry+D8njOriI5gANgx602cxFS3WFcOHs2yzQC3wA2scsMObWZfj+EX4wVnE5pA71nuBvZBAMGFaEEwJOieU=
   matrix:
-    - TOX_ENV=py27-dj110-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py27-dj111-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py27-djmaster-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py34-dj110-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py34-dj111-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
-    - TOX_ENV=py34-djmaster-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
+    - TOX_ENV=dj110-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
+    - TOX_ENV=dj111-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
+    - TOX_ENV=dj20-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
+    - TOX_ENV=djmaster-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
 
-    - TOX_ENV=py27-dj110-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
-    - TOX_ENV=py27-dj111-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
-    - TOX_ENV=py27-djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
-    - TOX_ENV=py34-dj110-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
-    - TOX_ENV=py34-dj111-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
-    - TOX_ENV=py34-djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - TOX_ENV=dj110-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - TOX_ENV=dj111-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - TOX_ENV=dj20-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - TOX_ENV=djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
 
     - TOX_ENV=flake8
 
 matrix:
   allow_failures:
-    - env: TOX_ENV=py27-djmaster-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
-    - env: TOX_ENV=py34-dj110-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
-    - env: TOX_ENV=py34-dj111-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
-    - env: TOX_ENV=py34-djmaster-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
-
-    - env: TOX_ENV=py27-djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
-    - env: TOX_ENV=py34-dj110-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
-    - env: TOX_ENV=py34-dj111-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
-    - env: TOX_ENV=py34-djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
+    - env: TOX_ENV=djmaster-coveralls DATABASE_URL="mysql://root:@localhost/test_watchdog_id"
+    - env: TOX_ENV=djmaster-coveralls DATABASE_URL="postgres://postgres:@localhost/test_watchdog_id"
     - env: TOX_ENV=flake8
 
 install:
