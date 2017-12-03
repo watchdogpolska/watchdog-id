@@ -1,4 +1,5 @@
-from django.core.urlresolvers import reverse, resolve
+# coding=utf-8
+from django.urls import reverse, resolve
 
 from test_plus.test import TestCase
 

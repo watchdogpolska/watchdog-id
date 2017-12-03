@@ -1,3 +1,4 @@
+# coding=utf-8
 from django.test import RequestFactory
 from test_plus.test import TestCase
 

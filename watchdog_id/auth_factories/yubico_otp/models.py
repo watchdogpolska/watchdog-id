@@ -13,7 +13,7 @@ class YubicoOTPDeviceQuerySet(models.QuerySet):
 
 
 class YubicoOTPDevice(TimeStampedModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     device_id = models.CharField(max_length=12, verbose_name=_("Device ID"))
     device_name = models.CharField(max_length=25,
                                    default=_("Yubico Token"),

@@ -14,7 +14,9 @@ class U2FTokenQuerySet(models.QuerySet):
 
 
 class U2FToken(TimeStampedModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='u2f_tokens')
+    user = models.ForeignKey(to=settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE,
+                             related_name='u2f_tokens')
     device_name = models.CharField(max_length=15,
                                    verbose_name=_("Device name"),
                                    default=_("Standard token"))

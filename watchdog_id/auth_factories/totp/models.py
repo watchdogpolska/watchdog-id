@@ -11,7 +11,7 @@ class OTPPasswordQuerySet(models.QuerySet):
 
 
 class OTPPassword(TimeStampedModel):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     device_name = models.CharField(max_length=25, verbose_name=_("Device name"))
     last_used = models.DateTimeField(null=True, blank=True, verbose_name=_("Last used"),
                                      help_text=_("Time of last use of the token"))

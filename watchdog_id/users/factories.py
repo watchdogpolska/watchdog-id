@@ -1,3 +1,4 @@
+# coding=utf-8
 import factory
 
 from watchdog_id.users import models

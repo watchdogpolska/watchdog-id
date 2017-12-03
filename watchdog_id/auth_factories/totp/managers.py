@@ -1,6 +1,8 @@
 import base64
-import cStringIO
-
+try:
+    from cStringIO import StringIO as BytesIO
+except ImportError:
+    from io import BytesIO
 import pyotp
 import qrcode
 
@@ -28,7 +30,7 @@ class TOTPManager(object):
     def get_totp_image(self):
         image = qrcode.make(self.get_totp_uri())
 
-        buffer = cStringIO.StringIO()
+        buffer = BytesIO()
         image.save(buffer, format="JPEG")
         content = base64.b64encode(buffer.getvalue())
         return "data:image/png;base64,{}".format(content)

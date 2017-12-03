@@ -1,8 +1,7 @@
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
-from django.core.urlresolvers import reverse, reverse_lazy
+from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
-# Create your views here.
 from django.shortcuts import redirect
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
@@ -35,7 +34,7 @@ class FactorListView(AuthenticationProcessMixin, ListView):
         if self.user_manager.get_identified_user() is None:
             messages.warning(self.request, _("You must first identify yourself."))
             return redirect(reverse('auth_factories:login'))
-        if not self.request.user.is_anonymous():
+        if not self.request.user.is_anonymous:
             messages.warning(self.request, _("You do not need to authenticate more."))
             return redirect(self.request.session.get('success_url', reverse('home')))
         return super(FactorListView, self).dispatch(request, *args, **kwargs)

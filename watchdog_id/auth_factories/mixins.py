@@ -1,11 +1,10 @@
-import user
-
 from django.shortcuts import redirect
 from django.test import SimpleTestCase
 from django.utils.functional import cached_property
 from django.utils.timezone import now
 from django.views import View
 from django.views.generic.base import ContextMixin
+from django.views.generic.edit import FormMixin
 
 from watchdog_id.auth_factories.managers import UserAuthenticationManager
 from watchdog_id.auth_factories.shortcuts import get_user_weight
@@ -15,6 +14,13 @@ class UserSessionManageMixin(View):
     def dispatch(self, request, *args, **kwargs):
         self.user_manager = UserAuthenticationManager(request.session)
         return super(UserSessionManageMixin, self).dispatch(request, *args, **kwargs)
+
+
+class UserFormKwargsMixin(FormMixin):
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
 
 
 class AuthenticationProcessMixin(ContextMixin, View):

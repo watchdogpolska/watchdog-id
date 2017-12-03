@@ -27,10 +27,11 @@ class TokenField(forms.CharField):
 
 class CreateOTPPasswordForm(SingleButtonMixin, UserKwargModelFormMixin, forms.ModelForm):
     token = TokenField(label=_("Token"))
+    _token_validator_class = pyotp.TOTP
 
     def __init__(self, *args, **kwargs):
         self.totp_secret = kwargs.pop('totp_secret')
-        self.totp = pyotp.TOTP(self.totp_secret)
+        self.totp = self._token_validator_class(self.totp_secret)
         super(CreateOTPPasswordForm, self).__init__(*args, **kwargs)
 
     def clean_token(self):
@@ -58,11 +59,13 @@ class AuthenticationForm(SingleButtonMixin, forms.Form):
     token = TokenField(label=_("OTP"))
 
     error_messages = {'mismatch_token': _("Invalid token. No device match. Hurry up and try again.")}
+    _token_validator_class = pyotp.TOTP
 
     def __init__(self, *args, **kwargs):
 
         self.otp_passwords = kwargs.pop('otp_password_list', [])
-        self.totps = [(x, pyotp.TOTP(x.shared_secret)) for x in self.otp_passwords]
+        self.totps = [(x, self._token_validator_class(x.shared_secret))
+                      for x in self.otp_passwords]
         super(AuthenticationForm, self).__init__(*args, **kwargs)
 
     def clean_token(self):

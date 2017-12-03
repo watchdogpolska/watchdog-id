@@ -9,7 +9,7 @@ class PasswordSettingsQuerySet(models.QuerySet):
 
 
 class PasswordSettings(TimeStampedModel):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     status = models.BooleanField(default=True, verbose_name=_("Status"))
     objects = PasswordSettingsQuerySet.as_manager()
 

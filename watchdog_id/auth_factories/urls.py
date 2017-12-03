@@ -13,4 +13,4 @@ urlpatterns = [
 ]
 
 for id, cfg in Registry.items():
-    urlpatterns.append(url("{}/".format(id), include(cfg.urlpatterns, namespace=id)))
+    urlpatterns.append(url("{}/".format(id), include((cfg.urlpatterns, "watchdog_id.auth_factories." + id), namespace=id)))

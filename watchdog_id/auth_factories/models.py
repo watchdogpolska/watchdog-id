@@ -7,7 +7,7 @@ from watchdog_id.users.models import User
 
 
 class Factor(models.Model):
-    user = models.ForeignKey(User)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
     method = models.CharField(max_length=10,
                               choices=Registry.keys())
 

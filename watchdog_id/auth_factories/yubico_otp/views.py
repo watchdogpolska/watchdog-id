@@ -1,6 +1,5 @@
 # -*- coding: utf-8 -*-
 from atom.views import DeleteMessageMixin
-from braces.views import UserFormKwargsMixin
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.utils.timezone import now
@@ -9,7 +8,7 @@ from django.views.generic.edit import CreateView, DeleteView
 from django_tables2 import SingleTableView
 
 from watchdog_id.auth_factories.views import BaseAuthenticationFormView
-from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin, UserFormKwargsMixin
 from watchdog_id.auth_factories.yubico_otp.factory import YubicoOtpFactory
 from watchdog_id.auth_factories.yubico_otp.forms import AuthenticationForm, CreateYubicoOTPDeviceForm
 from watchdog_id.auth_factories.yubico_otp.models import YubicoOTPDevice

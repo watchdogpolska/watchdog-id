@@ -1,12 +1,13 @@
 from atom.views import DeleteMessageMixin
-from braces.views import LoginRequiredMixin, FormValidMessageMixin, UserFormKwargsMixin
-from django.core.urlresolvers import reverse_lazy
+from braces.views import FormValidMessageMixin
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.urls import reverse_lazy
 from django.utils.timezone import now
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django_tables2 import SingleTableView
 
-from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin, UserFormKwargsMixin
 from watchdog_id.auth_factories.totp.factory import TOTPFactory
 from watchdog_id.auth_factories.totp.forms import CreateOTPPasswordForm, OTPPasswordForm, AuthenticationForm
 from watchdog_id.auth_factories.totp.managers import TOTPManager

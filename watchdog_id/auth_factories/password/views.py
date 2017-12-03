@@ -1,4 +1,3 @@
-from braces.views import UserFormKwargsMixin
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import UpdateView
@@ -7,7 +6,7 @@ from django.views.generic import UpdateView
 from watchdog_id.auth_factories.password.forms import PasswordForm, PasswordSettingsForm
 from watchdog_id.auth_factories.password.models import PasswordSettings
 from watchdog_id.auth_factories.views import BaseAuthenticationFormView
-from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin, UserFormKwargsMixin
 from watchdog_id.auth_factories.password.factory import PasswordFactory
 
 
