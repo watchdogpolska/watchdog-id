@@ -1,12 +1,16 @@
 from unittest import TestCase
 
 from django.test import TestCase
-from mock import patch
 from yubico_client.yubico_exceptions import SignatureVerificationError, StatusCodeError
 
 from watchdog_id.auth_factories.yubico_otp.forms import AuthenticationForm, CreateYubicoOTPDeviceForm
 from watchdog_id.auth_factories.yubico_otp.models import YubicoOTPDevice
 from watchdog_id.users.factories import UserFactory
+
+try:  # Python 2.7
+    from mock import patch
+except ImportError:
+    from unittest.mock import patch
 
 _client_path = 'watchdog_id.auth_factories.yubico_otp.forms.OTPFieldMixin._yubico_client'
 
