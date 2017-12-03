@@ -62,7 +62,6 @@ class AuthenticationForm(SingleButtonMixin, forms.Form):
     _token_validator_class = pyotp.TOTP
 
     def __init__(self, *args, **kwargs):
-
         self.otp_passwords = kwargs.pop('otp_password_list', [])
         self.totps = [(x, self._token_validator_class(x.shared_secret))
                       for x in self.otp_passwords]

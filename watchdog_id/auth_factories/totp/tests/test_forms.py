@@ -1,6 +1,7 @@
 from unittest import TestCase
 
 import pyotp
+from django.core.exceptions import ValidationError
 from django.test import TestCase
 from mock import patch, MagicMock, Mock
 
@@ -9,6 +10,7 @@ from watchdog_id.auth_factories.totp.models import OTPPassword
 from watchdog_id.users.factories import UserFactory
 
 _create_form_path = 'watchdog_id.auth_factories.totp.forms.CreateOTPPasswordForm._token_validator_class'
+_auth_form_path = 'watchdog_id.auth_factories.totp.forms.AuthenticationForm._token_validator_class'
 
 
 class TestCreateOTPPasswordForm(TestCase):
@@ -47,19 +49,20 @@ class TestAuthenticationForm(TestCase):
     def setUp(self):
         self.user = UserFactory()
         self.token = OTPPassword.objects.create(user=self.user,
-                                                totp_secret='FOO')
-        self.totp = pyotp.TOTP('FOO')
+                                                shared_secret="JBSWY3DPEHPK3PXP")
+        self.totp = pyotp.TOTP("JBSWY3DPEHPK3PXP")
 
-    def test_for_missing_token(self):
-        form = AuthenticationForm(user=self.user,
-                                  otp_password_list=OTPPassword.objects.all(),
-                                  data={'token': 25})
+    @patch(_auth_form_path, **{'return_value.verify.return_value': False})
+    def test_for_missing_token(self, mock):
+        form = AuthenticationForm(otp_password_list=OTPPassword.objects.all(),
+                                  data={'token': 123456})
         self.assertEqual(form.is_valid(), False)
-        self.assertEqual(form.clean_token()['totp'], None)
+        with self.assertRaises(ValidationError):
+            self.assertEqual(form.clean_token())
 
-    def test_for_match_token(self):
-        form = AuthenticationForm(user=self.user,
-                                  otp_password_list=OTPPassword.objects.all(),
+    @patch(_auth_form_path, **{'return_value.verify.return_value': True})
+    def test_for_match_token(self, mock):
+        form = AuthenticationForm(otp_password_list=OTPPassword.objects.all(),
                                   data={'token': self.totp.now()})
         self.assertEqual(form.is_valid(), True)
-        self.assertEqual(form.clean_token()['totp'], self.totp)
+        self.assertEqual(form.clean_token()['totp'], self.token)
