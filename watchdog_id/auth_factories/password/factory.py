@@ -7,6 +7,7 @@ class PasswordFactory(BaseFactory):
     id = 'password'
     urlpatterns = 'watchdog_id.auth_factories.password.urls'
     name = _("Password")
+    first_class = True
     weight = 100
 
     def is_enabled(self, user):

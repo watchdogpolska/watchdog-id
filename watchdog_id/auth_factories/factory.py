@@ -8,6 +8,7 @@ class BaseFactory(object):
 
     id = None
     urlpatterns = None
+    first_class = False
     weight = 50
 
     @property

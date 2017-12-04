@@ -62,4 +62,10 @@ class UserAuthenticationManager(object):
         return {k: v for k, v in Registry.items() if v.is_available(self.get_identified_user())}
 
     def get_authenticated_weight(self):
-        return sum(factory.weight for _, factory in self.get_authenticated_factory_map().items())
+        return sum(factory.weight for factory in self.get_authenticated_factory_map().values())
+
+    def has_any_first_factor(self):
+        return any(factory.first_class for factory in self.get_authenticated_factory_map().values())
+
+    def get_available_first_class(self):
+        return [factory for factory in self.get_available_factory_map().values() if factory.first_class]

@@ -15,10 +15,16 @@ from watchdog_id.auth_factories.models import Factor
 from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authenticated
 
 
-class LoginFormView(UserSessionManageMixin, FormView):
+class LoginFormView(FormView):
     form_class = UserForm
     template_name = "auth_factories/login_form.html"
     success_url = reverse_lazy('auth_factories:list')
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user_manager = UserAuthenticationManager(request.session)
+        if self.user_manager.get_identified_user() is not None:
+            return redirect(reverse('auth_factories:list'))
+        return super(LoginFormView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         self.user_manager.set_identified_user(form.cleaned_data['user'])
@@ -56,7 +62,8 @@ class FactorListView(AuthenticationProcessMixin, ListView):
         return {'name': factory.name,
                 'url': factory.get_authentication_url(),
                 'weight': factory.weight,
-                'authenticated': factory.id in self.authenticated_factories}
+                'authenticated': factory.id in self.authenticated_factories,
+                'first_class': factory.first_class}
 
 
 class LogoutActionView(UserSessionManageMixin, FormView):
@@ -66,7 +73,7 @@ class LogoutActionView(UserSessionManageMixin, FormView):
 
     def form_valid(self, form):
         messages.success(self.request, _("The user is logged out correctly."))
-        self.request.user_manager.unset_user()
+        self.user_manager.unset_user()
         return super(LogoutActionView, self).form_valid(form)
 
 
@@ -88,7 +95,7 @@ class BaseAuthenticationFormView(UserSessionManageMixin, FormView):
     def dispatch(self, request, *args, **kwargs):
         if self.factory.id in self.user_manager.get_authenticated_factory_map():
             messages.warning(self.request, _("You have already used this authentication method."))
-            return redirect_unless_full_authenticated(self.request)
+            return redirect_unless_full_authenticated(self.user_manager, self.request)
         return super(BaseAuthenticationFormView, self).dispatch(request, *args, **kwargs)
 
     @property
@@ -118,7 +125,7 @@ class BaseAuthenticationFormView(UserSessionManageMixin, FormView):
     def authentication_success(self):
         messages.success(self.request, self.get_succcess_message())
         self.user_manager.add_authenticated_factory(self.factory)
-        return redirect_unless_full_authenticated(self.user_manager)
+        return redirect_unless_full_authenticated(self.user_manager, self.request)
 
     def form_valid(self, form):
         return self.authentication_success()

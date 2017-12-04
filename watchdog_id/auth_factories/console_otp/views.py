@@ -57,10 +57,10 @@ class AuthenticationView(AuthenticationProcessMixin, BaseAuthenticationFormView)
         return super(AuthenticationView, self).get_context_data(**kwargs)
 
     def form_invalid(self, form):
-        self.session_manager.get_code()
+        self.session_manager.reset_session_code()
         return super(AuthenticationView, self).form_invalid(form)
 
     def form_valid(self, form):
         response = super(AuthenticationView, self).form_valid(form)
-        self.session_manager.get_code()
+        self.session_manager.reset_session_code()
         return response

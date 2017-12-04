@@ -1,9 +1,21 @@
+from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.urls import reverse
+from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import string_concat
 
 from watchdog_id.auth_factories import SESSION_KEY
 from watchdog_id.auth_factories.settings import MIN_WEIGHT
+
+
+def string_concat_join(sep, values):  # TODO: Add suppor to iterators
+    results = []
+    for value in values[:-1]:
+        results.append(value)
+        results.append(sep)
+    results.append(values[-1])
+    return string_concat(*results)
 
 
 def get_user_weight(user):
@@ -12,9 +24,13 @@ def get_user_weight(user):
     return MIN_WEIGHT
 
 
-def redirect_unless_full_authenticated(user_manager):
+def redirect_unless_full_authenticated(user_manager, request):
     min_weight = get_user_weight(user_manager.get_identified_user())
     if min_weight > user_manager.get_authenticated_weight():
+        return redirect('auth_factories:list')
+    if not user_manager.has_any_first_factor():
+        factory_list = string_concat_join(", ", [factory.name for factory in user_manager.get_available_first_class()])
+        messages.warning(request, _("At least one first class factor authentication is required eg. {}.").format(factory_list))
         return redirect('auth_factories:list')
     user_manager.set_user(user_manager.get_identified_user())
     return redirect(user_manager.session.get('success_url', reverse('home')))
