@@ -26,7 +26,7 @@ def get_user_weight(user):
 
 def redirect_unless_full_authenticated(user_manager, request):
     min_weight = get_user_weight(user_manager.get_identified_user())
-    if min_weight > user_manager.get_authenticated_weight():
+    if min_weight >= user_manager.get_authenticated_weight():
         return redirect('auth_factories:list')
     if not user_manager.has_any_first_factor():
         factory_list = string_concat_join(", ", [factory.name for factory in user_manager.get_available_first_class()])

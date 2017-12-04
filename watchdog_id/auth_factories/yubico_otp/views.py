@@ -7,8 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic.edit import CreateView, DeleteView
 from django_tables2 import SingleTableView
 
-from watchdog_id.auth_factories.views import BaseAuthenticationFormView
-from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin, UserFormKwargsMixin
+from watchdog_id.auth_factories.views import FinishAuthenticationFormView
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin, UserFormKwargsMixin, \
+    SingleFactoryProcessMixin
 from watchdog_id.auth_factories.yubico_otp.factory import YubicoOtpFactory
 from watchdog_id.auth_factories.yubico_otp.forms import AuthenticationForm, CreateYubicoOTPDeviceForm
 from watchdog_id.auth_factories.yubico_otp.models import YubicoOTPDevice
@@ -42,7 +43,7 @@ class YubicoOTPDeviceDeleteView(SettingsViewMixin, LoginRequiredMixin, DeleteMes
         return _("{0} deleted!").format(self.object)
 
 
-class AuthenticationView(AuthenticationProcessMixin, BaseAuthenticationFormView):
+class AuthenticationView(SingleFactoryProcessMixin, FinishAuthenticationFormView):
     form_class = AuthenticationForm
     factory = YubicoOtpFactory
     success_message = _("OTP authentication succeeded.")

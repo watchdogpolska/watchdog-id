@@ -1,5 +1,7 @@
+from django.contrib import messages
 from django.shortcuts import redirect
 from django.test import SimpleTestCase
+from django.urls import reverse
 from django.utils.functional import cached_property
 from django.utils.timezone import now
 from django.views import View
@@ -8,6 +10,7 @@ from django.views.generic.edit import FormMixin
 
 from watchdog_id.auth_factories.managers import UserAuthenticationManager
 from watchdog_id.auth_factories.shortcuts import get_user_weight
+from django.utils.translation import ugettext_lazy as _
 
 
 class UserSessionManageMixin(View):
@@ -43,6 +46,22 @@ class AuthenticationProcessMixin(ContextMixin, View):
     def get_context_data(self, **kwargs):
         kwargs.update(self.get_weight())
         return super(AuthenticationProcessMixin, self).get_context_data(**kwargs)
+
+
+class SingleFactoryProcessMixin(AuthenticationProcessMixin):
+    factory = None
+
+    def dispatch(self, request, *args, **kwargs):
+        self.user_manager = UserAuthenticationManager(request.session)
+        if self.factory.id in self.user_manager.get_authenticated_factory_map():
+            messages.warning(request, _("You can not use the same form of authentication twice."))
+            return redirect(reverse('auth_factories:list'))
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_context_data(self, **kwargs):
+        kwargs['factory_name'] = self.factory().name
+        kwargs['authentication_url'] = self.factory().get_authentication_url()
+        return super(SingleFactoryProcessMixin, self).get_context_data(**kwargs)
 
 
 class SettingsViewMixin(UserSessionManageMixin, ContextMixin, View):

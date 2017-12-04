@@ -81,8 +81,9 @@ class SettingsView(SettingsViewMixin, TemplateView):
     template_name = "auth_factories/settings.html"
 
 
-class BaseAuthenticationFormView(UserSessionManageMixin, FormView):
+class FinishAuthenticationFormView(UserSessionManageMixin, FormView):
     success_message = None
+    success_url = reverse_lazy("auth_factories:list")
 
     def get_template_names(self):
         if getattr(self, 'template_name', None):
@@ -94,9 +95,9 @@ class BaseAuthenticationFormView(UserSessionManageMixin, FormView):
 
     def dispatch(self, request, *args, **kwargs):
         if self.factory.id in self.user_manager.get_authenticated_factory_map():
-            messages.warning(self.request, _("You have already used this authentication method."))
+            messages.warning(request, _("You have already used this authentication method."))
             return redirect_unless_full_authenticated(self.user_manager, self.request)
-        return super(BaseAuthenticationFormView, self).dispatch(request, *args, **kwargs)
+        return super(FinishAuthenticationFormView, self).dispatch(request, *args, **kwargs)
 
     @property
     def factory(self):
@@ -120,7 +121,7 @@ class BaseAuthenticationFormView(UserSessionManageMixin, FormView):
     def get_context_data(self, **kwargs):
         kwargs['authentication_url'] = self.factory().get_authentication_url()
         kwargs['factory_name'] = self.factory().name
-        return super(BaseAuthenticationFormView, self).get_context_data(**kwargs)
+        return super(FinishAuthenticationFormView, self).get_context_data(**kwargs)
 
     def authentication_success(self):
         messages.success(self.request, self.get_succcess_message())

@@ -1,0 +1,8 @@
+Dear Sir or Madam {{user}},
+
+You have just requested to submit the code for authentication in the {{site.name}} page.
+
+Go to {{url}} and enter the code {{code}}.
+
+Sincerely,
+Administrator

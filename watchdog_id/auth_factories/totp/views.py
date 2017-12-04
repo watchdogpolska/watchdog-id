@@ -7,12 +7,13 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import CreateView, UpdateView, DeleteView
 from django_tables2 import SingleTableView
 
-from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin, UserFormKwargsMixin
+from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin, UserFormKwargsMixin, \
+    SingleFactoryProcessMixin
 from watchdog_id.auth_factories.totp.factory import TOTPFactory
 from watchdog_id.auth_factories.totp.forms import CreateOTPPasswordForm, OTPPasswordForm, AuthenticationForm
 from watchdog_id.auth_factories.totp.managers import TOTPManager
 from watchdog_id.auth_factories.totp.tables import OTPPasswordTable
-from watchdog_id.auth_factories.views import BaseAuthenticationFormView
+from watchdog_id.auth_factories.views import FinishAuthenticationFormView
 from .models import OTPPassword
 
 
@@ -68,7 +69,7 @@ class OTPPasswordDeleteView(SettingsViewMixin, LoginRequiredMixin, DeleteMessage
         return _("{0} deleted!").format(self.object)
 
 
-class AuthenticationView(AuthenticationProcessMixin, BaseAuthenticationFormView):
+class AuthenticationView(SingleFactoryProcessMixin, FinishAuthenticationFormView):
     form_class = AuthenticationForm
     factory = TOTPFactory
     success_message = _("OTP authentication succeeded.")

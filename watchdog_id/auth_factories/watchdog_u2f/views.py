@@ -7,8 +7,9 @@ from django.utils.translation import ugettext_lazy as _
 from django.views.generic import DetailView, UpdateView, DeleteView, CreateView
 from django_tables2 import SingleTableView
 
-from watchdog_id.auth_factories.mixins import SettingsViewMixin, AuthenticationProcessMixin, UserFormKwargsMixin
-from watchdog_id.auth_factories.views import BaseAuthenticationFormView
+from watchdog_id.auth_factories.mixins import SettingsViewMixin, AuthenticationProcessMixin, UserFormKwargsMixin, \
+    SingleFactoryProcessMixin
+from watchdog_id.auth_factories.views import FinishAuthenticationFormView
 from watchdog_id.auth_factories.watchdog_u2f.factory import WatchdogU2FFactory
 from watchdog_id.auth_factories.watchdog_u2f.forms import U2FTokenForm, U2FTokenCreateForm, U2FTokenAuthenticationForm
 from watchdog_id.auth_factories.watchdog_u2f.models import U2FToken
@@ -49,7 +50,7 @@ class U2FTokenDeleteView(SettingsViewMixin, DeleteMessageMixin, DeleteView):
     form_class = U2FTokenForm
 
 
-class AuthenticationView(AuthenticationProcessMixin, BaseAuthenticationFormView):
+class AuthenticationView(SingleFactoryProcessMixin, FinishAuthenticationFormView):
     form_class = U2FTokenAuthenticationForm
     factory = WatchdogU2FFactory
     success_message = _("U2F authentication succeeded.")
