@@ -7,7 +7,6 @@ Basic identity provider in the Association of Civic Network - Watchdog Poland. W
      :target: https://github.com/pydanny/cookiecutter-django/
      :alt: Built with Cookiecutter Django
 
-
 :License: MIT
 
 
@@ -48,14 +47,20 @@ Running tests with py.test
 
   $ py.test
 
+Running tests with Docker
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+::
+
+   $ docker-compose up -d
+   $ docker exec watchdogid_web_1 python manage.py test --keepdb
+
 Live reloading and Sass CSS compilation
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 Moved to `Live reloading and SASS compilation`_.
 
 .. _`Live reloading and SASS compilation`: http://cookiecutter-django.readthedocs.io/en/latest/live-reloading-and-sass-compilation.html
-
-
 
 
 
@@ -66,12 +71,3 @@ Sentry is an error logging aggregator service. You can sign up for a free accoun
 The system is setup with reasonable defaults, including 404 logging and integration with the WSGI application.
 
 You must set the DSN url in production.
-
-
-Deployment
-----------
-
-The following details how to deploy this application.
-
-
-
