@@ -1,0 +1,16 @@
+{% extends 'auth_factories/settings.html' %}
+{% load i18n %}
+{% load django_bootstrap_breadcrumbs %}
+
+{% block breadcrumbs %}
+    {% breadcrumb "Home" "/" %}
+    {% breadcrumb "Authentication" "auth_factories:login" %}
+    {% breadcrumb "Settings" "auth_factories:settings" %}
+    {% breadcrumb factory_name authentication_url %}
+{% endblock %}
+
+{% load render_table from django_tables2 %}
+{% block settings %}
+    {% render_table table %}
+    <a href="{% url 'auth_factories:sms_code:create' %}" class="btn btn-primary">{% trans 'Add phone number' %}</a>
+{% endblock %}

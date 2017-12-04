@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.test import SimpleTestCase
 from django.urls import reverse
@@ -48,7 +49,16 @@ class AuthenticationProcessMixin(ContextMixin, View):
         return super(AuthenticationProcessMixin, self).get_context_data(**kwargs)
 
 
-class SingleFactoryProcessMixin(AuthenticationProcessMixin):
+class SingleFactoryMixin(View):
+    factory = None
+
+    def get_context_data(self, **kwargs):
+        kwargs['factory_name'] = self.factory().name
+        kwargs['authentication_url'] = self.factory().get_authentication_url()
+        return super(SingleFactoryMixin, self).get_context_data(**kwargs)
+
+
+class SingleFactoryProcessMixin(SingleFactoryMixin, AuthenticationProcessMixin):
     factory = None
 
     def dispatch(self, request, *args, **kwargs):
@@ -58,13 +68,8 @@ class SingleFactoryProcessMixin(AuthenticationProcessMixin):
             return redirect(reverse('auth_factories:list'))
         return super().dispatch(request, *args, **kwargs)
 
-    def get_context_data(self, **kwargs):
-        kwargs['factory_name'] = self.factory().name
-        kwargs['authentication_url'] = self.factory().get_authentication_url()
-        return super(SingleFactoryProcessMixin, self).get_context_data(**kwargs)
 
-
-class SettingsViewMixin(UserSessionManageMixin, ContextMixin, View):
+class SettingsViewMixin(LoginRequiredMixin, UserSessionManageMixin, ContextMixin, View):
 
     def get_context_data(self, **kwargs):
         kwargs['factory_list'] = self.get_factory_list()
@@ -86,6 +91,10 @@ class SettingsViewMixin(UserSessionManageMixin, ContextMixin, View):
         return {'name': factory.name,
                 'active': factory.id in self.enabled_factory,
                 'factory': factory}
+
+
+class SettingsFactoryView(SingleFactoryMixin, SettingsViewMixin):
+    pass
 
 
 class Test2FAMixin(SimpleTestCase):

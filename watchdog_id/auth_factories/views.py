@@ -85,6 +85,11 @@ class FinishAuthenticationFormView(UserSessionManageMixin, FormView):
     success_message = None
     success_url = reverse_lazy("auth_factories:list")
 
+    @property
+    def factory(self):
+        raise ImproperlyConfigured('{0} is missing a factory authenticated. '
+                                   'Define {0}.factory'.format(self.__class__.__name__))
+
     def get_template_names(self):
         if getattr(self, 'template_name', None):
             return self.template_name
@@ -98,11 +103,6 @@ class FinishAuthenticationFormView(UserSessionManageMixin, FormView):
             messages.warning(request, _("You have already used this authentication method."))
             return redirect_unless_full_authenticated(self.user_manager, self.request)
         return super(FinishAuthenticationFormView, self).dispatch(request, *args, **kwargs)
-
-    @property
-    def factory(self):
-        raise ImproperlyConfigured('{0} is missing a factory authenticated. '
-                                   'Define {0}.factory'.format(self.__class__.__name__))
 
     def get_succcess_message(self):
         """Get message about success authentication

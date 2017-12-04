@@ -56,6 +56,7 @@ LOCAL_APPS = (
     'watchdog_id.auth_factories.yubico_otp.apps.YubicoOtpConfig',
     'watchdog_id.auth_factories.watchdog_u2f.apps.WatchdogU2FConfig',
     'watchdog_id.auth_factories.recovery_mail.apps.RecoveryMailConfig',
+    'watchdog_id.auth_factories.sms_code.apps.SmsCodeConfig',
     'watchdog_id.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 )
@@ -256,3 +257,8 @@ AVATAR_SIZES = [50, 80, 150]
 AUTH_FACTORY_MIN_WEIGHT = 75
 YUBICO_AUTH_CLIENT_ID = env.str('YUBICO_AUTH_CLIENT_ID')
 YUBICO_AUTH_SECRET_KEY = env.str('YUBICO_AUTH_SECRET_KEY', default=None)
+
+TWILLO_FROM_NUMBER = env.str('TWILLO_FROM_NUMBER', default=None)
+TWILLO_AUTH_KEY = env.str('TWILLO_AUTH_KEY', default=None)
+TWILLO_AUTH_SECRET = env.str('TWILLO_AUTH_SECRET', default=None)
+TWILLO_MAX_BID = env.float('TWILLO_MAX_BID', default=None)
