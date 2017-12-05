@@ -67,3 +67,10 @@ watchdog_id/static/
 
 staticfiles/
 docs/_build
+
+# Tex
+tex/*.pdf
+tex/*.aux;
+tex/*.log;
+tex/*.toc;
+
