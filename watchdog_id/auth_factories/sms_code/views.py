@@ -190,7 +190,7 @@ class ValidateCodeView(SingleFactoryProcessMixin, FinishAuthenticationFormView,
 
     @cached_property
     def phone(self):
-        return get_object_or_404(PhoneNumber.objects. \
+        return get_object_or_404(PhoneNumber.objects.
                                  for_user(self.user_manager.get_identified_user()),
                                  pk=self.kwargs['phone_id'])
 

@@ -57,6 +57,7 @@ LOCAL_APPS = (
     'watchdog_id.auth_factories.watchdog_u2f.apps.WatchdogU2FConfig',
     'watchdog_id.auth_factories.recovery_mail.apps.RecoveryMailConfig',
     'watchdog_id.auth_factories.sms_code.apps.SmsCodeConfig',
+    'watchdog_id.auth_local_log.apps.AuthLocalLogConfig',
     'watchdog_id.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 )
@@ -253,6 +254,8 @@ ADMIN_URL = r'^admin/'
 # ------------------------------------------------------------------------------
 
 AVATAR_SIZES = [50, 80, 150]
+
+DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap-responsive.html'
 
 AUTH_FACTORY_MIN_WEIGHT = 75
 YUBICO_AUTH_CLIENT_ID = env.str('YUBICO_AUTH_CLIENT_ID')

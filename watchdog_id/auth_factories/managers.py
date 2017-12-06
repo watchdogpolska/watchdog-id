@@ -45,6 +45,7 @@ class UserAuthenticationManager(object):
 
     def add_authenticated_factory(self, factory):
         current = self.session.get(FACTORY_LIST_SESSION_KEY, [])
+
         current.append(factory.id)
         self.session[FACTORY_LIST_SESSION_KEY] = current
 

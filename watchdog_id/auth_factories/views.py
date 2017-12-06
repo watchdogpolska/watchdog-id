@@ -1,8 +1,8 @@
 from django.contrib import messages
 from django.core.exceptions import ImproperlyConfigured
-from django.urls import reverse, reverse_lazy
 from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+from django.urls import reverse, reverse_lazy
 from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from django.views.generic import FormView, ListView, TemplateView
@@ -13,6 +13,7 @@ from watchdog_id.auth_factories.managers import UserAuthenticationManager
 from watchdog_id.auth_factories.mixins import AuthenticationProcessMixin, SettingsViewMixin, UserSessionManageMixin
 from watchdog_id.auth_factories.models import Factor
 from watchdog_id.auth_factories.shortcuts import redirect_unless_full_authenticated
+from watchdog_id.auth_factories.signals import factory_authenticated, user_identified, user_logout
 
 
 class LoginFormView(FormView):
@@ -28,6 +29,10 @@ class LoginFormView(FormView):
 
     def form_valid(self, form):
         self.user_manager.set_identified_user(form.cleaned_data['user'])
+        user_identified.send(sender=self.__class__,
+                             user=self.user_manager.get_identified_user(),
+                             # session_id=self.request.session._get_or_create_session_key(),
+                             request_ip=self.request.META.get('REMOTE_ADDR'))
         return HttpResponseRedirect(self.get_success_url())
 
 
@@ -72,8 +77,13 @@ class LogoutActionView(UserSessionManageMixin, FormView):
     success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        messages.success(self.request, _("The user is logged out correctly."))
-        self.user_manager.unset_user()
+        if self.user_manager.get_user().is_authenticated:
+            messages.success(self.request, _("The user is logged out correctly."))
+            user_logout.send(sender=self.__class__,
+                             user=self.user_manager.get_user(),
+                             session_id=self.request.session._get_or_create_session_key(),
+                             request_ip=self.request.META.get('REMOTE_ADDR'))
+            self.user_manager.unset_user()
         return super(LogoutActionView, self).form_valid(form)
 
 
@@ -123,8 +133,17 @@ class FinishAuthenticationFormView(UserSessionManageMixin, FormView):
         kwargs['factory_name'] = self.factory().name
         return super(FinishAuthenticationFormView, self).get_context_data(**kwargs)
 
+    def get_log_factory_extra(self):
+        return {}
+
     def authentication_success(self):
         messages.success(self.request, self.get_succcess_message())
+        factory_authenticated.send(sender=self.__class__,
+                                   user=self.user_manager.get_identified_user(),
+                                   session_id=self.request.session._get_or_create_session_key(),
+                                   request_ip=self.request.META.get('REMOTE_ADDR'),
+                                   factory=self.factory,
+                                   extra=self.get_log_factory_extra())
         self.user_manager.add_authenticated_factory(self.factory)
         return redirect_unless_full_authenticated(self.user_manager, self.request)
 

@@ -7,6 +7,7 @@ from django.utils.translation import string_concat
 
 from watchdog_id.auth_factories import SESSION_KEY
 from watchdog_id.auth_factories.settings import MIN_WEIGHT
+from watchdog_id.auth_factories.signals import user_authenticated
 
 
 def string_concat_join(sep, values):  # TODO: Add suppor to iterators
@@ -32,6 +33,10 @@ def redirect_unless_full_authenticated(user_manager, request):
         factory_list = string_concat_join(", ", [factory.name for factory in user_manager.get_available_first_class()])
         messages.warning(request, _("At least one first class factor authentication is required eg. {}.").format(factory_list))
         return redirect('auth_factories:list')
+    user_authenticated.send(sender=redirect_unless_full_authenticated,
+                            user=user_manager.get_identified_user(),
+                            session_id=request.session._session_key,
+                            request_ip=request.META.get('REMOTE_ADDR'))
     user_manager.set_user(user_manager.get_identified_user())
     return redirect(user_manager.session.get('success_url', reverse('home')))
 
