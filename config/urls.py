@@ -24,6 +24,7 @@ urlpatterns = [
     # User management
     url(r'^auth/', include(('watchdog_id.auth_factories.urls', 'auth_factories'))),
     url(r'^auth/logs/', include(('watchdog_id.auth_local_log.urls', 'auth_local_log'))),
+    url(r'^registration/', include(('watchdog_id.auth_registration.urls', 'auth_registration'))),
     url(r'^users/', include(('watchdog_id.users.urls', 'users'))),
     # url(r'^api/', include(router.urls)),
     # Your stuff: custom urls includes go here

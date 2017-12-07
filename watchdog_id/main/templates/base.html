@@ -43,10 +43,10 @@
                            href="{% url 'auth_factories:settings' %}">{% trans "Security settings" %}</a>
                     </li>
                 {% else %}
-                    {#                    <li class="nav-item">#}
-                    {#                        <a id="sign-up-link" class="nav-link"#}
-                    {#                           href="{% url 'account_signup' %}">{% trans "Sign Up" %}</a>#}
-                    {#                    </li>#}
+                    <li class="nav-item">
+                        <a id="sign-up-link" class="nav-link"
+                           href="{% url 'auth_registration:index' %}">{% trans "Sign Up" %}</a>
+                    </li>
                     <li class="nav-item">
                         <a id="log-in-link" class="nav-link"
                            href="{% url 'auth_factories:login' %}">{% trans "Sign In" %}</a>

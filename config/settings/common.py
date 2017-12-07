@@ -58,6 +58,7 @@ LOCAL_APPS = (
     'watchdog_id.auth_factories.recovery_mail.apps.RecoveryMailConfig',
     'watchdog_id.auth_factories.sms_code.apps.SmsCodeConfig',
     'watchdog_id.auth_local_log.apps.AuthLocalLogConfig',
+    'watchdog_id.auth_registration.apps.AuthRegistrationConfig',
     'watchdog_id.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 )
