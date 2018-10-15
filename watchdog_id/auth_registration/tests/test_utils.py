@@ -1,4 +1,5 @@
 from django.test import TestCase
+from mock import Mock
 
 from watchdog_id.auth_registration.utils import ActivationCodeGenerator
 from watchdog_id.users.factories import UserFactory

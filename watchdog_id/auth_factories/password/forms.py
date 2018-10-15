@@ -6,7 +6,9 @@ from watchdog_id.auth_factories.password.models import PasswordSettings
 
 
 class PasswordForm(SingleButtonMixin, forms.Form):
-    password = forms.CharField(label=_("Password"))
+    password = forms.CharField(label=_("Password"),
+                               widget=forms.PasswordInput(),
+                               )
 
     error_messages = {'invalid_password': _("Please enter a correct password. Note that fields may be case-sensitive.")}
 
@@ -27,10 +29,10 @@ class PasswordForm(SingleButtonMixin, forms.Form):
 class PasswordSettingsForm(SingleButtonMixin, forms.ModelForm):
     password = forms.CharField(label=_("Password"),
                                help_text=_("Leave blank to not change password."),
-                               strip=False,
+                               widget=forms.PasswordInput(),
                                required=False)
     retry_password = forms.CharField(label=_("Password (again)"),
-                                     strip=False,
+                                     widget=forms.PasswordInput(),
                                      required=False)
     error_messages = {'password_mismatch': _("Passwords are not identical. Passwords must match."), }
 

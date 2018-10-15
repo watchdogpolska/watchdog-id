@@ -28,6 +28,8 @@ class LoginFormView(FormView):
         return super(LoginFormView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
+        if 'next' in self.request.GET:
+            self.request.session['auth_factories:login:next'] = self.request.GET['next']
         self.user_manager.set_identified_user(form.cleaned_data['user'])
         user_identified.send(sender=self.__class__,
                              user=self.user_manager.get_identified_user(),

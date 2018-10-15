@@ -38,7 +38,7 @@ def redirect_unless_full_authenticated(user_manager, request):
                             session_id=request.session._session_key,
                             request_ip=request.META.get('REMOTE_ADDR'))
     user_manager.set_user(user_manager.get_identified_user())
-    return redirect(user_manager.session.get('success_url', reverse('home')))
+    return redirect(user_manager.session.get('auth_factories:login:next', reverse('home')))
 
 
 def get_user(request_or_session):

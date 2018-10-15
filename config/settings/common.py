@@ -59,6 +59,7 @@ LOCAL_APPS = (
     'watchdog_id.auth_factories.sms_code.apps.SmsCodeConfig',
     'watchdog_id.auth_local_log.apps.AuthLocalLogConfig',
     'watchdog_id.auth_registration.apps.AuthRegistrationConfig',
+    'watchdog_id.auth_oidc.apps.AuthOidcConfig',
     'watchdog_id.users.apps.UsersConfig',
     # Your stuff: custom apps go here
 )
@@ -180,6 +181,30 @@ TEMPLATES = [
 # See: http://django-crispy-forms.readthedocs.io/en/latest/install.html#template-packs
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
+
+# LOGGING CONFIGURATION
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['console'],
+            'level': "INFO",
+        },
+        'watchdog_id': {
+            'handlers': ['console'],
+            'level': "INFO",
+        },
+
+    },
+}
+
 # STATIC FILE CONFIGURATION
 # ------------------------------------------------------------------------------
 # See: https://docs.djangoproject.com/en/dev/ref/settings/#static-root
@@ -266,3 +291,11 @@ TWILLO_FROM_NUMBER = env.str('TWILLO_FROM_NUMBER', default=None)
 TWILLO_AUTH_KEY = env.str('TWILLO_AUTH_KEY', default=None)
 TWILLO_AUTH_SECRET = env.str('TWILLO_AUTH_SECRET', default=None)
 TWILLO_MAX_BID = env.float('TWILLO_MAX_BID', default=None)
+
+ALLOWED_HOSTS = ['*']
+
+INSTALLED_APPS = list(INSTALLED_APPS) + ['corsheaders']
+MIDDLEWARE = list(MIDDLEWARE) + ['corsheaders.middleware.CorsMiddleware',
+                                 'watchdog_id.main.middleware.FakeSSLMiddleware']
+CORS_ORIGIN_ALLOW_ALL = True
+

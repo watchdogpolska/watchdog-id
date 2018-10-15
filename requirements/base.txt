@@ -63,3 +63,6 @@ python-u2flib-server==5.0.0
 # watchdog_id.auth_factories.sms_code
 twilio==6.9.1
 django-phonenumber-field==1.3.0
+
+# watchdog_id.auth_oidc
+class-registry==2.1.0

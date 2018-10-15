@@ -6,7 +6,8 @@ from django.conf.urls import include, url
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.views import defaults as default_views
-from django.views.generic import TemplateView
+from django.views.generic import TemplateView, RedirectView
+
 # from rest_framework import routers
 # from watchdog_id.users.viewsets import GroupViewSet, UserViewSet
 
@@ -25,11 +26,9 @@ urlpatterns = [
     url(r'^auth/', include(('watchdog_id.auth_factories.urls', 'auth_factories'))),
     url(r'^auth/logs/', include(('watchdog_id.auth_local_log.urls', 'auth_local_log'))),
     url(r'^registration/', include(('watchdog_id.auth_registration.urls', 'auth_registration'))),
+    url(r'^connect/', include(('watchdog_id.auth_oidc.urls', 'auth_oidc'))),
     url(r'^users/', include(('watchdog_id.users.urls', 'users'))),
-    # url(r'^api/', include(router.urls)),
-    # Your stuff: custom urls includes go here
-
-
+    url(r'^.well-known/openid-configuration', RedirectView.as_view(pattern_name='auth_oidc:discovery'))
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.DEBUG:
