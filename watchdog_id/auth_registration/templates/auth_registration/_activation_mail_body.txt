@@ -1,8 +1,0 @@
-Dear Sir or Madam {{user}},
-
-You have just requested to create account on {{site.name}}.
-
-Go to {{url}} to activate the account.s
-
-Sincerely,
-Administrator
