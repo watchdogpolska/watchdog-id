@@ -74,3 +74,4 @@ tex/*.aux;
 tex/*.log;
 tex/*.toc;
 
+node_modules
