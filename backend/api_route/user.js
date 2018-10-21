@@ -1,26 +1,75 @@
-const model = require('./../model');
 const mongoose = require("mongoose");
-const Router = require("koa-router");
-var kittySchema = new mongoose.Schema({
-  name: String
-});
-var Kitten = mongoose.model('Kitten', kittySchema);
+const {badRequest} = require('boom');
+const {unauthorized} = require('boom');
 
-module.exports = () => {
+const boom_koa = require('../lib/boom_koa');
+const {createRouter} = require('../lib/resources');
+const Session = mongoose.model('Session');
 
-    return new Router()
-        .get("/user", async (ctx) => {
-            console.log("Hit GET /user");
-            ctx.body = await User.find();
+const SessionSubResource = {
+    list: {
+        handler: model => async ctx => ctx.body = await model.find({userId: ctx.params.userId})
+    },
+    create: {
+        unauthenticatedAccess: true,
+        handler: (model, user_model) => async ctx => {
+            if (!ctx.request.body) {
+                return boom_koa(ctx, badRequest('No authentication details have been provided.'));
+            }
+            const query = [{username: ctx.params.userId}];
+            if (ctx.params.userId.match(/^[a-f0-9]25$/)) {
+                query.push({_id: ctx.params.userId});
+            }
+            const user = await user_model.findOne({$or: query}).select('+password_hash');
+            if(!user){
+                await boom_koa(ctx, unauthorized('User not found.'));
+            }
+            if (!await user.validatePassword(ctx.request.body.password)) {
+                await boom_koa(ctx, unauthorized('Provided password is incorrect.'));
+            }
+            const session = await model.create({
+                user: user._id,
+                ip: ctx.request.ip,
+                'user-agent': ctx.request.headers['user-agent']
+            });
+            ctx.cookies.set('token', session.secret);
+            ctx.body = session
+        }
+    },
+    get: {
+        handler: model => async ctx => ctx.body = await model.findOne({
+            _id: ctx.params.id,
+            user: ctx.params.userId
         })
-        .post("/user", async (ctx) => {
-            const User = mongoose.model('User');
-            console.log("Hit POST /user", ctx.request.body);
-            const u = User(ctx.request.body);
-            var silence = new Kitten(ctx.request.body);
-            console.log("User", await silence.save());
-            const user = await User(ctx.request.body).save();
-            ctx.body = user;
+    },
+    delete: {
+        handler: model => async ctx => ctx.body = await model.findOneAndRemove({
+            id: ctx.params.id,
+            user: ctx.params.userId
         })
-        .all('/', (ctx) => ctx.body = ctx.request.body);
+    }
 };
+
+const UserResource = {
+    list: {
+        handler: model => async ctx => ctx.body = await model.find()
+    },
+    create: {
+        unauthenticatedAccess: true,
+        handler: model => async ctx => ctx.body = await model.create(ctx.request.body)
+    },
+    get: {
+        handler: model => async ctx => ctx.body = await model.findOne({_id: ctx.params.id})
+    },
+    delete: {
+        handler: model => async ctx => {
+            ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, {'status': 'suspended'}, {new: true});
+        }
+    },
+    subs: {
+        Session: SessionSubResource
+    }
+};
+
+
+module.exports = () => createRouter('User', UserResource);

@@ -4,4 +4,5 @@ module.exports = {
     roleSchema: require('./role'),
     accessRequestSchema: require('./access_request'),
     serviceSchema: require('./service'),
-}
+    sessionSchema: require('./session'),
+};

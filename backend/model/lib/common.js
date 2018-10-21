@@ -2,9 +2,17 @@
 const mongoose = require('mongoose');
 
 const commonSchema = {
-    createdAt: Date,
+    createdAt: {
+        type: Date,
+        required: true,
+        default: Date.now
+    },
+    expiresAt: {
+        type: Date,
+        required: true,
+        default: () => new Date(new Date() - (60 * 60 * 1000))
+    },
     createdBy: mongoose.Schema.ObjectId,
-    modifiedAt: Date,
     modifiedBy: mongoose.Schema.ObjectId
 };
 

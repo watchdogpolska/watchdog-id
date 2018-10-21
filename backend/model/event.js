@@ -15,12 +15,5 @@ const schema = {
 };
 const eventSchema = new mongoose.Schema(schema);
 
-eventSchema.pre('save', function(next) {
-  if (!this.createdAt) {
-      this.createdAt = new Date;
-  }
-  this.modifiedAt = new Date;
-  next();
-});
 
 module.exports = eventSchema;

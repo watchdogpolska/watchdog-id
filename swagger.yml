@@ -23,7 +23,7 @@ paths:
               $ref: '#/components/schemas/user'
       responses:
         '200':
-          description: an array of users objects
+          description: a users objects
           content:
             application/json:
               schema:

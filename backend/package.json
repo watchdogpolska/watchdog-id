@@ -9,16 +9,19 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "boom": "^7.2.0",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",
     "koa-router": "^7.4.0",
     "mongoose": "^5.3.3",
+    "scrypt": "^6.0.3",
     "superagent": "^4.0.0-beta.5",
     "validator": "^10.8.0"
   },
   "devDependencies": {
     "ava": "1.0.0-rc.1",
-    "nodemon": "^1.18.4"
+    "nodemon": "^1.18.4",
+    "supertest": "^3.3.0"
   }
 }

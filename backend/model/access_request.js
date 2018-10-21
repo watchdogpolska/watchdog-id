@@ -25,12 +25,4 @@ const schema = Object.assign({
 
 const accessRequestSchema = new mongoose.Schema(schema);
 
-accessRequestSchema.pre('save', function(next) {
-  if (!this.createdAt) {
-      this.createdAt = new Date;
-  }
-  this.modifiedAt = new Date;
-  next();
-});
-
 module.exports = accessRequestSchema;

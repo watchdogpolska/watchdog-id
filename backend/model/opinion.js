@@ -13,12 +13,5 @@ const opinionSchema = new mongoose.Schema(Object.assign({
     commend: String
 }, commonSchema));
 
-opinionSchema.pre('save', function(next) {
-  if (!this.createdAt) {
-      this.createdAt = new Date;
-  }
-  this.modifiedAt = new Date;
-  next();
-});
 
 module.exports = opinionSchema;

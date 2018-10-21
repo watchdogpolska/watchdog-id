@@ -13,7 +13,9 @@ const serviceSchema = new mongoose.Schema(Object.assign({
         passwordReset: Boolean,
         userProvidedUsername: Boolean
     },
-    roles: [require('./role')],
+    roles: [
+        require('./role')
+    ],
 }, commonSchema));
 
 serviceSchema.virtual('active').get(function () {
