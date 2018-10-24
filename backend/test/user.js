@@ -1,3 +1,4 @@
+'use strict';
 const ava = require('ava').default;
 const {startServer, stopServer, withFakeUser, withSession} = require('../lib/tests');
 
@@ -11,8 +12,8 @@ ava.serial('GET /user as authenticated', withSession(async (t, session) => {
         .get(`v1/user/${session.user}`)
         .expect(200)
         .then(resp => {
-            t.true(resp.body._id === session.user)
-        })
+            t.true(resp.body._id === session.user);
+        });
 }));
 
 ava.serial('make user suspended', withSession(async (t, session) => {
@@ -20,6 +21,6 @@ ava.serial('make user suspended', withSession(async (t, session) => {
         .del(`v1/user/${session.user}`)
         .expect(200)
         .then(resp => {
-            t.true(resp.body.status === 'suspended')
-        })
+            t.true(resp.body.status === 'suspended');
+        });
 }));

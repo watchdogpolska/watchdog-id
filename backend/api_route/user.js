@@ -1,14 +1,13 @@
-const mongoose = require("mongoose");
+'use strict';
 const {badRequest} = require('boom');
 const {unauthorized} = require('boom');
 
 const boom_koa = require('../lib/boom_koa');
 const {createRouter} = require('../lib/resources');
-const Session = mongoose.model('Session');
 
 const SessionSubResource = {
     list: {
-        handler: model => async ctx => ctx.body = await model.find({userId: ctx.params.userId})
+        handler: model => async ctx => ctx.body = await model.find({userId: ctx.params.userId}),
     },
     create: {
         unauthenticatedAccess: true,
@@ -30,24 +29,24 @@ const SessionSubResource = {
             const session = await model.create({
                 user: user._id,
                 ip: ctx.request.ip,
-                'user-agent': ctx.request.headers['user-agent']
+                'user-agent': ctx.request.headers['user-agent'],
             });
             ctx.cookies.set('token', session.secret);
-            ctx.body = session
-        }
+            ctx.body = session;
+        },
     },
     get: {
         handler: model => async ctx => ctx.body = await model.findOne({
             _id: ctx.params.id,
-            user: ctx.params.userId
-        })
+            user: ctx.params.userId,
+        }),
     },
     delete: {
         handler: model => async ctx => ctx.body = await model.findOneAndRemove({
             id: ctx.params.id,
-            user: ctx.params.userId
-        })
-    }
+            user: ctx.params.userId,
+        }),
+    },
 };
 
 const UserResource = {
@@ -57,11 +56,11 @@ const UserResource = {
     },
     get: {},
     delete: {
-        handler: model => async ctx => ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, {'status': 'suspended'}, {new: true}),
+        handler: model => async ctx => ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, {status: 'suspended'}, {new: true}),
     },
     subs: {
-        Session: SessionSubResource
-    }
+        Session: SessionSubResource,
+    },
 };
 
 module.exports = () => createRouter('User', UserResource);

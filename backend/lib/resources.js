@@ -1,4 +1,5 @@
-const Router = require("koa-router");
+'use strict';
+const Router = require('koa-router');
 const mongoose = require('mongoose');
 
 const {authenticatedOnly} = require('../lib/auth');
@@ -23,28 +24,28 @@ const actions = {
     list: {
         handler: model => async ctx => ctx.body = await model.find(),
         path: '/',
-        method: 'get'
+        method: 'get',
     },
     create: {
         handler: model => async ctx => ctx.body = await model.create(ctx.request.body),
         path: '/',
-        method: 'post'
+        method: 'post',
     },
     get: {
         handler: model => async ctx => ctx.body = await model.findOne({_id: ctx.params.id}),
         path: '/:id',
-        method: 'get'
+        method: 'get',
     },
     update: {
         handler: model => async ctx => ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, ctx.request.body, {new: true}),
         path: '/:id',
-        method: 'post'
+        method: 'post',
     },
     delete: {
-        handler: model => async ctx => ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, {'status': 'suspended'}, {new: true}),
+        handler: model => async ctx => ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, {status: 'suspended'}, {new: true}),
         path: '/:id',
-        method: 'delete'
-    }
+        method: 'delete',
+    },
 };
 
 const createRouter = (name, resource, options = {}) => {
@@ -57,12 +58,12 @@ const createRouter = (name, resource, options = {}) => {
         .forEach(([action_name, param]) => router = router[param.method](
             param.path,
             ...getStack(Object.assign({}, param, options, resource[action_name], {
-                model: model
+                model: model,
             }))
         ));
     for (const [subname, subresource] of Object.entries(resource.subs || {})) {
         const subrouter = createRouter(subname, subresource, {
-            parents: [model, ...parents]
+            parents: [model, ...parents],
         });
         router.use(`/:${name.toLowerCase()}Id/${subname.toLowerCase()}`, subrouter.routes(), subrouter.allowedMethods());
     }
@@ -71,5 +72,5 @@ const createRouter = (name, resource, options = {}) => {
 
 
 module.exports = {
-    createRouter
+    createRouter,
 };

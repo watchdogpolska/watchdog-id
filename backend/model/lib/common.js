@@ -5,17 +5,17 @@ const commonSchema = {
     createdAt: {
         type: Date,
         required: true,
-        default: Date.now
+        default: Date.now,
     },
     expiresAt: {
         type: Date,
         required: true,
-        default: () => new Date(new Date() - (60 * 60 * 1000))
+        default: () => new Date(new Date() - 60 * 60 * 1000),
     },
     createdBy: mongoose.Schema.ObjectId,
-    modifiedBy: mongoose.Schema.ObjectId
+    modifiedBy: mongoose.Schema.ObjectId,
 };
 
 module.exports = {
-    commonSchema
+    commonSchema,
 };

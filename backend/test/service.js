@@ -1,3 +1,4 @@
+'use strict';
 const ava = require('ava').default;
 const {startServer, stopServer, withFakeUser, withAdminUser, withService, withFakeService, generateWebKey} = require('../lib/tests');
 
@@ -12,7 +13,7 @@ ava('utworzenie usługi', withAdminUser(async t => t.context.api
     .expect(200)
     .then(resp => {
         t.true(!!resp.body._id);
-        t.true(resp.body.title === t.context.fakeService.title)
+        t.true(resp.body.title === t.context.fakeService.title);
     })
 ));
 
@@ -20,8 +21,8 @@ ava('pobranie listy usług systemu', withService(async (t, session, service) => 
     await t.context.api.get('v1/service').expect(200).then(resp => {
         t.true(Array.isArray(resp.body));
         t.true(resp.body.some(x => x.title === t.context.fakeService.title));
-        t.true(resp.body.some(x => x._id === service._id))
-    })
+        t.true(resp.body.some(x => x._id === service._id));
+    });
 }));
 
 ava.todo('pobranie listy usług użytkownika');

@@ -1,4 +1,5 @@
-const Router = require("koa-router");
+'use strict';
+const Router = require('koa-router');
 
 
 module.exports = () => {
@@ -6,8 +7,8 @@ module.exports = () => {
 
     for (const name of ['user', 'service']) {
         const subrouter = require(`./${name}`)();
-        router.use(`/${name}`, subrouter.routes(), subrouter.allowedMethods())
+        router.use(`/${name}`, subrouter.routes(), subrouter.allowedMethods());
     }
 
     return router;
-}
+};

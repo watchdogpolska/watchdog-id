@@ -6,6 +6,7 @@
   "scripts": {
     "test": "nyc ava",
     "test_reload": "nodemon ./node_modules/.bin/ava test --",
+    "lint": "eslint .",
     "dev": "nodemon ./index.js --"
   },
   "author": "",
@@ -23,13 +24,17 @@
     "validator": "^10.8.0"
   },
   "devDependencies": {
+    "@hyperone/eslint-config": "^1.0.3",
     "ava": "1.0.0-rc.1",
+    "eslint": "^5.7.0",
     "node-forge": "^0.7.6",
     "nodemon": "^1.18.4",
     "nyc": "^13.1.0",
     "supertest": "^3.3.0"
   },
   "ava": {
-    "files": ["test"]
+    "files": [
+      "test"
+    ]
   }
 }

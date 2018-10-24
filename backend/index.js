@@ -1,11 +1,11 @@
 'use strict';
-const {setUserMiddleware} = require("./lib/auth");
+const {setUserMiddleware} = require('./lib/auth');
 
 const model = require('./model');
-const Koa = require("koa");
-const Router = require("koa-router");
-const BodyParser = require("koa-bodyparser");
-const settings = require("./settings");
+const Koa = require('koa');
+const Router = require('koa-router');
+const BodyParser = require('koa-bodyparser');
+const settings = require('./settings');
 const logger = require('koa-logger');
 const mongoose = require('mongoose');
 
@@ -17,7 +17,7 @@ const main = (options) => new Promise(async (resolve, reject) => {
     await mongoose.connect(config.MONGODB_URL, {
         useCreateIndex: true,
         useNewUrlParser: true,
-        useFindAndModify: false
+        useFindAndModify: false,
     });
 
     await mongoose.model('User', model.userSchema);
@@ -51,7 +51,7 @@ const main = (options) => new Promise(async (resolve, reject) => {
 
 if (require.main === module) {
     main()
-        .then(() => console.log(`Started server`))
+        .then(() => console.log('Started server'))
         .catch(console.error);
 }
 
