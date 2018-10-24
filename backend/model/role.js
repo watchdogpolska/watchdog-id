@@ -9,6 +9,11 @@ const {commonSchema} = require("./lib/common");
 const schema = Object.assign({
     title: String,
     description: String,
+    manager: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'User',
+        required: true,
+    },
     status: getStatusType(roleStatus)
 }, commonSchema);
 

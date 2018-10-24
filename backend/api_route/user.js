@@ -21,11 +21,11 @@ const SessionSubResource = {
                 query.push({_id: ctx.params.userId});
             }
             const user = await user_model.findOne({$or: query}).select('+password_hash');
-            if(!user){
-                await boom_koa(ctx, unauthorized('User not found.'));
+            if (!user) {
+                return boom_koa(ctx, unauthorized('User not found.'));
             }
             if (!await user.validatePassword(ctx.request.body.password)) {
-                await boom_koa(ctx, unauthorized('Provided password is incorrect.'));
+                return boom_koa(ctx, unauthorized('Provided password is incorrect.'));
             }
             const session = await model.create({
                 user: user._id,
@@ -51,25 +51,17 @@ const SessionSubResource = {
 };
 
 const UserResource = {
-    list: {
-        handler: model => async ctx => ctx.body = await model.find()
-    },
+    list: {},
     create: {
         unauthenticatedAccess: true,
-        handler: model => async ctx => ctx.body = await model.create(ctx.request.body)
     },
-    get: {
-        handler: model => async ctx => ctx.body = await model.findOne({_id: ctx.params.id})
-    },
+    get: {},
     delete: {
-        handler: model => async ctx => {
-            ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, {'status': 'suspended'}, {new: true});
-        }
+        handler: model => async ctx => ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, {'status': 'suspended'}, {new: true}),
     },
     subs: {
         Session: SessionSubResource
     }
 };
-
 
 module.exports = () => createRouter('User', UserResource);

@@ -14,11 +14,12 @@ const http = require('http');
 const main = (options) => new Promise(async (resolve, reject) => {
     const config = Object.assign({}, settings, process.env, options);
 
-    const connection = await mongoose.connect(config.MONGODB_URL, {
+    await mongoose.connect(config.MONGODB_URL, {
         useCreateIndex: true,
         useNewUrlParser: true,
         useFindAndModify: false
     });
+
     await mongoose.model('User', model.userSchema);
     await mongoose.model('Role', model.roleSchema);
     await mongoose.model('AccessRequest', model.accessRequestSchema);
@@ -30,11 +31,13 @@ const main = (options) => new Promise(async (resolve, reject) => {
     app.use(logger());
     app.use(setUserMiddleware());
 
-    const api_router = require('./api_route')(connection);
-    // console.dir(api_router, {depth: null});
-    const router = new Router()
-        .all('/', (ctx) => ctx.body = ctx.request.body)
-        .use('/v1', api_router.routes(), api_router.allowedMethods());
+    const api_router = require('./api_route')();
+    const router = new Router();
+
+    router.all('/', (ctx) => ctx.body = ctx.request.body);
+    router.use('/v1', api_router.routes(), api_router.allowedMethods());
+
+    // console.dir(router, {depth: null});
 
     app.use(router.routes());
     app.use(router.allowedMethods());
@@ -47,7 +50,9 @@ const main = (options) => new Promise(async (resolve, reject) => {
 });
 
 if (require.main === module) {
-    main().catch(console.error);
+    main()
+        .then(() => console.log(`Started server`))
+        .catch(console.error);
 }
 
 module.exports = main;

@@ -1,6 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
 const crypto = require('crypto');
+const settings = require('../settings');
 
 const sessionSchema = new mongoose.Schema({
     user: {
@@ -27,7 +28,7 @@ const sessionSchema = new mongoose.Schema({
     expiresAt: {
         type: Date,
         required: true,
-        default: () => new Date(new Date() - (60 * 60 * 1000))
+        default: () => new Date(new Date() - (settings.SESSION_LIFETIME * 1000))
     }
 });
 

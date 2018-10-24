@@ -1,7 +1,13 @@
 const Router = require("koa-router");
 
-module.exports = connection => {
-    const user_rouer = require('./user')(connection);
-    return new Router()
-        .use('/user', user_rouer.routes(), user_rouer.allowedMethods());
-};
+
+module.exports = () => {
+    const router = new Router();
+
+    for (const name of ['user', 'service']) {
+        const subrouter = require(`./${name}`)();
+        router.use(`/${name}`, subrouter.routes(), subrouter.allowedMethods())
+    }
+
+    return router;
+}

@@ -216,7 +216,7 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/opinion'
-    patch:
+    post:
       requestBody:
         required: true
         content:
@@ -524,6 +524,8 @@ components:
         active:
           description: If status == active
           type: boolean
+        manager:
+          type: string
         createdBy:
           type: string
           readOnly: true

@@ -4,12 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "nyc ava",
+    "test_reload": "nodemon ./node_modules/.bin/ava test --",
+    "dev": "nodemon ./index.js --"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "boom": "^7.2.0",
+    "json-web-key": "^0.3.0",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",
@@ -21,7 +24,12 @@
   },
   "devDependencies": {
     "ava": "1.0.0-rc.1",
+    "node-forge": "^0.7.6",
     "nodemon": "^1.18.4",
+    "nyc": "^13.1.0",
     "supertest": "^3.3.0"
+  },
+  "ava": {
+    "files": ["test"]
   }
 }
