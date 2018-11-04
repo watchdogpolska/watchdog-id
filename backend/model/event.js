@@ -1,18 +1,14 @@
 'use strict';
 const mongoose = require('mongoose');
 const {getStatusType} = require('./lib/types');
-const {eventType} = require('./lib/status');
+const {commonSchema} = require('./lib/common');
 
-const schema = {
-    userId: {
-        type: mongoose.Schema.ObjectId,
-        ref: 'User',
-    },
+const eventType = ['created', 'accepted', 'rejected', 'queued', 'done', 'error'];
+
+const schema = Object.assign({
     status: getStatusType(eventType),
-    createdAt: Date,
-    modifiedAt: Date,
     data: {},
-};
+}, commonSchema);
 const eventSchema = new mongoose.Schema(schema);
 
 

@@ -1,7 +1,12 @@
 'use strict';
 const {isEmail} = require('validator');
 
-const getStatusType = status => ({type: String, enum: status, required: true});
+const getStatusType = (status, defaultValue) => {
+    if(defaultValue){
+        return {type: String, enum: status, default: defaultValue};
+    }
+    return {type: String, enum: status, required: true}
+};
 
 const EmailType = {
     type: String,

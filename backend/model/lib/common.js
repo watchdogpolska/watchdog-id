@@ -7,10 +7,10 @@ const commonSchema = {
         required: true,
         default: Date.now,
     },
-    expiresAt: {
+    modifiedAt: {
         type: Date,
         required: true,
-        default: () => new Date(new Date() - 60 * 60 * 1000),
+        default: Date.now,
     },
     createdBy: mongoose.Schema.ObjectId,
     modifiedBy: mongoose.Schema.ObjectId,

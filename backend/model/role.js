@@ -14,7 +14,7 @@ const schema = Object.assign({
         ref: 'User',
         required: true,
     },
-    status: getStatusType(roleStatus),
+    status: getStatusType(roleStatus, 'active'),
 }, commonSchema);
 
 const roleSchema = new mongoose.Schema(schema);

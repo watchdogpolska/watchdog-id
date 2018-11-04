@@ -20,9 +20,10 @@ const schema = Object.assign({
         type: mongoose.Schema.ObjectId,
         ref: 'User',
     }],
-    status: getStatusType(accessRequestStatus),
+    status: getStatusType(accessRequestStatus, 'pending'),
 }, commonSchema);
 
 const accessRequestSchema = new mongoose.Schema(schema);
+
 
 module.exports = accessRequestSchema;

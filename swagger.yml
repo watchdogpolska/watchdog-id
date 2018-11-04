@@ -3,7 +3,7 @@ info:
   title: Watchdog-ID
   version: 1.0.0
 paths:
-  /1.0/user:
+  /v1/user:
     get:
       responses:
         '200':
@@ -28,7 +28,7 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/user'
-  /1.0/user/{id}:
+  /v1/user/{id}:
     parameters:
       - name: id
         in: path
@@ -67,7 +67,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/user'
 
-  /1.0/accessRequest:
+  /v1/access_request:
     post:
       requestBody:
         required: true
@@ -108,7 +108,7 @@ paths:
                 type: array
                 items:
                   $ref: '#/components/schemas/accessRequest'
-  /1.0/accessRequest/{id}:
+  /v1/access_request/{id}:
     parameters:
       - name: id
         in: path
@@ -131,7 +131,7 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/opinion'
-  /1.0/accessRequest/{id}/opinion:
+  /v1/access_request/{id}/opinion:
     parameters:
       - name: id
         in: path
@@ -162,7 +162,7 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/opinion'
-  /1.0/accessRequest/{id}/user:
+  /v1/access_request/{id}/user:
     parameters:
       - name: id
         in: path
@@ -179,7 +179,7 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/user'
-  /1.0/accessRequest/{id}/role:
+  /v1/access_request/{id}/role:
     parameters:
       - name: id
         in: path
@@ -196,7 +196,7 @@ paths:
                   type: array
                   items:
                     $ref: '#/components/schemas/role'
-  /1.0/accessRequest/{id}/opinion/{opinion_id}:
+  /v1/access_request/{id}/opinion/{opinion_id}:
     parameters:
         - name: id
           in: path
@@ -230,7 +230,7 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/opinion'
-  /1.0/service/:
+  /v1/service/:
     parameters:
       - name: id
         in: path
@@ -267,7 +267,7 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/service'
-  /1.0/service/{id}:
+  /v1/service/{id}:
     parameters:
       - name: id
         in: path
@@ -296,7 +296,7 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/opinion'
-  /1.0/service/{id}/role/{opinion_id}:
+  /v1/service/{id}/role/{opinion_id}:
     parameters:
         - name: id
           in: path

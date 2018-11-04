@@ -32,7 +32,6 @@ const sessionSchema = new mongoose.Schema({
     },
 });
 
-
 sessionSchema.virtual('active').get(function () {
     return this.expires <= Date.now();
 });

@@ -2,7 +2,6 @@
 const {createRouter} = require('../lib/resources');
 const mongoose = require('mongoose');
 
-
 const RoleResource = {
     list: {
         handler: (model, service_model) => async ctx => {
@@ -11,13 +10,24 @@ const RoleResource = {
         },
     },
     create: {
+        req_schema: ctx => ({
+                $async: true,
+                type: 'object',
+                properties: {
+                    title: {type: 'string'},
+                    description: {type: 'string'},
+                    manager: {type: 'string', "default": ctx.state.user._id},
+                },
+                required: ['title', 'description', 'manager']
+        }),
         handler: (model, service_model) => async ctx => {
-            const service = await await service_model.findOneAndUpdate(
-                {_id: ctx.params.serviceId},
-                {$push: {roles: ctx.request.body}},
-                {new: true}
-            );
-            ctx.body = service.roles.pop();
+            const Role = mongoose.model('Role');
+            const service = await service_model.findById( ctx.params.serviceId);
+            const role = new Role(ctx.request.body);
+            console.log("Body", ctx.request.body);
+            service.roles.push(role);
+            await service.save();
+            ctx.body = role
         },
     },
     get: {
