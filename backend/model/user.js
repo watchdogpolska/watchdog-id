@@ -9,22 +9,22 @@ const scrypt = require('scrypt');
 const scryptParameters = scrypt.paramsSync(0.1);
 
 const userRoles = {
-    'pending': {
+    pending: {
         active: false,
-        perms: []
+        perms: [],
     },
-    'accepted': {
+    accepted: {
         active: true,
-        perms: ['create_own_access_request']
+        perms: ['create_own_access_request'],
     },
-    'admin': {
+    admin: {
         active: true,
-        perms: ['create_any_access_request']
+        perms: ['create_any_access_request'],
     },
-    'suspended': {
+    suspended: {
         active: true,
-        perms: []
-    }
+        perms: [],
+    },
 };
 
 const userStatus = Object.keys(userRoles);
@@ -80,5 +80,5 @@ userSchema.virtual('perms').get(function () {
 
 module.exports = {
     roles: userRoles,
-    schema: userSchema
+    schema: userSchema,
 };

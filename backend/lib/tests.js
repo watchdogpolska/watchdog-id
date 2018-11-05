@@ -4,6 +4,8 @@ const mongoose = require('mongoose');
 const JSONWebKey = require('json-web-key');
 const {promisify} = require('util');
 const forge = require('node-forge');
+const mockery = require('mockery');
+const nodemailerMock = require('nodemailer-mock');
 
 const api = (options) => {
     const agent = request.agent(`http://${options.host}:${options.port}/`);
@@ -30,7 +32,7 @@ const stopServer = t => new Promise((resolve, reject) => {
     t.context.server.close();
 });
 
-const createFakeUser = (t, body = {}) => {
+const createFakeUser = async (t, body = {}) => {
     const user = Object.assign({
         username: `string-${Math.random()}`,
         first_name: 'string',
@@ -39,10 +41,17 @@ const createFakeUser = (t, body = {}) => {
         status: 'pending',
         email: 'user@example.com',
     }, body);
-    return t.context.api.post('v1/user')
+    let resp = await t.context.api.post('v1/user')
         .send(user)
-        .expect(200)
-        .then(resp => resp.body);
+        .expect(200);
+    if (body.manager) {
+        const User = mongoose.model('User');
+        await User.findOneAndUpdate({_id: resp.body._id}, {
+            manager: body.manager,
+        });
+        resp = await t.context.api.get(`v1/user/${resp.body._id}`);
+    }
+    return resp.body;
 };
 
 const withSession = (status = 'accepted', fn) => async t => {
@@ -84,12 +93,6 @@ const createFakeService = (t, body = {}) => {
 };
 
 
-const withRole = fn => async (t, session) => {
-    const service = await createFakeService(t);
-    const role = await createFakeRole(t);
-    await fn(t, session, service, role)
-};
-
 const createFakeRole = async (t, body = {}) => {
     const role = Object.assign({
         title: `test-role-${Math.random()}`,
@@ -101,19 +104,58 @@ const createFakeRole = async (t, body = {}) => {
         .send(role)
         .expect(200)
         .then(resp => Object.assign(resp.body, {
-            service: service
+            service: service,
         }));
+};
+
+const createFakeAccessRequest = async (t, body = {}) => {
+    let usersId = body.usersId;
+    if (!usersId) {
+        usersId = [(await createFakeUser(t))._id];
+    }
+    let rolesId = body.rolesId;
+    if (!rolesId) {
+        rolesId = [(await createFakeRole(t))._id];
+    }
+
+    const user = Object.assign({
+        comment: `test-access-request-${Math.random()}`,
+        usersId: usersId,
+        rolesId: rolesId,
+    }, body);
+    return t.context.api.post('v1/access_request')
+        .send(user)
+        .expect(200)
+        .then(resp => resp.body);
+};
+
+const avaMockNodeMailer = (ava) => {
+    ava.beforeEach(() => {
+        mockery.enable({
+            warnOnUnregistered: false,
+        });
+        mockery.registerMock('nodemailer', nodemailerMock);
+    });
+    ava.afterEach(() => {
+        nodemailerMock.mock.reset();
+    });
+    ava.after(() => {
+        mockery.deregisterAll();
+        mockery.disable();
+    });
+    return nodemailerMock;
 };
 
 module.exports = {
     api,
+    avaMockNodeMailer,
     startServer,
     stopServer,
-    withAdminUser,
+    asAdminUser: withAdminUser,
     withSession,
     generateWebKey,
-    withRole,
     createFakeUser,
     createFakeRole,
-    createFakeService
+    createFakeService,
+    createFakeAccessRequest,
 };

@@ -11,23 +11,22 @@ const RoleResource = {
     },
     create: {
         req_schema: ctx => ({
-                $async: true,
-                type: 'object',
-                properties: {
-                    title: {type: 'string'},
-                    description: {type: 'string'},
-                    manager: {type: 'string', "default": ctx.state.user._id},
-                },
-                required: ['title', 'description', 'manager']
+            $async: true,
+            type: 'object',
+            properties: {
+                title: {type: 'string'},
+                description: {type: 'string'},
+                manager: {type: 'string', default: ctx.state.user._id},
+            },
+            required: ['title', 'description', 'manager'],
         }),
         handler: (model, service_model) => async ctx => {
             const Role = mongoose.model('Role');
-            const service = await service_model.findById( ctx.params.serviceId);
+            const service = await service_model.findById(ctx.params.serviceId);
             const role = new Role(ctx.request.body);
-            console.log("Body", ctx.request.body);
             service.roles.push(role);
             await service.save();
-            ctx.body = role
+            ctx.body = role;
         },
     },
     get: {

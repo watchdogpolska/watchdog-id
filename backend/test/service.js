@@ -1,34 +1,32 @@
 'use strict';
 const ava = require('ava').default;
-const {startServer, stopServer, withAdminUser, createFakeService, generateWebKey} = require('../lib/tests');
+const {startServer, stopServer, asAdminUser, createFakeService, generateWebKey} = require('../lib/tests');
 
 ava.beforeEach(startServer);
 ava.afterEach(stopServer);
 
-ava('utworzenie usługi', withAdminUser(async t => {
-        const service = {
-            title: `test-service-${Math.random()}`,
-            description: 'example-description',
-            endpointUrl: 'https://endpoint/',
-            status: 'active',
-            features: {
-                passwordReset: false,
-                userProvidedUsername: false,
-            },
-        };
+ava('service: create', asAdminUser(async t => {
+    const service = {
+        title: `test-service-${Math.random()}`,
+        description: 'example-description',
+        endpointUrl: 'https://endpoint/',
+        status: 'active',
+        features: {
+            passwordReset: false,
+            userProvidedUsername: false,
+        },
+    };
+    await t.context.api
+        .post('v1/service')
+        .send(service)
+        .expect(200)
+        .then(resp => {
+            t.true(!!resp.body._id);
+            t.true(resp.body.title === service.title);
+        });
+}));
 
-        await t.context.api
-            .post('v1/service')
-            .send(service)
-            .expect(200)
-            .then(resp => {
-                t.true(!!resp.body._id);
-                t.true(resp.body.title === service.title);
-            })
-    }
-));
-
-ava('pobranie listy usług systemu', withAdminUser(async t => {
+ava('service: list', asAdminUser(async t => {
     const service = await createFakeService(t);
     await t.context.api.get('v1/service').expect(200).then(resp => {
         t.true(Array.isArray(resp.body));
@@ -36,9 +34,9 @@ ava('pobranie listy usług systemu', withAdminUser(async t => {
     });
 }));
 
-ava.todo('pobranie listy usług użytkownika');
+ava.todo('service: list for user');
 
-ava('zmiana klucza usługi', withAdminUser(async t => {
+ava('service: change key', asAdminUser(async t => {
     const service = await createFakeService(t);
 
     await t.context.api
@@ -48,10 +46,10 @@ ava('zmiana klucza usługi', withAdminUser(async t => {
         .then(resp => {
             t.true(!!resp.body._id);
             t.true(!!resp.body.key);
-        })
+        });
 }));
 
-ava('zmiana adresu powiadomień usługi', withAdminUser(async t => {
+ava('service: change notification address', asAdminUser(async t => {
     const service = await createFakeService(t);
     await t.context.api
         .post(`v1/service/${service._id}`)
@@ -60,10 +58,10 @@ ava('zmiana adresu powiadomień usługi', withAdminUser(async t => {
         .then(resp => {
             t.true(!!resp.body._id);
             t.true(resp.body.endpointUrl === 'http://httpbin.org/ip');
-        })
+        });
 }));
 
-ava('deaktywacja usługi', withAdminUser(async t => {
+ava('service: deactivate', asAdminUser(async t => {
     const service = await createFakeService(t);
 
     await t.context.api
@@ -73,5 +71,5 @@ ava('deaktywacja usługi', withAdminUser(async t => {
         .then(resp => {
             t.true(!!resp.body._id);
             t.true(resp.body.status === 'deactivated');
-        })
+        });
 }));

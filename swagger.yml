@@ -99,6 +99,11 @@ paths:
           required: false
           schema:
             type: integer
+        - name: roleId
+          in: query
+          required: false
+          schema:
+            type: integer
       responses:
         '200':
           description: access request by opinionStatus or opinionUser or accessUser

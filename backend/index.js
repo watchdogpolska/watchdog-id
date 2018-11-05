@@ -1,17 +1,19 @@
 'use strict';
 const {setUserMiddleware} = require('./lib/auth');
 
-const model = require('./model');
 const Koa = require('koa');
 const Router = require('koa-router');
 const BodyParser = require('koa-bodyparser');
-const settings = require('./settings');
-const signals = require('./signals');
-// const mail = require('./mail');
 const logger = require('koa-logger');
 const mongoose = require('mongoose');
-const boom_koa = require('./lib/boom_koa_middleware');
 const http = require('http');
+
+const notifications = require('./lib/notifications');
+const boom_koa = require('./lib/boom_koa_middleware');
+
+const settings = require('./settings');
+const signals = require('./lib/signals');
+
 
 const main = (options) => new Promise(async (resolve, reject) => {
     const config = Object.assign({}, settings, process.env, options);
@@ -23,8 +25,7 @@ const main = (options) => new Promise(async (resolve, reject) => {
     });
 
     await require('./model').register();
-
-    // mail.connect(signals);
+    notifications.connect(signals);
 
     const app = new Koa();
     app.use(BodyParser());

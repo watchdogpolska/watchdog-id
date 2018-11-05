@@ -13,7 +13,7 @@ function getStack(options) {
     const model = options.model;
     const requireAuthentication = !options.unauthenticatedAccess;
     let stack = toArray(handler(model, ...parents));
-    stack = [req_schema_validator(), res_schema_validator(), ...stack,];
+    stack = [req_schema_validator, res_schema_validator, ...stack];
 
 
     if (requireAuthentication) {

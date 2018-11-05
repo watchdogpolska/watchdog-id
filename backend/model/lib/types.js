@@ -2,10 +2,10 @@
 const {isEmail} = require('validator');
 
 const getStatusType = (status, defaultValue) => {
-    if(defaultValue){
+    if (defaultValue) {
         return {type: String, enum: status, default: defaultValue};
     }
-    return {type: String, enum: status, required: true}
+    return {type: String, enum: status, required: true};
 };
 
 const EmailType = {

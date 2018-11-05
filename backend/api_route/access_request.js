@@ -2,6 +2,7 @@
 const {createRouter} = require('../lib/resources');
 const mongoose = require('mongoose');
 const {badRequest, forbidden} = require('boom');
+const signals = require('../lib/signals');
 
 const OpinionResource = {
     list: {},
@@ -12,7 +13,7 @@ const OpinionResource = {
 };
 
 const can_create_access_request = (user, body) => {
-    if (user.perms.includes('create_own_access_request') && [ctx.state.user._id] === body.usersId) {
+    if (user.perms.includes('create_own_access_request') && [user._id] === body.usersId) {
         return true;
     }
     if (user.perms.includes('create_any_access_request')) {
@@ -20,8 +21,23 @@ const can_create_access_request = (user, body) => {
     }
     return true;
 };
+
 const AccessRequestResource = {
-    list: {},
+    list: {
+        handler: model => async ctx => {
+            let query = {};
+            if (ctx.request.query.accessUserId) {
+                query = Object.assign({}, query, {usersId: {$in: ctx.query.accessUserId}});
+            }
+            if (ctx.request.query.roleId) {
+                query = Object.assign({}, query, {rolesId: {$in: ctx.query.roleId}});
+            }
+            if (ctx.request.query.opinionUserId) {
+                query = Object.assign({}, query, {'opinions.userId': {$in: ctx.query.opinionUserId}});
+            }
+            ctx.body = await model.find(query);
+        },
+    },
     create: {
         handler: (model) => async ctx => {
             if (!ctx.request.body) {
@@ -38,22 +54,21 @@ const AccessRequestResource = {
             const User = mongoose.model('User');
             const Service = mongoose.model('Service');
 
-            const roles = await Promise.all(
-                obj.rolesId.map(async x => (await Service.findOne({"roles._id": x})).roles.id(x))
+            const roles = await Promise.all( // TODO: Rewrite to single query
+                obj.rolesId.map(async x => (await Service.findOne({'roles._id': x})).roles.id(x))
             );
-            const users = await Promise.all(
+            const users = await Promise.all( // TODO: Rewrite to single query
                 obj.usersId.map(x => User.findById(x))
             );
-            console.log({roles, users});
-            obj.opinions = [...users, ...roles]
-                .filter(x => x && x.manager)
-                .map(x => x.manager)
-                .map(managerId => ({
-                    userId: managerId,
-                    status: 'pending',
-                }));
+            const opinionUsers = [...new Set([...users, ...roles].filter(x => x && x.manager))];
+
+            obj.opinions = opinionUsers.map(managerId => ({
+                userId: managerId,
+                status: 'pending',
+            }));
             await obj.save();
 
+            await signals.send('accessRequestCreated', ctx, obj);
             ctx.body = obj.toJSON();
         },
     },

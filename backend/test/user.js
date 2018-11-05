@@ -12,11 +12,11 @@ ava('rejestracja', async t => {
     await t.context.api
         .post('v1/user')
         .send({
-            'first_name': 'John',
-            'second_name': 'Smith',
-            'username': username,
-            'password': 'x',
-            'email': 'test@example.com'
+            first_name: 'John',
+            second_name: 'Smith',
+            username: username,
+            password: 'x',
+            email: 'test@example.com',
         })
         .expect(200)
         .then(resp => {
@@ -27,13 +27,13 @@ ava('rejestracja', async t => {
             t.true(resp.body.email === 'test@example.com');
             t.true(resp.body.username === username);
             t.true(resp.body.status === 'pending');
-            t.true(!resp.password_hash)
-        })
+            t.true(!resp.password_hash);
+        });
 });
 ava("can not login on 'pending' user", async t => {
     const cred = {
         username: 'some-username',
-        password: 'pass'
+        password: 'pass',
     };
     const user = await createFakeUser(t, cred);
     t.true(user.status === 'pending');
@@ -43,8 +43,8 @@ ava("can not login on 'pending' user", async t => {
         .send({password: cred.password})
         .expect(401)
         .then(resp => {
-            t.true(!!resp.body)
-        })
+            t.true(!!resp.body);
+        });
 });
 ava.todo('logowanie');
 ava.todo('zmiana przełożonego');

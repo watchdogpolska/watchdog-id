@@ -10,7 +10,6 @@ const SessionSubResource = {
     create: {
         unauthenticatedAccess: true,
         handler: (model, user_model) => async ctx => {
-            console.log("Reach AsyncFunction");
             if (!ctx.request.body) {
                 throw badRequest('No authentication details have been provided.');
             }
@@ -24,10 +23,6 @@ const SessionSubResource = {
                 throw unauthorized('User not found.');
             }
 
-            console.log("User active", {
-                active: user.active,
-                status: user.status
-            });
             if (!user.active) {
                 throw unauthorized('User account is not active.');
             }
@@ -41,7 +36,7 @@ const SessionSubResource = {
             });
             ctx.cookies.set('token', session.secret);
             ctx.body = session;
-        }
+        },
     },
     get: {
         handler: model => async ctx => ctx.body = await model.findOne({
@@ -69,9 +64,9 @@ const UserResource = {
                 second_name: {type: 'string'},
                 username: {type: 'string'},
                 password: {type: 'string'},
-                email: {type: 'string'}
+                email: {type: 'string'},
             },
-            required: ['first_name', 'second_name', 'username', 'password', 'email']
+            required: ['first_name', 'second_name', 'username', 'password', 'email'],
         }),
         res_schema: () => ({
             $async: true,
@@ -82,9 +77,9 @@ const UserResource = {
                 second_name: {type: 'string'},
                 username: {type: 'string'},
                 email: {type: 'string'},
-                status: {type: 'string'}
+                status: {type: 'string'},
             },
-            required: ['_id', 'first_name', 'second_name', 'username', 'email', 'status']
+            required: ['_id', 'first_name', 'second_name', 'username', 'email', 'status'],
         }),
     },
     get: {},
