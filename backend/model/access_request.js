@@ -15,7 +15,7 @@ const schema = Object.assign({
     }],
     rolesId: [{
         type: mongoose.Schema.ObjectId,
-        ref: 'User',
+        ref: 'Role',
     }],
 }, commonSchema);
 

@@ -1,6 +1,7 @@
 'use strict';
 const Router = require('koa-router');
 const mongoose = require('mongoose');
+const {notFound} = require('boom');
 
 const {authenticatedOnly} = require('../lib/auth');
 const {req_schema_validator, res_schema_validator} = require('./schema.js');
@@ -54,6 +55,9 @@ const actions = {
     get: {
         handler: model => async ctx => {
             ctx.entry = await model.findOne({_id: ctx.params.id});
+            if(!ctx.entry){
+                throw notFound("Unable to found entry");
+            }
             ctx.body = ctx.entry.toJSON({virtuals: true})
         },
         path: '/:id',

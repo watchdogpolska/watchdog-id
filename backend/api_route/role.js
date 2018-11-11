@@ -22,8 +22,8 @@ const RoleResource = {
             ctx.body = role;
         },
     },
-    get: {    },
-    update: {    },
+    get: {},
+    update: {},
     delete: {},
 };
 
