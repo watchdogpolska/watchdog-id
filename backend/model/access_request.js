@@ -1,7 +1,4 @@
 'use strict';
-const {getStatusType} = require('./lib/types');
-
-const {accessRequestStatus}= require('./lib/status');
 const {commonSchema }= require('./lib/common');
 const eventSchema = require('./event');
 const opinionSchema = require('./opinion');
@@ -9,7 +6,7 @@ const mongoose = require('mongoose');
 
 
 const schema = Object.assign({
-    comment: String,
+    name: String,
     opinions: [opinionSchema],
     events: [eventSchema],
     usersId: [{
@@ -20,10 +17,17 @@ const schema = Object.assign({
         type: mongoose.Schema.ObjectId,
         ref: 'User',
     }],
-    status: getStatusType(accessRequestStatus, 'pending'),
 }, commonSchema);
 
 const accessRequestSchema = new mongoose.Schema(schema);
 
+accessRequestSchema.virtual('status').get(function () {
+    for(const status of eventSchema.obj.status.enum){
+        if(this.opinions.some(opinion => opinion.status === status)){
+            return status;
+        }
+    }
+    return 'unknown';
+});
 
 module.exports = accessRequestSchema;

@@ -37,7 +37,6 @@ const main = (options) => new Promise(async (resolve, reject) => {
 
     router.all('/', (ctx) => ctx.body = ctx.request.body);
     router.use('/v1', api_router.routes(), api_router.allowedMethods());
-
     // console.dir(router, {depth: null});
     // console.dir(api_router, {depth:null});
     app.use(router.routes());

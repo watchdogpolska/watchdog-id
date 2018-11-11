@@ -5,11 +5,53 @@ const {badRequest, forbidden} = require('boom');
 const signals = require('../lib/signals');
 
 const OpinionResource = {
-    list: {},
-    create: {},
-    get: {},
-    update: {},
-    delete: {},
+    list: {
+        handler: (model, parent_model) => async ctx => {
+            const service = await parent_model.findOne({_id: ctx.params.accessrequestId});
+            ctx.body = service.opinions;
+        },
+    },
+    // create: {},
+    get: {
+        handler: (model, parent_model) => async ctx => {
+            const parent = await parent_model.findOne({
+                _id: ctx.params.accessrequestId,
+                'opinions._id': ctx.params.id,
+            });
+            ctx.body = parent.opinions.id(ctx.params.id);
+        },
+    },
+    update: {
+        handler: (model, parent_model) => async ctx => {
+            const parent = await parent_model.findOne({
+                _id: ctx.params.accessrequestId,
+                'opinions._id': ctx.params.id,
+            });
+            const opinion = parent.opinions.id(ctx.params.id);
+            if(opinion.userId !== ctx.state.user._id && !ctx.state.user.perms.includes("change_any_opinion")){
+                throw forbidden("You can only modify your own opinions.")
+            }
+            for (const status of ['accepted', 'rejected']) {
+                if (ctx.request.body.status === status && opinion.status !== status) {
+                    parent.events.push({
+                        status: status,
+                        finished: Date.now()
+                    })
+                }
+            }
+            if (ctx.request.body.status === 'accepted' && opinion.status === 'pending') {
+                if (!parent.opinions.find(x => x.status !== 'accepted' && x._id !== opinion._id)) {
+                    parent.events.push({
+                        status: 'queued'
+                    })
+                }
+            }
+            opinion.status = ctx.request.body.status;
+            await parent.save();
+            ctx.body = opinion;
+        }
+    },
+    // delete: {},
 };
 
 const can_create_access_request = (user, body) => {
@@ -27,13 +69,13 @@ const AccessRequestResource = {
         handler: model => async ctx => {
             let query = {};
             if (ctx.request.query.accessUserId) {
-                query = Object.assign({}, query, {usersId: {$in: ctx.query.accessUserId}});
+                query = {...query, usersId: {$in: ctx.query.accessUserId}};
             }
             if (ctx.request.query.roleId) {
-                query = Object.assign({}, query, {rolesId: {$in: ctx.query.roleId}});
+                query = {... query, rolesId: {$in: ctx.query.roleId}};
             }
             if (ctx.request.query.opinionUserId) {
-                query = Object.assign({}, query, {'opinions.userId': {$in: ctx.query.opinionUserId}});
+                query = {...query, 'opinions.userId': {$in: ctx.query.opinionUserId}};
             }
             ctx.body = await model.find(query);
         },
@@ -50,12 +92,13 @@ const AccessRequestResource = {
             obj.events.push({
                 createdBy: ctx.state.user._id,
                 status: 'created',
+                finishedAt: Date.now()
             });
             const User = mongoose.model('User');
-            const Service = mongoose.model('Service');
+            const Role = mongoose.model('Role');
 
             const roles = await Promise.all( // TODO: Rewrite to single query
-                obj.rolesId.map(async x => (await Service.findOne({'roles._id': x})).roles.id(x))
+                obj.rolesId.map(async x => (await Role.findOne({'_id': x})))
             );
             const users = await Promise.all( // TODO: Rewrite to single query
                 obj.usersId.map(x => User.findById(x))
@@ -68,8 +111,9 @@ const AccessRequestResource = {
             }));
             await obj.save();
 
-            await signals.send('accessRequestCreated', ctx, obj);
-            ctx.body = obj.toJSON();
+            await signals.send('accessRequestCreated', ctx, obj); // TODO: Move to lib/resources.js as generic
+
+            ctx.obj = ctx.body = obj;
         },
     },
     get: {},

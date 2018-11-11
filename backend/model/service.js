@@ -33,15 +33,7 @@ const serviceSchema = new mongoose.Schema(Object.assign({
             }
         },
     },
-    roles: [
-        require('./role'),
-    ],
 }, commonSchema));
-
-serviceSchema.virtual('active').get(function () {
-    return this.status === 'active';
-});
-
 
 serviceSchema.virtual('active').get(function () {
     return this.status === 'active';

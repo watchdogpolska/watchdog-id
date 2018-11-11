@@ -16,22 +16,19 @@ ava('service: create', asAdminUser(async t => {
             userProvidedUsername: false,
         },
     };
-    await t.context.api
+    const resp = await t.context.api
         .post('v1/service')
         .send(service)
-        .expect(200)
-        .then(resp => {
-            t.true(!!resp.body._id);
-            t.true(resp.body.title === service.title);
-        });
+        .expect(200);
+    t.true(!!resp.body._id);
+    t.true(resp.body.title === service.title);
 }));
 
 ava('service: list', asAdminUser(async t => {
     const service = await createFakeService(t);
-    await t.context.api.get('v1/service').expect(200).then(resp => {
-        t.true(Array.isArray(resp.body));
-        t.true(resp.body.find(x => x.title === service.title)._id === service._id);
-    });
+    const resp = await t.context.api.get('v1/service').expect(200);
+    t.true(Array.isArray(resp.body));
+    t.true(resp.body.find(x => x.title === service.title)._id === service._id);
 }));
 
 ava.todo('service: list for user');

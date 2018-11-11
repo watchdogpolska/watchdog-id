@@ -6,13 +6,14 @@ ava.beforeEach(startServer);
 ava.afterEach(stopServer);
 
 ava('role: create', asAdminUser(async (t, session) => {
+    const service = await createFakeService(t);
     const body = {
         title: `test-role-${Math.random()}`,
         description: 'example-description',
         status: 'active',
+        serviceId: service._id,
     };
-    const service = await createFakeService(t);
-    const resp = await  t.context.api.post(`v1/service/${service._id}/role`)
+    const resp = await t.context.api.post(`v1/role`)
         .send(body)
         .expect(200);
 
@@ -26,7 +27,7 @@ ava('role: list', asAdminUser(async t => {
     const role = await createFakeRole(t);
 
     const resp = await  t.context.api
-        .get(`v1/service/${role.service._id}/role`)
+        .get(`v1/role`)
         .expect(200)
         .then(resp => resp.body);
 
@@ -37,7 +38,7 @@ ava('role: rename', asAdminUser(async (t, session) => {
     const role = await createFakeRole(t);
 
     const resp = await  t.context.api
-        .post(`v1/service/${role.service._id}/role/${role._id}`)
+        .post(`v1/role/${role._id}`)
         .send({title: 'extra-new-name'})
         .expect(200)
         .then(resp => resp.body);
@@ -51,7 +52,7 @@ ava('role: operator change & description update', asAdminUser(async (t) => {
         username: `extra-user-${Math.random()}`,
     });
     const resp = await t.context.api
-        .post(`v1/service/${role.service._id}/role/${role._id}`)
+        .post(`v1/role/${role._id}`)
         .send({
             manager: extraUser._id,
             description: 'new-description',

@@ -1,5 +1,5 @@
 'use strict';
-const {EmailType}= require('./lib/types');
+const {EmailType} = require('./lib/types');
 
 const {commonSchema} = require('./lib/common');
 const {getStatusType} = require('./lib/types');
@@ -19,7 +19,10 @@ const userRoles = {
     },
     admin: {
         active: true,
-        perms: ['create_any_access_request'],
+        perms: [
+            'create_any_access_request',
+            'change_any_opinion'
+        ],
     },
     suspended: {
         active: true,
@@ -49,21 +52,21 @@ const schema = Object.assign({
         required: true,
         select: false,
     },
-    manager: { type: mongoose.ObjectId, ref: 'User' },
+    manager: {type: mongoose.ObjectId, ref: 'User'},
     status: getStatusType(userStatus, 'pending'),
-    sessions: { type: mongoose.ObjectId, ref: 'Session' },
+    sessions: {type: mongoose.ObjectId, ref: 'Session'},
 }, commonSchema);
 
 const userSchema = new mongoose.Schema(schema);
 
-userSchema.virtual('password').set(async function(v) {
+userSchema.virtual('password').set(async function (v) {
     this.password_hash = await scrypt.kdfSync(v, scryptParameters).toString('base64');
 });
 userSchema.methods.validatePassword = async function (v) {
     return await scrypt.verifyKdf(Buffer.from(this.password_hash, 'base64'), v);
 };
 
-userSchema.pre('save', async function() {
+userSchema.pre('save', async function () {
     if (!this.createdAt) {
         this.createdAt = new Date();
     }

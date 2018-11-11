@@ -10,8 +10,8 @@ const nodemailerMock = require('nodemailer-mock');
 const api = (options) => {
     const agent = request.agent(`http://${options.host}:${options.port}/`);
     agent.login = (username, password) => agent
-        .post(`v1/user/${username}/session`)
-        .send({password})
+        .post(`v1/user/me/session`)
+        .send({username, password})
         .expect(200)
         .then(resp => resp.body);
     return agent;
@@ -51,11 +51,20 @@ const createFakeUser = async (t, body = {}) => {
         });
         resp = await t.context.api.get(`v1/user/${resp.body._id}`);
     }
+    if (body.status){
+        const User = mongoose.model('User');
+        await User.findOneAndUpdate({_id: resp.body._id}, {
+            status: body.status,
+        });
+        resp.body.status = body.status
+    }
     return resp.body;
 };
 
 const withSession = (status = 'accepted', fn) => async t => {
-    const user = await createFakeUser(t, {password: 'pass'});
+    const user = await createFakeUser(t, {
+        password: 'pass'
+    });
     const User = mongoose.model('User');
     await User.findOneAndUpdate({_id: user._id}, {
         status: status,
@@ -64,7 +73,7 @@ const withSession = (status = 'accepted', fn) => async t => {
     await fn(t, session);
 };
 
-const withAdminUser = fn => withSession('admin', fn);
+const asAdminUser = fn => withSession('admin', fn);
 
 const generateWebKey = async () => {
     const keySet = await promisify(forge.rsa.generateKeyPair)({
@@ -94,18 +103,20 @@ const createFakeService = (t, body = {}) => {
 
 
 const createFakeRole = async (t, body = {}) => {
+    let serviceId = body.service;
+    if(!serviceId ){
+        serviceId = (await createFakeService(t))._id;
+    }
     const role = Object.assign({
         title: `test-role-${Math.random()}`,
         description: 'example-description',
         status: 'active',
+        serviceId: serviceId
     }, body);
-    const service = await createFakeService(t);
-    return t.context.api.post(`v1/service/${service._id}/role`)
+    return t.context.api.post(`v1/role`)
         .send(role)
         .expect(200)
-        .then(resp => Object.assign(resp.body, {
-            service: service,
-        }));
+        .then(resp => resp.body);
 };
 
 const createFakeAccessRequest = async (t, body = {}) => {
@@ -115,7 +126,8 @@ const createFakeAccessRequest = async (t, body = {}) => {
     }
     let rolesId = body.rolesId;
     if (!rolesId) {
-        rolesId = [(await createFakeRole(t))._id];
+        const role = await createFakeRole(t);
+        rolesId = [role._id];
     }
 
     const user = Object.assign({
@@ -151,7 +163,7 @@ module.exports = {
     avaMockNodeMailer,
     startServer,
     stopServer,
-    asAdminUser: withAdminUser,
+    asAdminUser,
     withSession,
     generateWebKey,
     createFakeUser,

@@ -57,11 +57,10 @@ ava('access request: list by opinioner', asAdminUser(async (t) => {
         usersId: [employeUser._id],
     });
     const access_request_filtered = await createFakeAccessRequest(t);
-
     const resp = await t.context.api
         .get('v1/access_request/')
         .query({
-            opinionUserId: access_request_visible.opinions[0].userId,
+            opinionUserId: employeUser._id,
         })
         .expect(200);
 
@@ -83,9 +82,11 @@ ava('access request: create', asAdminUser(async t => {
     t.true(resp.rolesId.includes(role._id));
     t.true(resp.opinions.length > 0, 'Each access request requires at least one opinion.');
     t.true(resp.events.length > 0, 'Access request requires on create event.');
+    t.true(resp.events.some(x => x.status === 'created'), 'Each access request should have created event');
+    t.true(!!resp.events.find(x => x.status === 'created').finishedAt, 'Created event should have finishedAt defined.');
     t.true(resp.events.some(event => event.status === 'created'));
 }));
-ava('access request: notify manager of on access request create', asAdminUser(async t => {
+ava.serial('access request: notify manager of on access request create', asAdminUser(async t => {
     const {managerUser, employeUser} = await createFakeUserWithManager(t);
     await createFakeAccessRequest(t, {
         usersId: [employeUser._id],
@@ -98,7 +99,7 @@ ava('access request: notify manager of on access request create', asAdminUser(as
     t.true(mail.headers['X-Event-Type'] === 'accessRequestCreated');
     t.true(sentMail.filter(x => x.to === managerUser.email).length === 1);
 }));
-ava('powiadomienie operatora systemu', asAdminUser(async t => {
+ava.serial('powiadomienie operatora systemu', asAdminUser(async t => {
     const {managerUser, employeUser} = await createFakeUserWithManager(t);
     await createFakeAccessRequest(t, {
         usersId: [employeUser._id],

@@ -7,6 +7,11 @@ const {roleStatus} = require('./lib/status');
 const {commonSchema} = require('./lib/common');
 
 const schema = Object.assign({
+    serviceId: {
+        type: mongoose.Schema.ObjectId,
+        ref: 'Role',
+        required: true,
+    },
     title: String,
     description: String,
     manager: {

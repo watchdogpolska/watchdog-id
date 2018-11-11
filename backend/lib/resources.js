@@ -52,7 +52,10 @@ const actions = {
         method: 'post',
     },
     get: {
-        handler: model => async ctx => ctx.body = await model.findOne({_id: ctx.params.id}),
+        handler: model => async ctx => {
+            ctx.entry = await model.findOne({_id: ctx.params.id});
+            ctx.body = ctx.entry.toJSON({virtuals: true})
+        },
         path: '/:id',
         method: 'get',
     },
@@ -74,7 +77,8 @@ const createRouter = (name, resource, options = {}) => {
     const parents = options.parents || [];
     const model = mongoose.model(name);
 
-    Object.entries(actions)
+    Object
+        .entries(actions)
         .filter(([action_name]) => resource[action_name] !== undefined)
         .forEach(([action_name, param]) => router = router[param.method](
             param.path,
@@ -82,12 +86,15 @@ const createRouter = (name, resource, options = {}) => {
                 model: model,
             }))
         ));
-    for (const [subname, subresource] of Object.entries(resource.subs || {})) {
-        const subrouter = createRouter(subname, subresource, {
-            parents: [model, ...parents],
+
+    Object
+        .entries(resource.subs || {})
+        .forEach(([subname, subresource]) => {
+            const subrouter = createRouter(subname, subresource, {
+                parents: [model, ...parents],
+            });
+            router.use(`/:${name.toLowerCase()}Id/${subname.toLowerCase()}`, subrouter.routes(), subrouter.allowedMethods());
         });
-        router.use(`/:${name.toLowerCase()}Id/${subname.toLowerCase()}`, subrouter.routes(), subrouter.allowedMethods());
-    }
     return router;
 };
 

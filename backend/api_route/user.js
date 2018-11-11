@@ -13,10 +13,8 @@ const SessionSubResource = {
             if (!ctx.request.body) {
                 throw badRequest('No authentication details have been provided.');
             }
-            const query = [{username: ctx.params.userId}];
-            if (ctx.params.userId.match(/^[a-f0-9]25$/)) {
-                query.push({_id: ctx.params.userId});
-            }
+            const query = [{username: ctx.request.body.username}];
+
             const user = await user_model.findOne({$or: query}).select('+password_hash');
 
             if (!user) {
@@ -82,7 +80,9 @@ const UserResource = {
             required: ['_id', 'first_name', 'second_name', 'username', 'email', 'status'],
         }),
     },
-    get: {},
+    get: {
+        handler: model => async ctx => ctx.body = await model.findOne({_id: ctx.params.id === 'me' ? ctx.state.user._id : ctx.params.id})
+    },
     delete: {
         handler: model => async ctx => ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, {status: 'suspended'}, {new: true}),
     },

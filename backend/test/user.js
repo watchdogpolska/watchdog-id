@@ -9,7 +9,7 @@ ava.afterEach(stopServer);
 ava('rejestracja', async t => {
     const username = `user-${Math.random()}`;
 
-    await t.context.api
+    const resp = await t.context.api
         .post('v1/user')
         .send({
             first_name: 'John',
@@ -18,17 +18,16 @@ ava('rejestracja', async t => {
             password: 'x',
             email: 'test@example.com',
         })
-        .expect(200)
-        .then(resp => {
-            t.true(!!resp.body);
-            t.true(resp.body.username === username);
-            t.true(resp.body.first_name === 'John');
-            t.true(resp.body.second_name === 'Smith');
-            t.true(resp.body.email === 'test@example.com');
-            t.true(resp.body.username === username);
-            t.true(resp.body.status === 'pending');
-            t.true(!resp.password_hash);
-        });
+        .expect(200);
+
+    t.true(!!resp.body);
+    t.true(resp.body.username === username);
+    t.true(resp.body.first_name === 'John');
+    t.true(resp.body.second_name === 'Smith');
+    t.true(resp.body.email === 'test@example.com');
+    t.true(resp.body.username === username);
+    t.true(resp.body.status === 'pending');
+    t.true(!resp.password_hash);
 });
 ava("can not login on 'pending' user", async t => {
     const cred = {
