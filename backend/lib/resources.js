@@ -97,7 +97,11 @@ const createRouter = (name, resource, options = {}) => {
             const subrouter = createRouter(subname, subresource, {
                 parents: [model, ...parents],
             });
-            router.use(`/:${name.toLowerCase()}Id/${subname.toLowerCase()}`, subrouter.routes(), subrouter.allowedMethods());
+            router.use(
+                `/:${name.toLowerCase()}Id/${subname.toLowerCase()}`,
+                subrouter.routes(),
+                subrouter.allowedMethods()
+            );
         });
     return router;
 };

@@ -34,11 +34,10 @@ const main = (options) => new Promise(async (resolve, reject) => {
     app.use(boom_koa());
     const api_router = require('./api_route')();
     const router = new Router();
-
     router.all('/', (ctx) => ctx.body = ctx.request.body);
     router.use('/v1', api_router.routes(), api_router.allowedMethods());
-    // console.dir(router, {depth: null});
-    // console.dir(api_router, {depth:null});
+    // console.log(router.stack.map(x => x.path));
+
     app.use(router.routes());
     app.use(router.allowedMethods());
 

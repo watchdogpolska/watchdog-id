@@ -6,7 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
   modules: {
-    access_request: require('./access_request')
+    access_request: require('./access_request').default,
+    service: require('./service').default
   },
   state: {
     status: '',
@@ -94,6 +95,5 @@ export default new Vuex.Store({
         throw err;
       }
     },
-
   },
 });

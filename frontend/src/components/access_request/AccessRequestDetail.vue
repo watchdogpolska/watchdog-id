@@ -49,12 +49,12 @@
   </div>
 </template>
 <script>
-  import WatchdogDateTime from "./WatchdogDateTime";
+  import WatchdogDateTime from "../WatchdogDateTime";
   import AccessRequestOpinionList from "./AccessRequestOpinionList";
   import AccessRequestEventList from "./AccessRequestEventList";
-  import UserLink from "./UserLink";
-  import RoleLink from "./RoleLink";
-  import DebugTab from "./DebugTab";
+  import UserLink from "../UserLink";
+  import RoleLink from "../RoleLink";
+  import DebugTab from "../DebugTab";
 
   export default {
     name: 'AccessRequestDetail',

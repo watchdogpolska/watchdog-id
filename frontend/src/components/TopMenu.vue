@@ -22,8 +22,8 @@
           <b-nav-item v-b-modal.registerModal v-if="!isLoggedIn">Register
           </b-nav-item>
           <b-nav-item to="/access_request" v-if="isLoggedIn">Access request</b-nav-item>
-          <b-nav-item href="#" v-if="isLoggedIn">Services</b-nav-item>
-          <b-nav-item href="#" v-if="isLoggedIn">Users</b-nav-item>
+          <b-nav-item to="/service" v-if="isLoggedIn">Services</b-nav-item>
+          <b-nav-item to="/user" v-if="isLoggedIn">Users</b-nav-item>
 
           <b-nav-item-dropdown right v-if="isLoggedIn">
             <!-- Using button-content slot -->

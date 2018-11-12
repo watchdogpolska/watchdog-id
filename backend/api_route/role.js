@@ -11,6 +11,7 @@ const RoleResource = {
             properties: {
                 title: {type: 'string'},
                 description: {type: 'string'},
+                status: {type: 'string', default: 'active'},
                 manager: {type: 'string', default: ctx.state.user._id},
                 serviceId: {type: 'string'}
             },
