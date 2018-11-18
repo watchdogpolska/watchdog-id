@@ -1,0 +1,28 @@
+{
+  "name": "proxy",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "npx nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "cookie": "^0.3.1",
+    "express": "^4.16.4",
+    "express-session": "^1.15.6",
+    "http-proxy": "^1.17.0",
+    "jsonwebtoken": "^8.4.0",
+    "morgan": "^1.9.1",
+    "node-http-proxy": "^0.2.3",
+    "passport": "^0.4.0",
+    "passport-google-oauth": "^1.0.0",
+    "pem-jwk": "^1.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
