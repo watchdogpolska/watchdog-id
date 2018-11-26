@@ -36,7 +36,7 @@ const session_options = {
     cookie_name: options.COOKIE_NAME,
     resave: false,
     saveUninitialized: false
-}
+};
 
 const app = express();
 
