@@ -5,4 +5,6 @@ module.exports.MONGODB_URL = process.env.MONGODB_URL || 'mongodb://localhost/tes
 module.exports.LISTEN_PORT = process.env.LISTEN_PORT || 3000;
 module.exports.SMTP_URL = process.env.SMTP_URL;
 module.exports.IMAP_URL = process.env.IMAP_URL;
-module.exports. SESSION_LIFETIME = 60 * 15; // 15 minutes
+module.exports.SESSION_LIFETIME = 60 * 15; // 15 minutes
+module.exports.JWT_SECRET = process.env.JWT_SECRET || 'xxxx';
+module.exports.JWT_ISSUER = process.env.JWT_ISSUER || `https://${module.exports.DOMAIN}`;

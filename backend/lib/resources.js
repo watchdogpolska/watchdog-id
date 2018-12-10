@@ -55,10 +55,10 @@ const actions = {
     get: {
         handler: model => async ctx => {
             ctx.entry = await model.findOne({_id: ctx.params.id});
-            if(!ctx.entry){
-                throw notFound("Unable to found entry");
+            if (!ctx.entry) {
+                throw notFound('Unable to found entry');
             }
-            ctx.body = ctx.entry.toJSON({virtuals: true})
+            ctx.body = ctx.entry.toJSON({virtuals: true});
         },
         path: '/:id',
         method: 'get',
@@ -76,7 +76,7 @@ const actions = {
 };
 
 const createRouter = (name, resource, options = {}) => {
-    let router = new Router();
+    const router = new Router();
 
     const parents = options.parents || [];
     const model = mongoose.model(name);
@@ -84,7 +84,7 @@ const createRouter = (name, resource, options = {}) => {
     Object
         .entries(actions)
         .filter(([action_name]) => resource[action_name] !== undefined)
-        .forEach(([action_name, param]) => router = router[param.method](
+        .forEach(([action_name, param]) => router[param.method](
             param.path,
             ...getStack(Object.assign({}, param, options, resource[action_name], {
                 model: model,
@@ -103,6 +103,13 @@ const createRouter = (name, resource, options = {}) => {
                 subrouter.allowedMethods()
             );
         });
+    //
+    // Object
+    //     .entries(resource.actions || {})
+    //     .forEach(([action_name, param]) =>
+    //         router[param.method](`/action/:${action_name.toLowerCase()}`, param.handler)
+    //     );
+
     return router;
 };
 

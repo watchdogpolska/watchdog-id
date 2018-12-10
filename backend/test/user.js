@@ -31,7 +31,7 @@ ava('rejestracja', async t => {
 });
 ava("can not login on 'pending' user", async t => {
     const cred = {
-        username: 'some-username',
+        username: `some-username-${Math.random()}`,
         password: 'pass',
     };
     const user = await createFakeUser(t, cred);

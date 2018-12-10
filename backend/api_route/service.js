@@ -4,7 +4,7 @@ const {createRouter} = require('../lib/resources');
 const ServiceResource = {
     list: {},
     create: {
-                req_schema: ctx => ({
+        req_schema: ctx => ({
             $async: true,
             type: 'object',
             properties: {
@@ -22,9 +22,9 @@ const ServiceResource = {
         Role: {
             list: {
                 handler: model => async ctx => ctx.body = await model.find({serviceId: ctx.params.serviceId}),
-            }
-        }
-    }
+            },
+        },
+    },
 };
 
 module.exports = () => createRouter('Service', ServiceResource);

@@ -13,7 +13,7 @@ const RoleResource = {
                 description: {type: 'string'},
                 status: {type: 'string', default: 'active'},
                 manager: {type: 'string', default: ctx.state.user._id},
-                serviceId: {type: 'string'}
+                serviceId: {type: 'string'},
             },
             required: ['title', 'description', 'manager'],
         }),

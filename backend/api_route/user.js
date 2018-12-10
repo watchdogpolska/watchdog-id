@@ -81,7 +81,7 @@ const UserResource = {
         }),
     },
     get: {
-        handler: model => async ctx => ctx.body = await model.findOne({_id: ctx.params.id === 'me' ? ctx.state.user._id : ctx.params.id})
+        handler: model => async ctx => ctx.body = await model.findOne({_id: ctx.params.id === 'me' ? ctx.state.user._id : ctx.params.id}),
     },
     delete: {
         handler: model => async ctx => ctx.body = await model.findOneAndUpdate({_id: ctx.params.id}, {status: 'suspended'}, {new: true}),

@@ -28,7 +28,8 @@ const OpinionResource = {
                 'opinions._id': ctx.params.id,
             });
             const opinion = parent.opinions.id(ctx.params.id);
-            if(opinion.userId !== ctx.state.user._id && !ctx.state.user.perms.includes("change_any_opinion")){
+
+            if(opinion.userId.toString() !== ctx.state.user._id.toString() && !ctx.state.user.perms.includes("change_any_opinion")){
                 throw forbidden("You can only modify your own opinions.")
             }
             for (const status of ['accepted', 'rejected']) {
@@ -75,7 +76,7 @@ const AccessRequestResource = {
                 query = {... query, rolesId: {$in: ctx.query.roleId}};
             }
             if (ctx.request.query.opinionUserId) {
-                query = {...query, 'opinions.userId': {$in: ctx.query.opinionUserId}};
+                query = {...query, 'opinions.userId': {$eq: ctx.query.opinionUserId}};
             }
             ctx.body = await model.find(query);
         },
@@ -98,14 +99,14 @@ const AccessRequestResource = {
             const Role = mongoose.model('Role');
 
             const roles = await Promise.all( // TODO: Rewrite to single query
-                obj.rolesId.map(async x => (await Role.findOne({'_id': x})))
+                obj.rolesId.map(x => Role.findById(x))
             );
             const users = await Promise.all( // TODO: Rewrite to single query
                 obj.usersId.map(x => User.findById(x))
             );
-            const opinionUsers = [...new Set([...users, ...roles].filter(x => x && x.manager))];
+            const opinionUsersId = [...new Set([...users, ...roles].filter(x => x && x.manager).map(x => x.manager))];
 
-            obj.opinions = opinionUsers.map(managerId => ({
+            obj.opinions = opinionUsersId.map(managerId => ({
                 userId: managerId,
                 status: 'pending',
             }));

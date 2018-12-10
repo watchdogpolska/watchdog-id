@@ -21,7 +21,7 @@ const userRoles = {
         active: true,
         perms: [
             'create_any_access_request',
-            'change_any_opinion'
+            'change_any_opinion',
         ],
     },
     suspended: {
@@ -55,6 +55,7 @@ const schema = Object.assign({
     manager: {type: mongoose.ObjectId, ref: 'User'},
     status: getStatusType(userStatus, 'pending'),
     sessions: {type: mongoose.ObjectId, ref: 'Session'},
+    authorizations: {type: mongoose.ObjectId, ref: 'Authorization'},
 }, commonSchema);
 
 const userSchema = new mongoose.Schema(schema);

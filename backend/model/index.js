@@ -8,6 +8,8 @@ module.exports = {
     serviceSchema: require('./service'),
     sessionSchema: require('./session'),
     opinionSchema: require('./opinion'),
+    clientSchema: require('./client'),
+    authorizationSchema: require('./authorization')
 };
 
 module.exports.register = async () => {
@@ -17,4 +19,6 @@ module.exports.register = async () => {
     await mongoose.model('Service', module.exports.serviceSchema);
     await mongoose.model('Session', module.exports.sessionSchema);
     await mongoose.model('Opinion', module.exports.opinionSchema);
+    await mongoose.model('Client', module.exports.clientSchema);
+    await mongoose.model('Authorization', module.exports.authorizationSchema);
 };

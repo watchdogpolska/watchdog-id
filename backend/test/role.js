@@ -13,7 +13,7 @@ ava('role: create', asAdminUser(async (t, session) => {
         status: 'active',
         serviceId: service._id,
     };
-    const resp = await t.context.api.post(`v1/role`)
+    const resp = await t.context.api.post('v1/role')
         .send(body)
         .expect(200);
 
@@ -27,7 +27,7 @@ ava('role: list', asAdminUser(async t => {
     const role = await createFakeRole(t);
 
     const resp = await  t.context.api
-        .get(`v1/role`)
+        .get('v1/role')
         .expect(200)
         .then(resp => resp.body);
 

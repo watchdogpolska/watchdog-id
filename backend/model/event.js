@@ -10,8 +10,8 @@ const schema = Object.assign({
     result: {},
     finishedAt: {
         type: Date,
-        required: false
-    }
+        required: false,
+    },
 }, commonSchema);
 const eventSchema = new mongoose.Schema(schema);
 

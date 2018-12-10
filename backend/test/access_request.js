@@ -42,31 +42,33 @@ ava('access request: list by role', asAdminUser(async (t) => {
 
 const createFakeUserWithManager = async (t) => {
     const managerUser = await createFakeUser(t);
-    const employeUser = await createFakeUser(t, {
+    const employerUser = await createFakeUser(t, {
         manager: managerUser._id,
     });
 
-    t.true(employeUser.manager === managerUser._id);
-    return {managerUser, employeUser};
+    t.true(employerUser.manager === managerUser._id);
+    return {managerUser, employerUser};
 };
 
 ava('access request: list by opinioner', asAdminUser(async (t) => {
-    const {employeUser} = await createFakeUserWithManager(t);
+    const {managerUser, employerUser} = await createFakeUserWithManager(t);
 
     const access_request_visible = await createFakeAccessRequest(t, {
-        usersId: [employeUser._id],
+        usersId: [employerUser._id],
     });
+
     const access_request_filtered = await createFakeAccessRequest(t);
-    const resp = await t.context.api
+    const body = await t.context.api
         .get('v1/access_request/')
         .query({
-            opinionUserId: employeUser._id,
+            opinionUserId: managerUser._id,
         })
-        .expect(200);
+        .expect(200)
+        .then(resp => resp.body);
 
-    t.true(Array.isArray(resp.body));
-    t.true(resp.body.some(access_request => access_request._id === access_request_visible._id));
-    t.true(!resp.body.some(access_request => access_request._id === access_request_filtered._id));
+    t.true(Array.isArray(body));
+    t.true(body.some(access_request => access_request._id === access_request_visible._id));
+    t.true(!body.some(access_request => access_request._id === access_request_filtered._id));
 }));
 
 ava('access request: create', asAdminUser(async t => {
@@ -86,10 +88,11 @@ ava('access request: create', asAdminUser(async t => {
     t.true(!!resp.events.find(x => x.status === 'created').finishedAt, 'Created event should have finishedAt defined.');
     t.true(resp.events.some(event => event.status === 'created'));
 }));
+
 ava.serial('access request: notify manager of on access request create', asAdminUser(async t => {
-    const {managerUser, employeUser} = await createFakeUserWithManager(t);
+    const {managerUser, employerUser} = await createFakeUserWithManager(t);
     await createFakeAccessRequest(t, {
-        usersId: [employeUser._id],
+        usersId: [employerUser._id],
     });
 
     const sentMail = nodemailerMock.mock.sentMail();
@@ -100,9 +103,10 @@ ava.serial('access request: notify manager of on access request create', asAdmin
     t.true(sentMail.filter(x => x.to === managerUser.email).length === 1);
 }));
 ava.serial('powiadomienie operatora systemu', asAdminUser(async t => {
-    const {managerUser, employeUser} = await createFakeUserWithManager(t);
+    const {managerUser, employerUser} = await createFakeUserWithManager(t);
     await createFakeAccessRequest(t, {
-        usersId: [employeUser._id],
+
+        usersId: [employerUser._id],
     });
     const sentMail = nodemailerMock.mock.sentMail();
 

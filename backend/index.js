@@ -30,8 +30,8 @@ const main = (options) => new Promise(async (resolve, reject) => {
     const app = new Koa();
     app.use(BodyParser());
     app.use(logger());
-    app.use(setUserMiddleware());
     app.use(boom_koa());
+    app.use(setUserMiddleware());
     const api_router = require('./api_route')();
     const router = new Router();
     router.all('/', (ctx) => ctx.body = ctx.request.body);

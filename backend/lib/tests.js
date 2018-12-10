@@ -10,7 +10,7 @@ const nodemailerMock = require('nodemailer-mock');
 const api = (options) => {
     const agent = request.agent(`http://${options.host}:${options.port}/`);
     agent.login = (username, password) => agent
-        .post(`v1/user/me/session`)
+        .post('v1/user/me/session')
         .send({username, password})
         .expect(200)
         .then(resp => resp.body);
@@ -39,7 +39,7 @@ const createFakeUser = async (t, body = {}) => {
         second_name: 'string',
         password: 'string',
         status: 'pending',
-        email: 'user@example.com',
+        email: `user-${Math.round(Math.random() * 1000)}@example.com`,
     }, body);
     let resp = await t.context.api.post('v1/user')
         .send(user)
@@ -51,23 +51,20 @@ const createFakeUser = async (t, body = {}) => {
         });
         resp = await t.context.api.get(`v1/user/${resp.body._id}`);
     }
-    if (body.status){
+    if (body.status) {
         const User = mongoose.model('User');
         await User.findOneAndUpdate({_id: resp.body._id}, {
             status: body.status,
         });
-        resp.body.status = body.status
+        resp.body.status = body.status;
     }
     return resp.body;
 };
 
 const withSession = (status = 'accepted', fn) => async t => {
     const user = await createFakeUser(t, {
-        password: 'pass'
-    });
-    const User = mongoose.model('User');
-    await User.findOneAndUpdate({_id: user._id}, {
-        status: status,
+        password: 'pass',
+        status: 'accepted'
     });
     const session = await t.context.api.login(user.username, 'pass');
     await fn(t, session);
@@ -101,19 +98,31 @@ const createFakeService = (t, body = {}) => {
         .then(resp => resp.body);
 };
 
+const createFakeClient = (t, body = {}) => {
+    const user = Object.assign({
+        name: `test-service-${Math.random()}`,
+        redirect_uri: [
+            'https://endpoint/'
+        ],
+    }, body);
+    return t.context.api.post('v1/client')
+        .send(user)
+        .expect(200)
+        .then(resp => resp.body);
+};
 
 const createFakeRole = async (t, body = {}) => {
     let serviceId = body.service;
-    if(!serviceId ){
+    if (!serviceId) {
         serviceId = (await createFakeService(t))._id;
     }
     const role = Object.assign({
         title: `test-role-${Math.random()}`,
         description: 'example-description',
         status: 'active',
-        serviceId: serviceId
+        serviceId: serviceId,
     }, body);
-    return t.context.api.post(`v1/role`)
+    return t.context.api.post('v1/role')
         .send(role)
         .expect(200)
         .then(resp => resp.body);
@@ -121,6 +130,7 @@ const createFakeRole = async (t, body = {}) => {
 
 const createFakeAccessRequest = async (t, body = {}) => {
     let usersId = body.usersId;
+
     if (!usersId) {
         usersId = [(await createFakeUser(t))._id];
     }
@@ -135,6 +145,7 @@ const createFakeAccessRequest = async (t, body = {}) => {
         usersId: usersId,
         rolesId: rolesId,
     }, body);
+
     return t.context.api.post('v1/access_request')
         .send(user)
         .expect(200)
@@ -169,5 +180,6 @@ module.exports = {
     createFakeUser,
     createFakeRole,
     createFakeService,
+    createFakeClient,
     createFakeAccessRequest,
 };

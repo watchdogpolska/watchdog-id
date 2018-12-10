@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "nyc ava",
+    "test": "nyc ava --verbose",
     "test_reload": "nodemon ./node_modules/.bin/ava test -- --verbose",
     "lint": "eslint .",
     "dev": "nodemon ./index.js --"
@@ -13,9 +13,11 @@
   "license": "ISC",
   "dependencies": {
     "ajv": "^6.5.4",
+    "basic-auth": "^2.0.1",
     "boom": "^7.2.0",
     "email-templates": "^5.0.2",
     "json-web-key": "^0.3.0",
+    "jsonwebtoken": "^8.4.0",
     "koa": "^2.5.3",
     "koa-bodyparser": "^4.2.1",
     "koa-logger": "^3.2.0",

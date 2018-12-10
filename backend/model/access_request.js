@@ -22,8 +22,8 @@ const schema = Object.assign({
 const accessRequestSchema = new mongoose.Schema(schema);
 
 accessRequestSchema.virtual('status').get(function () {
-    for(const status of eventSchema.obj.status.enum){
-        if(this.opinions.some(opinion => opinion.status === status)){
+    for (const status of eventSchema.obj.status.enum) {
+        if (this.opinions.some(opinion => opinion.status === status)) {
             return status;
         }
     }
