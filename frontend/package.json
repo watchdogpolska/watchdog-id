@@ -10,6 +10,7 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap-vue": "^2.0.0-rc.11",
+    "bootstrap-vue-dialog": "0.0.3",
     "moment": "^2.22.2",
     "momentjs": "^2.0.0",
     "v-toaster": "^1.0.3",

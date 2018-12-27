@@ -7,18 +7,22 @@
     <div v-if="error" class="error">
       {{ error }}
     </div>
+
     <b-button :to="{ name: 'service:create'}">
       New service
     </b-button>
+    <b-btn v-b-modal.modal1>New service</b-btn>
     <ServiceListItem :item="item" v-for="item in items" :key="item._id"/>
+    <ServiceForm/>
   </div>
 </template>
 <script>
   import ServiceListItem from "./ServiceListItem";
+  import ServiceForm from "./ServiceForm";
 
   export default {
     name: 'ServiceList',
-    components: {ServiceListItem},
+    components: {ServiceListItem, ServiceForm},
     data() {
       return {
         loading: false,

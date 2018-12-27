@@ -5,6 +5,7 @@ import Toaster from 'v-toaster';
 import App from './components/Layout.vue';
 import router from './router';
 import store from './stores';
+import WatchdogDateTime from '@/components/WatchdogDateTime';
 
 Vue.config.productionTip = false;
 
@@ -17,6 +18,7 @@ if (token) {
 
 Vue.use(BootstrapVue);
 Vue.use(Toaster);
+Vue.component(WatchdogDateTime.name, WatchdogDateTime);
 
 new Vue({
   router,
