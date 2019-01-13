@@ -1,0 +1,19 @@
+{
+  "name": "watchdog_factory_common",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint ."
+  },
+  "author": "Adam Dobrawy",
+  "license": "ISC",
+  "devDependencies": {
+    "@hyperone/eslint-config": "^1.0.3",
+    "eslint": "^5.12.0"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.4.0"
+  }
+}

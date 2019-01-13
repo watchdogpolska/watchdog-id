@@ -1,16 +1,14 @@
 'use strict';
 const mongoose = require('mongoose');
-const {commonSchema} = require('./lib/common');
+const {commonSchema} = require('../lib/model/common');
 const crypto = require('crypto');
-const jwt = require('jsonwebtoken');
-const promisify = require('util').promisify;
 
 const schema = new mongoose.Schema(Object.assign({
     name: String,
     redirect_uri: [
         {
             type: String,
-        }
+        },
     ],
     secret: {
         type: String,
@@ -25,7 +23,7 @@ const schema = new mongoose.Schema(Object.assign({
 }, commonSchema));
 
 schema.virtual('client_secret').get(async function () {
-    return this.secret
+    return this.secret;
 });
 
 module.exports = schema;

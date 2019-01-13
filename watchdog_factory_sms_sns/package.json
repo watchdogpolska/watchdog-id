@@ -1,0 +1,24 @@
+{
+  "name": "watchdog_factory_sms_sns",
+  "version": "1.0.0",
+  "description": "``` AWS_ACCESS_KEY_ID ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava",
+    "lint": "eslint ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "aws-sdk": "^2.387.0",
+    "crypto": "^1.0.1",
+    "google-libphonenumber": "^3.2.2",
+    "otplib": "^10.0.1",
+    "watchdog_factory_common": "file:../watchdog_factory_common"
+  },
+  "devDependencies": {
+    "@hyperone/eslint-config": "^1.0.3",
+    "ava": "^1.0.1",
+    "eslint": "^5.12.0"
+  }
+}

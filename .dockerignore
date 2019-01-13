@@ -1,7 +1,7 @@
 .git
 .tox
 .vagrant.d
-node_modules
+**/node_modules
 **/*.pyc
 docs
 **/*.rst

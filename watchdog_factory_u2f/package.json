@@ -1,0 +1,23 @@
+{
+  "name": "watchdog_factory_u2f",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava",
+    "lint": "eslint ."
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "@hyperone/eslint-config": "^1.0.3",
+    "ava": "^1.0.1",
+    "eslint": "^5.12.0",
+    "virtual-u2f": "^0.2.0"
+  },
+  "dependencies": {
+    "boom": "^7.3.0",
+    "u2f": "^0.1.3",
+    "watchdog_factory_common": "file:../watchdog_factory_common"
+  }
+}

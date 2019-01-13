@@ -1,0 +1,12 @@
+FROM node:latest as builder
+WORKDIR /src/backend
+COPY ./backend/ /src/backend/
+COPY ./watchdog_factory_* /src/
+FROM builder as test
+
+RUN npm install
+# RUN npm run test
+
+FROM builder as run
+RUN npm ci
+CMD ["npm","run","serve"]

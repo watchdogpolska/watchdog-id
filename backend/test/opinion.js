@@ -2,7 +2,7 @@
 const ava = require('ava').default;
 const {startServer, stopServer, asAdminUser, createFakeUser, createFakeAccessRequest, avaMockNodeMailer} = require('../lib/tests');
 
-const nodemailerMock = avaMockNodeMailer(ava);
+avaMockNodeMailer(ava);
 
 ava.beforeEach(startServer);
 ava.afterEach(stopServer);

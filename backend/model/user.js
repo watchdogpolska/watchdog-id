@@ -1,8 +1,8 @@
 'use strict';
-const {EmailType} = require('./lib/types');
+const {EmailType} = require('../lib/model/types');
 
-const {commonSchema} = require('./lib/common');
-const {getStatusType} = require('./lib/types');
+const {commonSchema} = require('../lib/model/common');
+const {getStatusType} = require('../lib/model/types');
 const mongoose = require('mongoose');
 const scrypt = require('scrypt');
 
@@ -56,6 +56,9 @@ const schema = Object.assign({
     status: getStatusType(userStatus, 'pending'),
     sessions: {type: mongoose.ObjectId, ref: 'Session'},
     authorizations: {type: mongoose.ObjectId, ref: 'Authorization'},
+    factors: [
+        require('./factor'),
+    ],
 }, commonSchema);
 
 const userSchema = new mongoose.Schema(schema);
@@ -74,6 +77,9 @@ userSchema.pre('save', async function () {
     this.modifiedAt = new Date();
 });
 
+userSchema.virtual('factors_enabled').get(function () {
+    return !this.factors;
+});
 userSchema.virtual('active').get(function () {
     return userRoles[this.status].active;
 });

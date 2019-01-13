@@ -10,8 +10,8 @@ const nodemailerMock = require('nodemailer-mock');
 const api = (options) => {
     const agent = request.agent(`http://${options.host}:${options.port}/`);
     agent.login = (username, password) => agent
-        .post('v1/user/me/session')
-        .send({username, password})
+        .post(`v1/user/${username}/session`)
+        .send({password})
         .expect(200)
         .then(resp => resp.body);
     return agent;
@@ -64,7 +64,7 @@ const createFakeUser = async (t, body = {}) => {
 const withSession = (status = 'accepted', fn) => async t => {
     const user = await createFakeUser(t, {
         password: 'pass',
-        status: 'accepted'
+        status: status,
     });
     const session = await t.context.api.login(user.username, 'pass');
     await fn(t, session);
@@ -102,7 +102,7 @@ const createFakeClient = (t, body = {}) => {
     const user = Object.assign({
         name: `test-service-${Math.random()}`,
         redirect_uri: [
-            'https://endpoint/'
+            'https://endpoint/',
         ],
     }, body);
     return t.context.api.post('v1/client')

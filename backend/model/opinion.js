@@ -1,8 +1,8 @@
 'use strict';
 const mongoose = require('mongoose');
-const {opinionStatus} = require('./lib/status');
-const {getStatusType} = require('./lib/types');
-const {commonSchema }= require('./lib/common');
+const {opinionStatus} = require('../lib/model/status');
+const {getStatusType} = require('../lib/model/types');
+const {commonSchema }= require('../lib/model/common');
 
 const opinionSchema = new mongoose.Schema(Object.assign({
     userId: {

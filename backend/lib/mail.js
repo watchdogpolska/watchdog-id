@@ -4,14 +4,6 @@ const Email = require('email-templates');
 const nodemailer = require('nodemailer');
 
 const transport = nodemailer.createTransport(settings.SMTP_URL);
-// if (settings.SMTP_URL) {
-
-// } else {
-//     transport = {
-//         jsonTransport: true,
-//     };
-// }
-
 
 const email = (options) => new Email(Object.assign({}, {
     message: {

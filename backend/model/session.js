@@ -15,7 +15,7 @@ const sessionSchema = new mongoose.Schema({
         default: () => crypto.randomBytes(16).toString('hex'),
         select: false,
     },
-    'user-agent': String,
+    userAgent: String,
     ip: {
         type: String,
         required: true,
@@ -29,6 +29,11 @@ const sessionSchema = new mongoose.Schema({
         type: Date,
         required: true,
         default: () => new Date(new Date() - settings.SESSION_LIFETIME * 1000),
+    },
+    store: {
+        type: Map,
+        of: String,
+        select: false,
     },
 });
 

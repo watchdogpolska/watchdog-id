@@ -6,21 +6,27 @@ const jwt = require('jsonwebtoken');
 const promisify = require('util').promisify;
 const verify = promisify(jwt.verify);
 const basic_auth = require('basic-auth');
+const factory = require('./../factory');
 
-const session_user = async (ctx, next) => {
+const TokenAuth = async (ctx, token) => {
+    if (!token) return;
+
     const Session = mongoose.model('Session');
-    const token = ctx.req.headers['x-auth-token'] || ctx.cookies.get('token');
-    const session = token ? await Session
+
+    const session = await Session
         .findOneAndUpdate(
             {secret: token, expiresAt: {$lt: new Date()}},
             {expiresAt: new Date(new Date() - settings.SESSION_LIFETIME * 1000)}
         )
-        .populate('user') : null;
+        .populate('user').select('store');
+
+    if (!session) return;
+
     ctx.state.session = session;
-    ctx.state.user = session ? session.user : null;
+    ctx.state.user = session.user;
 };
 
-const authorization_user = async (ctx, next) => {
+const BearerAuth = async ctx => {
     const Authorization = mongoose.model('Authorization');
     if (!ctx.req.headers.authorization || !ctx.req.headers.authorization.startsWith('Bearer ')) {
         return;
@@ -35,8 +41,7 @@ const authorization_user = async (ctx, next) => {
             audience: 'access_token',
         });
     } catch (err) {
-        console.log(err);
-        throw unauthorized('Access token is no longers valid, probably expired.');
+        throw unauthorized('Access token is no longer valid, probably expired.');
     }
 
     const authorization = await Authorization
@@ -49,16 +54,14 @@ const authorization_user = async (ctx, next) => {
     ctx.state.user = authorization.user;
 };
 
-const basic_user = async ctx => {
+const BasicAuth = async ctx => {
     const User = mongoose.model('User');
-
-    if (!ctx.req.headers.authorization || !ctx.req.headers.authorization.startsWith('Basic ')) {
+    if (!ctx.request.headers.authorization || !ctx.request.headers.authorization.startsWith('Basic ')) {
         return;
     }
 
     const user_header = basic_auth(ctx);
     const user = await User.findOne({username: user_header.name}).select('+password_hash');
-
     if (!user) {
         throw unauthorized('User not found.', 'Basic');
     }
@@ -69,21 +72,41 @@ const basic_user = async ctx => {
         throw unauthorized('Provided password is incorrect.', 'Basic');
     }
     ctx.state.user = user;
+    factory.enforceFactorRequest(ctx);
 };
+
+//
 module.exports = {
-    setUserMiddleware: () => async (ctx, next) => {
-        await session_user(ctx);
-        await authorization_user(ctx);
-        await basic_user(ctx);
-        console.log('Request user', ctx.state.user ? ctx.state.user._id : '(anonymous)');
+    authMiddleware: security => async (ctx, next) => {
+        if (!security) return await next();
+
+        if (security.find(x => Object.keys(x).includes('basicAuth'))) {
+            // console.log('Test basicAuth');
+            await BasicAuth(ctx);
+        }
+        // console.log({state: ctx.state});
+
+        if (security.find(x => Object.keys(x).includes('apiKeyAuth'))) {
+            // console.log('Test apiKeyAuth');
+            await TokenAuth(ctx, ctx.req.headers['x-auth-token']);
+        }
+        // console.log({state: ctx.state});
+
+        if (security.find(x => Object.keys(x).includes('cookieAuth'))) {
+            // console.log('Test cookieAuth');
+            await TokenAuth(ctx, ctx.cookies.get('token'));
+        }
+        // console.log({state: ctx.state});
+
+        if (security.find(x => Object.keys(x).includes('bearerAuth'))) {
+            // console.log('Test bearerAuth');
+            await BearerAuth(ctx);
+        }
+        // console.log({state: ctx.state});
+
+        // console.log('Request user', ctx.state.user ? ctx.state.user._id : '(anonymous)');
         ctx.isAuthenticated = () => !!ctx.state.user;
         ctx.isUnauthenticated = () => !ctx.state.user;
         return await next();
-    },
-    authenticatedOnly: async (ctx, next) => {
-        if (ctx.isAuthenticated()) {
-            return await next();
-        }
-        throw unauthorized('No authentication details have been provided or incorrect.');
     },
 };

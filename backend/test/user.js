@@ -29,6 +29,25 @@ ava('rejestracja', async t => {
     t.true(resp.body.status === 'pending');
     t.true(!resp.password_hash);
 });
+
+ava('session create', async t => {
+    const cred = {
+        username: `some-username-${Math.random()}`,
+        password: 'pass',
+        status: 'admin',
+    };
+    await createFakeUser(t, cred);
+
+    await t.context.api
+        .post(`v1/user/${cred.username}/session`)
+        .send({password: cred.password})
+        .expect(200)
+        .then(resp => {
+            t.true(resp.headers['set-cookie'].some(x => x.startsWith('token=')));
+        });
+
+});
+
 ava("can not login on 'pending' user", async t => {
     const cred = {
         username: `some-username-${Math.random()}`,

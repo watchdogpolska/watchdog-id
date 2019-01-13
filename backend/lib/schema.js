@@ -1,40 +1,65 @@
 'use strict';
 const Ajv = require('ajv');
 const {badRequest} = require('boom');
-const {badImplementation} = require('boom');
+const {badImplementation, unsupportedMediaType} = require('boom');
 
 const ajv = new Ajv({
     removeAdditional: 'all',
     useDefaults: true,
+    allErrors: true,
 });
 
-const req_schema_validator = async (ctx, next) => {
-    if (!ctx.req_schema) return next();
+const requestSchemaMiddleware = requestBody => async (ctx, next) => {
+    if (!requestBody) return await next();
+    // console.log({content:requestBody.content});
+    // const requestType = Object.keys(requestBody.content || {}).find(ctx.request.is);
+    // console.log({requestType});
+    const requestType = 'application/json';
+    if (!requestType) {
+        throw unsupportedMediaType('That request media is not supported.');
+    }
     try {
-        ctx.request.body = await ajv.validate(ctx.req_schema, ctx.request.body);
+        const requestSchema = requestBody.content[requestType].schema;
+        ctx.request.body = await ajv.validate(requestSchema, ctx.request.body);
     } catch (err) {
         if (!(err instanceof Ajv.ValidationError)) throw err;
-        throw badRequest(ajv.errorsText(err.errors));
+        if (requestBody.content[requestType].required) {
+            throw badRequest(ajv.errorsText(err.errors));
+        }
+        ctx.request.body = {};
     }
-    return next();
+    return await next();
 };
 
-const res_schema_validator = async (ctx, next) => {
-    await next();
-    if (!ctx.res_schema) return;
+const responseSchemaMiddleware = responses => async (ctx, next) => next().then(async () => {
+    if (!responses) return await next();
+
+    const statusCode = ctx.status;
+    const responseType = Object
+        .keys(responses[statusCode].content)
+        .find(ctx.request.accepts);
+
+    if (!responseType) {
+        throw unsupportedMediaType('No available response media is not supported');
+    }
+
+    const responseSchema = responseType.schema;
+
     if (ctx.body.toJSON) {
         // TODO: How to remove that hack?
         ctx.body = JSON.parse(JSON.stringify(ctx.body.toJSON()));
     }
+
     try {
-        ctx.body = await ajv.validate(ctx.res_schema, ctx.body);
+        ctx.body = await ajv.validate(responseSchema, ctx.body);
     } catch (err) {
         if (!(err instanceof Ajv.ValidationError)) throw err;
         throw badImplementation(ajv.errorsText(err.errors));
     }
-};
+});
 
 module.exports = {
-    req_schema_validator,
-    res_schema_validator,
+    requestSchemaMiddleware,
+    responseSchemaMiddleware,
+    ajv,
 };

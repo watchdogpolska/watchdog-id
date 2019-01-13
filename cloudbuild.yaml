@@ -1,0 +1,6 @@
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/billing-enabled-213501/watchdogid-proxy', '.', '-f','Dockerfile.proxy']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['build', '-t', 'gcr.io/billing-enabled-213501/watchdogid-backend', '.', '-f','Dockerfile.backend']
+

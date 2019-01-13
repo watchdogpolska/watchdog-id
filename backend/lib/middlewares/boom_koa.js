@@ -3,7 +3,7 @@ const {isBoom} = require('boom');
 
 module.exports = () => async (ctx, next) => {
     try {
-        await next();
+        return await next();
     } catch (err) {
         if (!isBoom(err)) throw err;
         console.error('Boom error', err.message);

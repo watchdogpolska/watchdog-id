@@ -1,8 +1,8 @@
 'use strict';
 const mongoose = require('mongoose');
-const {serviceStatus} = require('./lib/status');
-const {getStatusType} = require('./lib/types');
-const {commonSchema} = require('./lib/common');
+const {serviceStatus} = require('../lib/model/status');
+const {getStatusType} = require('../lib/model/types');
+const {commonSchema} = require('../lib/model/common');
 const JSONWebKey = require('json-web-key');
 
 const serviceSchema = new mongoose.Schema(Object.assign({

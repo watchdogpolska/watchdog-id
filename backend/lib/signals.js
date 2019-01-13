@@ -11,7 +11,7 @@ module.exports = {
         }
         signals[name] = new Set([fn, ...signals[name]]);
     },
-    disconnect: (name, fn) => signals[name].remove(fn),
+    // disconnect: (name, fn) => signals[name].remove(fn),
     send: async function (name) {
         if (!name in signals || !signals[name]) {
             if (process.env.NODE_ENV !== 'production') {

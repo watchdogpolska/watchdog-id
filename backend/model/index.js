@@ -9,10 +9,12 @@ module.exports = {
     sessionSchema: require('./session'),
     opinionSchema: require('./opinion'),
     clientSchema: require('./client'),
-    authorizationSchema: require('./authorization')
+    authorizationSchema: require('./authorization'),
+    factorSchema: require('./factor'),
 };
 
 module.exports.register = async () => {
+    await mongoose.model('Factor', module.exports.factorSchema);
     await mongoose.model('User', module.exports.userSchema);
     await mongoose.model('Role', module.exports.roleSchema);
     await mongoose.model('AccessRequest', module.exports.accessRequestSchema);

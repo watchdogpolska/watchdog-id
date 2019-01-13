@@ -8,3 +8,11 @@ module.exports.IMAP_URL = process.env.IMAP_URL;
 module.exports.SESSION_LIFETIME = 60 * 15; // 15 minutes
 module.exports.JWT_SECRET = process.env.JWT_SECRET || 'xxxx';
 module.exports.JWT_ISSUER = process.env.JWT_ISSUER || `https://${module.exports.DOMAIN}`;
+module.exports.FACTOR_LIST = [
+    './factory/sms_sns',
+    './factory/u2f',
+    './factory/totp',
+    './factory/yub',
+];
+module.exports.YUBICO_CLIENT_ID = process.env.YUBICO_CLIENT_ID;
+module.exports.YUBICO_SECRET_KEY = process.env.YUBICO_SECRET_KEY;

@@ -1,0 +1,11 @@
+FROM node:10 as builder
+# RUN npm install -g npm
+WORKDIR /src/proxy
+COPY ./proxy/ /src/proxy/
+
+FROM builder as test
+RUN npm install
+
+FROM builder as app
+RUN npm ci
+CMD ["npm","run","serve"]

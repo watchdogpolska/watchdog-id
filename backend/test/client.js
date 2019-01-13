@@ -1,6 +1,6 @@
 'use strict';
 const ava = require('ava').default;
-const {startServer, stopServer, asAdminUser, createFakeService, createFakeClient, generateWebKey} = require('../lib/tests');
+const {startServer, stopServer, asAdminUser, createFakeService, createFakeClient} = require('../lib/tests');
 
 ava.beforeEach(startServer);
 ava.afterEach(stopServer);
@@ -9,8 +9,8 @@ ava('client: create', asAdminUser(async t => {
     const service = {
         name: `test-service-${Math.random()}`,
         redirect_uri: [
-            'https://endpoint/'
-        ]
+            'https://endpoint/',
+        ],
     };
     const resp = await t.context.api
         .post('v1/client')
@@ -18,7 +18,7 @@ ava('client: create', asAdminUser(async t => {
         .expect(200);
     t.true(!!resp.body._id);
     t.true(resp.body.name === service.name);
-    t.true(!!resp.body.client_secret)
+    t.true(!!resp.body.client_secret);
 }));
 
 ava('client: list', asAdminUser(async t => {

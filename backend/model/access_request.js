@@ -1,5 +1,5 @@
 'use strict';
-const {commonSchema }= require('./lib/common');
+const {commonSchema }= require('../lib/model/common');
 const eventSchema = require('./event');
 const opinionSchema = require('./opinion');
 const mongoose = require('mongoose');

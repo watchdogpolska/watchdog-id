@@ -1,7 +1,7 @@
 'use strict';
 const mongoose = require('mongoose');
-const {getStatusType} = require('./lib/types');
-const {commonSchema} = require('./lib/common');
+const {getStatusType} = require('../lib/model/types');
+const {commonSchema} = require('../lib/model/common');
 
 const eventType = ['accepted', 'created', 'rejected', 'queued', 'done', 'error'];
 
@@ -13,7 +13,7 @@ const schema = Object.assign({
         required: false,
     },
 }, commonSchema);
-const eventSchema = new mongoose.Schema(schema);
 
+const eventSchema = new mongoose.Schema(schema);
 
 module.exports = eventSchema;

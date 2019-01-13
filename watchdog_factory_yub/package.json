@@ -1,0 +1,20 @@
+{
+  "name": "watchdog_factory_yub",
+  "version": "1.0.0",
+  "description": "```javascript YUBICO_API_KEY ```",
+  "main": "index.js",
+  "scripts": {
+    "test": "ava",
+    "lint": "eslint ."
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "boom": "^7.3.0",
+    "watchdog_factory_common": "file:../watchdog_factory_common",
+    "yub": "^0.11.1"
+  },
+  "devDependencies": {
+    "ava": "^1.1.0"
+  }
+}

@@ -1,10 +1,10 @@
 'use strict';
-const {getStatusType} = require('./lib/types');
+const {getStatusType} = require('../lib/model/types');
 
 const mongoose = require('mongoose');
 
-const {roleStatus} = require('./lib/status');
-const {commonSchema} = require('./lib/common');
+const {roleStatus} = require('../lib/model/status');
+const {commonSchema} = require('../lib/model/common');
 
 const schema = Object.assign({
     serviceId: {
